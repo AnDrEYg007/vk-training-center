@@ -1,0 +1,14 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+pydantic
+pydantic-settings
+requests
+python-dotenv
+python-multipart
+gunicorn
+psycopg2-binary
+PySocks
+redis
+cryptography
+APScheduler

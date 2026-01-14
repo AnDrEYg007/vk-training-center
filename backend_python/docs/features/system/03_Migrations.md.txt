@@ -1,0 +1,45 @@
+# Система миграций базы данных
+
+**Оркестратор:** `backend_python/migrations.py.txt`
+**Модули:** `backend_python/db_migrations/*.py.txt`
+
+Этот документ объясняет, как в проекте реализован модульный механизм миграций.
+
+---
+
+## 1. Концепция
+
+Вместо одного гигантского файла с миграциями, логика изменения схемы БД разделена на тематические модули в папке `db_migrations/`.
+
+-   **`utils.py.txt`**: Содержит базовую утилиту `check_and_add_column`.
+-   **`projects.py.txt`, `posts.py.txt` и др.**: Содержат миграции, специфичные для конкретных таблиц/фич.
+-   **`migrations.py.txt` (Хаб)**: Импортирует все модули и запускает их функции `migrate()` в определенном порядке при старте приложения.
+
+---
+
+## 2. Основные инструменты
+
+### `check_and_add_column(engine, table_name, column_name, column_definition)`
+Находится в `db_migrations/utils.py.txt`. Проверяет наличие колонки и добавляет её через `ALTER TABLE`, если она отсутствует. Идемпотентна.
+
+---
+
+## 3. Как добавить новую колонку
+
+Допустим, нужно добавить поле `is_premium` в таблицу `projects`.
+
+1.  **Обновите Pydantic-схему**:
+    В файле `backend_python/schemas/models/projects.py.txt` добавьте поле в класс `Project`.
+
+2.  **Обновите SQLAlchemy-модель**:
+    В файле `backend_python/models_library/projects.py.txt` (или где лежит модель) добавьте `Column`.
+
+3.  **Добавьте миграцию**:
+    Откройте файл `backend_python/db_migrations/projects.py.txt`.
+    В функцию `migrate(engine)` добавьте вызов:
+    ```python
+    check_and_add_column(engine, 'projects', 'is_premium', 'BOOLEAN DEFAULT FALSE')
+    ```
+
+4.  **Перезапустите сервер**:
+    Хаб `migrations.py.txt` автоматически вызовет обновленный модуль `projects.py`, и колонка будет создана.

@@ -1,0 +1,1 @@
+# Пакет для работы с Google Gemini API

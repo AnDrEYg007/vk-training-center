@@ -1,0 +1,55 @@
+# Слой доступа к данным (CRUD)
+
+**Ключевая папка:** `backend_python/crud/`
+
+Этот слой является фундаментом для взаимодействия с базой данных. Он полностью инкапсулирует всю логику, связанную с выполнением SQLAlchemy-запросов.
+
+## 1. Назначение и Принципы
+
+-   **Абстракция:** Слой `crud` скрывает детали реализации SQLAlchemy от `сервисного слоя`. Сервисы просто вызывают функции типа `crud.get_project_by_id`, не зная, как именно выполняется SQL-запрос.
+-   **Единственная ответственность:** Функции в этом слое отвечают **только** за базовые операции: Create, Read, Update, Delete. Они не содержат бизнес-логики, не вызывают внешние API и не обрабатывают HTTP-ошибки.
+-   **Модульность:** Логика разделена на файлы по доменным областям (сущностям), что делает код чистым и легко находимым.
+
+---
+
+## 2. Обзор модулей
+
+### `project_crud.py.txt`
+-   **Отвечает за:** Таблицу `projects`.
+-   **Ключевые функции:** `get_all_projects`, `get_project_by_id`, `update_project_settings`.
+
+### `post_crud.py.txt`
+-   **Отвечает за:** Таблицы `posts`, `scheduled_posts`, `suggested_posts`.
+-   **Ключевые функции:** `get_posts_by_project_id`, `replace_published_posts` (атомарная замена кеша), `upsert_post` (вставка или обновление).
+
+### `system_post_crud.py.txt`
+-   **Отвечает за:** Таблицу `system_posts` (системные публикации).
+-   **Ключевые функции:** `create_or_update_system_post`, `delete_system_post`.
+
+### `market_crud.py.txt`
+-   **Отвечает за:** Все таблицы, связанные с VK Market (`market_items`, `market_albums`, `market_categories`).
+-   **Ключевые функции:** `replace_market_items_for_project`, `update_market_item`, `get_all_market_categories`.
+
+### `note_crud.py.txt`
+-   **Отвечает за:** Таблицу `notes`.
+-   **Ключевые функции:** `get_notes_by_project_id`, `save_note`, `delete_note`.
+
+### `tag_crud.py.txt`
+-   **Отвечает за:** Таблицу `tags`.
+-   **Ключевые функции:** `get_tags_by_project_id`, `create_tag`, `update_tag`, `delete_tag`.
+
+### `media_crud.py.txt`
+-   **Отвечает за:** Таблицы `albums` и `photos` (кеш галереи).
+-   **Ключевые функции:** `replace_albums_for_project`, `get_photos_by_album`.
+
+### `user_crud.py.txt`
+-   **Отвечает за:** Таблицу `users`.
+-   **Ключевые функции:** `get_user_by_username`, `get_all_users`, `update_users` (массовое обновление).
+
+### `ai_prompt_preset_crud.py.txt`
+-   **Отвечает за:** Таблицу `ai_prompt_presets`.
+-   **Ключевые функции:** `get_presets_by_project_id`, `create_preset`, `update_preset`, `delete_preset`.
+
+### `global_variable_crud.py.txt`
+-   **Отвечает за:** Таблицы `global_variable_definitions` и `project_global_variable_values`.
+-   **Ключевые функции:** `get_all_definitions`, `update_all_definitions`, `update_values_for_project`.

@@ -1,0 +1,40 @@
+# 2. База данных
+
+Этот документ описывает, как устроена база данных, как определена ее структура и как происходят миграции.
+
+## 1. Технология
+
+-   **СУБД**: SQLite (для локальной разработки) / PostgreSQL (для продакшена).
+-   **ORM**: SQLAlchemy.
+
+## 2. Источник правды: Модели SQLAlchemy
+
+Структура базы данных определяется моделями в пакете `models_library/`.
+Файл `models.py.txt` служит **хабом**, импортирующим все модели для удобства использования.
+
+-   `models_library/projects.py`: `Project`, `User`.
+-   `models_library/posts.py`: `Post`, `ScheduledPost`, `SystemPost` (включая поля цикличности), `Note`.
+-   `models_library/market.py`: `MarketItem`, `MarketAlbum`, `MarketCategory`.
+-   `models_library/lists.py`: `SystemListSubscriber`, `SystemListMailing`, `SystemListPost` и др.
+-   `models_library/media.py`, `tags.py`, `settings.py`, `system.py`.
+
+## 3. Автоматическое создание и миграции
+
+### Создание БД
+При первом запуске SQLAlchemy автоматически создает таблицы на основе моделей.
+
+### Миграции (Модульная система)
+Проект использует модульную систему миграций, расположенную в `db_migrations/`.
+Файл `migrations.py.txt` является оркестратором, который запускает миграции из подмодулей в определенном порядке:
+
+1.  `projects.py`
+2.  `tags.py`
+3.  `media.py`
+4.  `posts.py`
+... и так далее.
+
+**Процесс добавления новой колонки:**
+1.  Добавьте поле в класс модели в соответствующем файле `models_library/`.
+2.  Добавьте вызов `check_and_add_column(...)` в соответствующий файл миграции в `db_migrations/`.
+
+Например, для добавления поля в `MarketItem`, нужно редактировать `models_library/market.py.txt` и `db_migrations/market.py.txt`.

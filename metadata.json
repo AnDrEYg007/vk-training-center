@@ -1,0 +1,5 @@
+{
+  "name": "python of VK Content Helper (React)",
+  "description": "A React application to manage VK content and generate text with Gemini.",
+  "requestFramePermissions": []
+}

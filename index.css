@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Вспомогательный класс для удаления стрелок в числовых полях ввода */
+@layer components {
+  .no-spinners::-webkit-outer-spin-button,
+  .no-spinners::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .no-spinners {
+    -moz-appearance: textfield;
+  }
+}
+
+@layer utilities {
+    .scrollbar-thin::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    .scrollbar-thumb-gray-300::-webkit-scrollbar-thumb {
+        background-color: #D1D5DB;
+        border-radius: 3px;
+    }
+
+    .scrollbar-track-transparent::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+    
+    /* Firefox support */
+    .scrollbar-thin {
+        scrollbar-width: thin;
+    }
+    .scrollbar-thumb-gray-300 {
+        scrollbar-color: #D1D5DB transparent;
+    }
+}
