@@ -261,6 +261,22 @@ def _publication_check():
                 # HOOK: Если это старт конкурса
                 if post.post_type == 'general_contest_start':
                      general_contest_service.on_start_post_published(db, post, vk_post_id)
+                     # Мы не удаляем системный пост сразу здесь, т.к. "create_next_cyclic_post" потенциально может понадобиться
+                     # Но для "general_contest_start" цикличность реализована через сам сервис конкурсов
+                     # Поэтому, чтобы избежать дублирования в расписании (Published Post из VK vs System Post),
+                     # мы помечаем его как executed/deleted или даем ему статус, который скроет его из выдачи,
+                     # если он больше не нужен для повторений.
+                     # Если это НЕ циклический, то можно удалить.
+                     if not post.is_cyclic:
+                         print(f"  -> Cleaning up non-cyclic general contest start post {post.id}")
+                         crud.delete_system_post(db, post.id)
+                     else:
+                        print(f"  -> Creating next cyclic post for GENERAL CONTEST {post.id}")
+                        _create_next_cyclic_post(db, post) # Создаем следующий до того, как скроем текущий?
+                        # Если мы создали следующий, текущий "отработал".
+                        # В обычном расписании "отработанные" посты VK сами удаляются из "Отложки" VK.
+                        # А системные посты мы должны удалять.
+                        crud.delete_system_post(db, post.id)
 
                 print(f"  -> Successfully sent post {post.id} to VK API. Received VK ID: {vk_post_id}.")
                 update_tracker.add_updated_project(post.project_id)

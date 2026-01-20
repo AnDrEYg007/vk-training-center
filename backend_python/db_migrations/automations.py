@@ -60,3 +60,12 @@ def migrate(engine: Engine):
     check_and_add_column(engine, 'review_contest_delivery_logs', 'general_contest_id', 'VARCHAR')
     check_and_add_column(engine, 'review_contest_blacklist', 'general_contest_id', 'VARCHAR')
 
+    # Миграция: Статистика для сторис
+    check_and_add_column(engine, 'stories_automation_logs', 'stats', 'TEXT')
+    check_and_add_column(engine, 'stories_automation_logs', 'stats_updated_at', 'TIMESTAMP WITH TIME ZONE')
+    
+    # Миграция: Контент истории
+    check_and_add_column(engine, 'stories_automation_logs', 'image_url', 'VARCHAR')
+    check_and_add_column(engine, 'stories_automation_logs', 'post_link', 'VARCHAR')
+    check_and_add_column(engine, 'stories_automation_logs', 'post_text', 'TEXT')
+

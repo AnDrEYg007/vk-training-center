@@ -34,13 +34,6 @@ env/
 *.db
 backend_python/__pycache__/
 
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-venv/
-.venv/
-env/
-.env
-*.db
-backend_python/__pycache__/
+ngrok.exe
+
+*.bat

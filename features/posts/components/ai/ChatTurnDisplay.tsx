@@ -15,20 +15,39 @@ interface ChatTurnDisplayProps {
     onToggleSelection?: (turnId: string) => void;
 }
 
+const ExpandableText: React.FC<{ text: string; className?: string }> = ({ text, className = "" }) => {
+    const [isExpanded, setIsExpanded] = useState(false);
+    const isLong = text.length > 150;
+
+    return (
+        <div 
+            onClick={(e) => {
+                if (isLong) {
+                    e.stopPropagation();
+                    setIsExpanded(!isExpanded);
+                }
+            }}
+            className={`group transition-all duration-200 ${isLong ? 'cursor-pointer' : ''}`}
+        >
+            <p className={`${className} whitespace-pre-wrap ${!isExpanded && isLong ? 'line-clamp-2' : ''}`}>
+                {text}
+            </p>
+            {isLong && (
+                <span className="text-[10px] text-indigo-600/70 font-medium group-hover:text-indigo-800 transition-colors mt-0.5 inline-flex items-center gap-0.5">
+                    {isExpanded ? 'Свернуть' : 'Показать полностью...'}
+                </span>
+            )}
+        </div>
+    );
+};
+
 export const ChatTurnDisplay: React.FC<ChatTurnDisplayProps> = ({ 
     turn, onAddToPost, onReply, onJumpToTurn, getRepliedTurnText, onRegenerate,
     isMultiGenerationMode, isSelected, onToggleSelection
 }) => {
     const [isCopied, setIsCopied] = useState(false);
-    // Состояния для сворачивания/разворачивания текста
-    const [isSystemPromptExpanded, setIsSystemPromptExpanded] = useState(false);
-    const [isUserPromptExpanded, setIsUserPromptExpanded] = useState(false);
 
     const repliedTurnText = turn.replyToId ? getRepliedTurnText(turn.replyToId) : null;
-
-    // Определяем, достаточно ли длинный текст, чтобы его можно было сворачивать
-    const systemPromptIsLong = turn.systemPrompt.length > 150;
-    const userPromptIsLong = turn.userPrompt.length > 150;
 
     const handleCopy = () => {
         if (turn.aiResponse) {
@@ -75,23 +94,17 @@ export const ChatTurnDisplay: React.FC<ChatTurnDisplayProps> = ({
                 <div className={`p-3 bg-indigo-100 rounded-lg max-w-[85%] shadow-sm ${isSelected ? 'ring-2 ring-indigo-500 ring-offset-2' : ''}`}>
                     <div className="border-b border-indigo-200 pb-2 mb-2">
                         <p className="text-xs font-semibold text-indigo-800">Роль / Инструкция:</p>
-                        <p
-                            className={`text-xs text-gray-700 italic whitespace-pre-wrap overflow-hidden transition-[max-height] duration-300 ease-in-out ${systemPromptIsLong ? 'cursor-pointer' : ''} ${isSystemPromptExpanded ? 'max-h-[500px]' : 'max-h-8'}`}
-                            onClick={() => systemPromptIsLong && setIsSystemPromptExpanded(prev => !prev)}
-                            title={systemPromptIsLong ? (isSystemPromptExpanded ? 'Свернуть' : 'Развернуть') : ''}
-                        >
-                            {turn.systemPrompt}
-                        </p>
+                        <ExpandableText 
+                            text={turn.systemPrompt} 
+                            className="text-xs text-gray-700 italic"
+                        />
                     </div>
                     <div>
                         <p className="text-xs font-semibold text-indigo-800">Ваш запрос:</p>
-                        <p
-                            className={`text-sm text-gray-800 font-medium whitespace-pre-wrap overflow-hidden transition-[max-height] duration-300 ease-in-out ${userPromptIsLong ? 'cursor-pointer' : ''} ${isUserPromptExpanded ? 'max-h-[500px]' : 'max-h-10'}`}
-                            onClick={() => userPromptIsLong && setIsUserPromptExpanded(prev => !prev)}
-                            title={userPromptIsLong ? (isUserPromptExpanded ? 'Свернуть' : 'Развернуть') : ''}
-                        >
-                            {turn.userPrompt}
-                        </p>
+                        <ExpandableText 
+                            text={turn.userPrompt} 
+                            className="text-sm text-gray-800 font-medium"
+                        />
                     </div>
                     
                     {/* БЛОК КОНТЕКСТА */}

@@ -111,7 +111,7 @@ def get_blacklist(payload: GeneralContestIdRequest, db: Session = Depends(get_db
 
 @router.post("/blacklist/add")
 def add_blacklist(payload: GeneralContestBlacklistAdd, db: Session = Depends(get_db)):
-    crud.add_to_blacklist(db, payload.contest_id, payload.payload.user_vk_id, payload.payload.until_date, payload.payload.reason)
+    crud.add_to_blacklist(db, payload.project_id, payload.payload.user_vk_id, payload.payload.note)
     return {"success": True}
 
 @router.post("/blacklist/delete")

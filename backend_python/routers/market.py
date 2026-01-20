@@ -54,6 +54,7 @@ def create_item(
     itemData: str = Form(...),
     file: Optional[UploadFile] = File(None),
     photoUrl: Optional[str] = Form(None),
+    useDefaultImage: bool = Form(False),
     db: Session = Depends(get_db)
 ):
     """Создает один товар, опционально с файлом изображения или ссылкой."""
@@ -61,7 +62,7 @@ def create_item(
         item_pydantic = schemas.NewMarketItemPayload.model_validate_json(itemData)
     except Exception as e:
         raise HTTPException(status_code=422, detail=f"Invalid JSON format for itemData: {e}")
-    return market_service.create_market_item(db, projectId, item_pydantic, settings.vk_user_token, file, photoUrl)
+    return market_service.create_market_item(db, projectId, item_pydantic, settings.vk_user_token, file, photoUrl, useDefaultImage)
 
 @router.post("/createItems", response_model=schemas.GenericSuccess)
 def create_items(payload: schemas.CreateMarketItemsPayload, db: Session = Depends(get_db)):

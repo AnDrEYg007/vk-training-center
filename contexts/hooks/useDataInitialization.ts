@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { Project, AllPosts, ScheduledPost, SuggestedPost, Note, SystemPost, GlobalVariableDefinition, ProjectGlobalVariableValue, ContestStatus } from '../../shared/types';
+import { Project, AllPosts, ScheduledPost, SuggestedPost, Note, SystemPost, GlobalVariableDefinition, ProjectGlobalVariableValue, ContestStatus, UnifiedStory } from '../../shared/types';
 import * as api from '../../services/api';
 
 const initialState = {
@@ -9,6 +9,7 @@ const initialState = {
     allScheduledPosts: {},
     allSuggestedPosts: {},
     allSystemPosts: {},
+    allStories: {},
     allNotes: {},
     scheduledPostCounts: {},
     suggestedPostCounts: {},
@@ -29,6 +30,7 @@ export const useDataInitialization = () => {
         allScheduledPosts: Record<string, ScheduledPost[]>;
         allSuggestedPosts: Record<string, SuggestedPost[]>;
         allSystemPosts: Record<string, SystemPost[]>;
+        allStories: Record<string, UnifiedStory[]>;
         allNotes: Record<string, Note[]>;
         scheduledPostCounts: Record<string, number>;
         suggestedPostCounts: Record<string, number>;
@@ -53,21 +55,43 @@ export const useDataInitialization = () => {
                     return;
                 }
 
-                console.log("Шаг 2: Загружаем посты и заметки для найденных проектов...");
+                console.log("Шаг 2: Загружаем контент проектов (batches)...");
                 const projectIds = initialProjects.map(p => p.id);
-                const { 
-                    allPosts: postsFromDb, 
-                    allScheduledPosts: scheduledFromDb, 
-                    allSuggestedPosts: suggestedFromDb,
-                    // FIX: Correctly destructure `allSystemPosts` from the API response.
-                    allSystemPosts: systemFromDb,
-                    allNotes: notesFromDb,
-                } = await api.getAllPostsForProjects(projectIds);
+                
+                // Инициализируем хранилища
+                let postsAccumulator: any = {};
+                let scheduledAccumulator: any = {};
+                let suggestedAccumulator: any = {};
+                let systemAccumulator: any = {};
+                let notesAccumulator: any = {};
+                let storiesAccumulator: any = {};
+
+                // РАЗБИВАЕМ НА ЧАНКИ (по 5 проектов), чтобы избежать 502 ошибки
+                const CHUNK_SIZE = 5;
+                for (let i = 0; i < projectIds.length; i += CHUNK_SIZE) {
+                    const chunk = projectIds.slice(i, i + CHUNK_SIZE);
+                    console.log(`Загрузка чанка ${i / CHUNK_SIZE + 1} (${chunk.length} проектов)...`);
+                    
+                    try {
+                        const chunkData = await api.getAllPostsForProjects(chunk);
+                        postsAccumulator = { ...postsAccumulator, ...chunkData.allPosts };
+                        scheduledAccumulator = { ...scheduledAccumulator, ...chunkData.allScheduledPosts };
+                        suggestedAccumulator = { ...suggestedAccumulator, ...chunkData.allSuggestedPosts };
+                        systemAccumulator = { ...systemAccumulator, ...chunkData.allSystemPosts };
+                        notesAccumulator = { ...notesAccumulator, ...chunkData.allNotes };
+                        storiesAccumulator = { ...storiesAccumulator, ...chunkData.allStories };
+                    } catch (e) {
+                        console.error(`Ошибка загрузки чанка ${i}:`, e);
+                        // Не прерываем, идем дальше, просто эти проекты будут пустыми
+                    }
+                }
                 
                 console.log("Шаг 3: Загружаем глобальные переменные...");
                 const globalVarDefs = await api.getAllGlobalVariableDefinitions();
                 const allGlobalVarValues: Record<string, ProjectGlobalVariableValue[]> = {};
                 if (projectIds.length > 0) {
+                    // Переменные тоже лучше грузить батчами, но они легковесные, оставим Promise.all
+                    // но ограничим параллелизм если проектов супер много ? Нет, пока оставим так.
                     const globalVarValuesPromises = projectIds.map(id =>
                         api.getGlobalVariablesForProject(id).then(res => ({ projectId: id, values: res.values }))
                     );
@@ -77,20 +101,22 @@ export const useDataInitialization = () => {
                     });
                 }
 
+                // Считаем счетчики на основе загруженного
                 const newScheduledCounts: Record<string, number> = {};
                 projectIds.forEach(id => {
-                    const scheduledCount = scheduledFromDb[id]?.length || 0;
-                    const systemCount = systemFromDb[id]?.length || 0;
+                    const scheduledCount = scheduledAccumulator[id]?.length || 0;
+                    const systemCount = systemAccumulator[id]?.length || 0;
                     newScheduledCounts[id] = scheduledCount + systemCount;
                 });
 
                 setInitialData({
                     projects: initialProjects,
-                    allPosts: postsFromDb,
-                    allScheduledPosts: scheduledFromDb,
-                    allSuggestedPosts: suggestedFromDb,
-                    allSystemPosts: systemFromDb,
-                    allNotes: notesFromDb,
+                    allPosts: postsAccumulator,
+                    allScheduledPosts: scheduledAccumulator,
+                    allSuggestedPosts: suggestedAccumulator,
+                    allSystemPosts: systemAccumulator,
+                    allStories: storiesAccumulator || {},
+                    allNotes: notesAccumulator,
                     scheduledPostCounts: newScheduledCounts,
                     suggestedPostCounts: initialSuggestedCounts || {},
                     allGlobalVarDefs: globalVarDefs,

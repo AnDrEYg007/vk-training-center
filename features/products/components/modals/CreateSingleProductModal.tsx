@@ -85,8 +85,8 @@ export const CreateSingleProductModal: React.FC<CreateSingleProductModalProps> =
                                 onUrlBlur={actions.handleUrlBlur}
                                 onClearPhoto={actions.handleClearPhoto}
                                 fileInputRef={uiState.fileInputRef}
-                                hasError={errors.includes('photo')}
-                            />
+                                hasError={errors.includes('photo')}                                useDefaultImage={formState.useDefaultImage}
+                                setUseDefaultImage={formState.setUseDefaultImage}                            />
                             <SelectorsSection 
                                 selectedCategory={formState.selectedCategory}
                                 setSelectedCategory={formState.setSelectedCategory}

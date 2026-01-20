@@ -7,25 +7,9 @@ import { ContestEntry } from './automations.api';
 function combineDateAndTime(date?: string, time?: string): string | null {
     if (!date) return null;
     try {
-        // date is YYYY-MM-DD, time is HH:MM
-        // We want to send it as ISO string but preserving the local time value if possible, 
-        // OR send it as a naive string so backend treats it as local.
-        // However, backend expects ISO format usually.
-        
-        // If we use new Date('YYYY-MM-DDTHH:MM:00'), browser creates it in Local Time.
-        // .toISOString() converts it to UTC.
-        // Example: User inputs 17:09 (UTC+3). Date object is 17:09 Local. ISO is 14:09Z.
-        // Backend receives 14:09Z.
-        // If backend saves it as naive datetime, it might save 14:09.
-        // If schedule displays it as naive, it shows 14:09.
-        
-        // FIX: We should construct the ISO string manually to send "YYYY-MM-DDTHH:MM:00" (naive)
-        // or ensure backend handles UTC correctly.
-        // But since we see a 3 hour shift, it means conversion happens.
-        
-        // Let's try sending a naive ISO string without 'Z' or offset.
-        if (!time) return `${date}T00:00:00`;
-        return `${date}T${time}:00`;
+        const fullStr = time ? `${date}T${time}:00` : `${date}T00:00:00`;
+        const d = new Date(fullStr);
+        return d.toISOString();
     } catch (e) {
         console.error("Error combining date and time", e);
         return null;
@@ -106,9 +90,9 @@ const transformBackendToFrontend = (backendContest: any): GeneralContest => {
         id: backendContest.id,
         project_id: backendContest.project_id,
         title: backendContest.name || '',
-        description: '', 
+        description: backendContest.description || '', 
         is_active: backendContest.is_active,
-        start_post_text: backendContest.post_text || '',
+        post_text: backendContest.post_text || '',
         start_post_images,
         start_date,
         start_time,
@@ -153,8 +137,9 @@ export const createGeneralContest = async (contest: Partial<GeneralContest>): Pr
     const backendPayload = {
         project_id: contest.project_id,
         name: contest.title,
+        description: contest.description,
         is_active: contest.is_active,
-        post_text: contest.start_post_text,
+        post_text: contest.post_text,
         post_media: JSON.stringify(contest.start_post_images || []),
         start_date: combineDateAndTime(contest.start_date, contest.start_time),
         conditions_schema: JSON.stringify((contest.conditions_schema || []).map((g: any) => ({ type: 'and_group', ...g }))),
@@ -188,8 +173,9 @@ export const updateGeneralContest = async (contestId: string, contest: Partial<G
 
     const backendPayload = {
         name: contest.title,
+        description: contest.description,
         is_active: contest.is_active,
-        post_text: contest.start_post_text,
+        post_text: contest.post_text,
         post_media: contest.start_post_images ? JSON.stringify(contest.start_post_images) : undefined,
         start_date: combineDateAndTime(contest.start_date, contest.start_time),
         conditions_schema: contest.conditions_schema ? JSON.stringify((contest.conditions_schema || []).map((g: any) => ({ type: 'and_group', ...g }))) : undefined,

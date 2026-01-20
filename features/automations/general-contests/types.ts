@@ -17,50 +17,83 @@ export interface ConditionGroup {
     conditions: ContestCondition[];
 }
 
+export interface GeneralContestStats {
+    participants: number;
+    promocodes_available: number;
+    promocodes_total: number;
+    status: 'paused_manual' | 'awaiting_start' | 'running' | 'results_published' | 'completed' | 'active_no_cycle' | 'created' | 'active' | 'evaluating' | 'finished' | 'archived';
+    start_post_status?: string;
+    result_post_status?: string;
+    dms_sent_count: number;
+    active_cycle_id?: string;
+}
+
+export interface GeneralContestCycle {
+    id: string;
+    contest_id: string;
+    status: string;
+    start_scheduled_post_id?: string;
+    end_scheduled_post_id?: string;
+    vk_start_post_id?: number | string;
+    vk_result_post_id?: number | string;
+    started_at?: string;
+    finished_at?: string;
+    participants_count: number;
+    winners_snapshot?: string;
+    created_at?: string;
+}
+
 export interface GeneralContest {
     id: string;
     project_id: string;
-    title: string;
-    description?: string;
+    
+    // 1. Основные
+    title: string; // Internal Name (backend: name)
+    description?: string; // Internal Description
     is_active: boolean;
     
-    // Пост старта
-    start_post_text: string;
-    start_post_images: PhotoAttachment[];
-    start_date: string; // ISO
-    start_time: string; // HH:MM
+    // 2. Старт
+    start_type: 'new_post' | 'existing_post';
+    existing_post_link?: string;
     
-    // Условия и итоги
-    conditions_schema: ConditionGroup[]; // Группы (OR), внутри (AND)
+    post_text?: string;
+    post_media?: string; // JSON
+    start_date?: string; // ISO
     
+    // 3. Логика
+    conditions_schema?: string; // JSON
+    
+    // 4. Финиш
     finish_type: 'date' | 'duration';
     finish_date?: string;
-    finish_time?: string;
     finish_duration_hours?: number;
+    
+    // 5. Победители
+    winners_count: number;
+    one_prize_per_person: boolean;
+    
+    // 6. Циклы
+    is_cyclic: boolean;
+    restart_type: 'manual' | 'interval' | 'daily' | 'weekly';
+    restart_settings?: string;
+    
+    // 7. Шаблоны
+    template_result_post?: string;
+    template_dm?: string;
+    template_fallback_comment?: string;
+    
+    created_at?: string;
+    updated_at?: string;
+    
+    // Rich Data from API
+    stats?: GeneralContestStats;
+    active_cycle?: GeneralContestCycle;
+
+    // Frontend helpers
+    start_time?: string;
+    finish_time?: string;
     finish_duration_days?: number;
     finish_duration_time?: string;
-    
-    winners_count: number;
-    unique_winner: boolean; // 1 приз в 1 руки
-    
-    is_cyclic: boolean;
-    restart_delay_hours?: number;
-    
-    // Шаблоны
-    template_result_post: string;
+    start_post_images?: PhotoAttachment[];
     result_post_images?: PhotoAttachment[];
-    template_dm: string;
-    template_comment_fallback: string;
-
-    // Статистика (для списка)
-    stats?: {
-        participants: number;
-        promocodes_available: number;
-        promocodes_total: number;
-        // Расширенный статус для UI
-        status: 'awaiting_start' | 'running' | 'results_published' | 'completed' | 'paused_no_codes' | 'paused_manual';
-        start_post_status?: 'published' | 'pending' | 'error';
-        result_post_status?: 'published' | 'pending' | 'error';
-        dms_sent_count?: number;
-    };
 }

@@ -50,7 +50,7 @@ export const SystemPromptControls: React.FC<SystemPromptControlsProps> = ({
                     <button
                         type="button"
                         onClick={() => setUseCustomSystemPrompt(!useCustomSystemPrompt)}
-                        className={`relative inline-flex items-center h-6 rounded-full w-11 cursor-pointer transition-colors ${
+                        className={`relative inline-flex items-center h-6 w-11 rounded-full transition-colors focus:outline-none ${
                             useCustomSystemPrompt ? 'bg-indigo-600' : 'bg-gray-300'
                         }`}
                     >

@@ -79,6 +79,7 @@ class SystemPost(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
     is_active: Optional[bool] = True
+    related_id: Optional[str] = None # Added for linking to other entities (e.g. general contest)
 
     model_config = ConfigDict(from_attributes=True)
 

@@ -21,6 +21,7 @@ export const useScheduleModals = ({ projectId }: { projectId: string }) => {
     // Automation Modals
     const [viewingContestPost, setViewingContestPost] = useState<SystemPost | null>(null);
     const [viewingAiFeedPost, setViewingAiFeedPost] = useState<SystemPost | null>(null); // NEW
+    const [viewingGeneralContestPost, setViewingGeneralContestPost] = useState<SystemPost | null>(null); // FOR GENERAL CONTEST
 
     const [isActionRunning, setIsActionRunning] = useState(false);
     
@@ -139,6 +140,7 @@ export const useScheduleModals = ({ projectId }: { projectId: string }) => {
         setCancellingPublicationPost,
         setViewingContestPost, 
         setViewingAiFeedPost, // NEW
+        setViewingGeneralContestPost, // FOR GENERAL CONTEST
         setIsActionRunning,
         handleOpenCreateModal,
         handleOpenCreateNoteModal,
@@ -166,6 +168,7 @@ export const useScheduleModals = ({ projectId }: { projectId: string }) => {
             cancellingPublicationPost,
             viewingContestPost,
             viewingAiFeedPost, // NEW
+            viewingGeneralContestPost, // FOR GENERAL CONTEST
             isActionRunning,
         },
         modalActions,

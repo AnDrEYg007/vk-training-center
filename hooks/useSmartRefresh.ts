@@ -58,11 +58,12 @@ export const useSmartRefresh = (
         }
 
         if (isDataMissing) {
-            console.log(`Данные для проекта ${activeProjectId} (вид: ${activeView}) отсутствуют. Запускаем первоначальную загрузку из VK...`);
-            setIsCheckingForUpdates(activeProjectId);
-            handleRefreshForSidebar(activeProjectId, activeView, true).finally(() => {
-                setIsCheckingForUpdates(null);
-            });
+            console.log(`Данные для проекта ${activeProjectId} (вид: ${activeView}) отсутствуют. Загружаем из БД...`);
+            // ВАЖНО: Вместо того чтобы сразу запускать refresh (запрос к API VK),
+            // мы сначала просто подтягиваем данные из БД через syncDataForProject.
+            // Пользователь сам нажмет "Обновить", если данные устарели.
+            // Это значительно ускоряет вход в проект и снижает нагрузку на API.
+            syncDataForProject(activeProjectId, activeView);
         } else if (hasUpdateFlag) {
             console.log(`Проект ${activeProjectId} помечен для обновления. Запускаем синхронизацию из БД...`);
             syncDataForProject(activeProjectId, activeView);

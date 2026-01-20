@@ -103,7 +103,7 @@ export const createMarketAlbum = async (projectId: string, title: string): Promi
     return callApi('market/createAlbum', { projectId, title });
 };
 
-export const createMarketItem = async (projectId: string, itemData: any, file?: File, photoUrl?: string): Promise<MarketItem> => {
+export const createMarketItem = async (projectId: string, itemData: any, file?: File, photoUrl?: string, useDefaultImage?: boolean): Promise<MarketItem> => {
     const formData = new FormData();
     formData.append('projectId', projectId);
     formData.append('itemData', JSON.stringify(itemData));
@@ -112,6 +112,9 @@ export const createMarketItem = async (projectId: string, itemData: any, file?: 
     }
     if (photoUrl) {
         formData.append('photoUrl', photoUrl);
+    }
+    if (useDefaultImage) {
+        formData.append('useDefaultImage', 'true');
     }
     const response = await fetch(`${API_BASE_URL}/market/createItem`, {
         method: 'POST',

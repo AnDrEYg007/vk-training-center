@@ -21,8 +21,12 @@ def get_db():
         db.close()
 
 @router.post("/getAllPostsForProjects", response_model=schemas.AllPostsForProjectsResponse)
-def get_all_posts_for_projects(payload: schemas.ProjectIdsPayload, db: Session = Depends(get_db)):
-    return post_service.get_all_data_for_projects(db, payload.projectIds)
+def get_all_posts_for_projects(
+    payload: schemas.ProjectIdsPayload, 
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db)
+):
+    return post_service.get_all_data_for_projects(db, payload.projectIds, background_tasks)
 
 @router.post("/getProjectUpdateStatus", response_model=schemas.UpdateStatusResponse)
 def get_project_update_status(db: Session = Depends(get_db)):

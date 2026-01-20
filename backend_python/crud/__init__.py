@@ -22,6 +22,7 @@ from .post_crud import (
     replace_scheduled_posts,
     replace_suggested_posts,
     upsert_post,
+    upsert_published_posts,
     delete_post_from_cache,
     get_all_data_for_project_ids,
     get_project_update_status,

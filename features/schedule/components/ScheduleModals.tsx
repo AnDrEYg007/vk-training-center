@@ -13,6 +13,7 @@ import { TagsManagementModal } from '../../tags/components/modals/TagsManagement
 import { ConfirmationModal } from '../../../shared/components/modals/ConfirmationModal';
 import { ContestWinnerPreviewModal } from './modals/ContestWinnerPreviewModal';
 import { AiFeedPreviewModal } from './modals/AiFeedPreviewModal'; // NEW
+import { GeneralContestPreviewModal } from './modals/GeneralContestPreviewModal'; // FOR GENERAL CONTEST
 import * as api from '../../../services/api';
 import { UnifiedPost } from '../hooks/useScheduleData';
 
@@ -29,6 +30,7 @@ interface ScheduleModalsProps {
     onUpdateProject: (updatedProject: Project) => Promise<void>;
     onConfirmPublish: (post: UnifiedPost) => Promise<void>;
     onNavigateToContest?: () => void; 
+    onNavigateToGeneralContest?: (contestId?: string) => void;
     onNavigateToAiPosts?: (postId?: string) => void; // New Prop
 }
 
@@ -44,6 +46,7 @@ export const ScheduleModals: React.FC<ScheduleModalsProps> = ({
     onUpdateProject,
     onConfirmPublish,
     onNavigateToContest,
+    onNavigateToGeneralContest,
     onNavigateToAiPosts
 }) => {
     const now = new Date();
@@ -255,6 +258,17 @@ export const ScheduleModals: React.FC<ScheduleModalsProps> = ({
                     isConfirming={modalState.isActionRunning}
                     confirmText="Да, удалить"
                     confirmButtonVariant="danger"
+                />
+            )}
+            {modalState.viewingGeneralContestPost && (
+                <GeneralContestPreviewModal
+                    post={modalState.viewingGeneralContestPost}
+                    onClose={() => modalActions.setViewingGeneralContestPost(null)}
+                    onNavigateToSettings={() => {
+                        modalActions.setViewingGeneralContestPost(null);
+                        const contestId = modalState.viewingGeneralContestPost.related_id;
+                        onNavigateToGeneralContest && onNavigateToGeneralContest(contestId);
+                    }}
                 />
             )}
         </>

@@ -92,8 +92,8 @@ export const useProductsManager = (projectId: string) => {
 
     const handleCreateSingleProduct = async (productData: any) => {
         try {
-            const { photoFile, photoUrl, ...itemData } = productData;
-            const newItem = await api.createMarketItem(projectId, itemData, photoFile, photoUrl);
+            const { photoFile, photoUrl, useDefaultImage, ...itemData } = productData;
+            const newItem = await api.createMarketItem(projectId, itemData, photoFile, photoUrl, useDefaultImage);
             modalActions.setIsCreateSingleModalOpen(false);
             modalActions.setItemToCopy(null);
             dataActions.setItems(prev => [newItem, ...prev]);
@@ -119,9 +119,10 @@ export const useProductsManager = (projectId: string) => {
                     categoryId: row.category?.id, 
                     albumId: row.album_ids?.[0],
                     photoUrl: !row.photoFile ? row.photoUrl : undefined,
+                    useDefaultImage: row.useDefaultImage
                 };
 
-                const createdItem = await api.createMarketItem(projectId, itemPayload, row.photoFile, itemPayload.photoUrl);
+                const createdItem = await api.createMarketItem(projectId, itemPayload, row.photoFile, itemPayload.photoUrl, row.useDefaultImage);
                 newItems.push(createdItem);
                 successfulTempIds.push(row.tempId);
             } catch (err) {

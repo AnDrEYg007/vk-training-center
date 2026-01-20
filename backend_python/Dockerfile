@@ -25,5 +25,6 @@ EXPOSE 8000
 # Используем Gunicorn как WSGI-сервер для запуска Uvicorn в продакшен-режиме.
 # --bind 0.0.0.0:${PORT}: Ключевое изменение! Привязываемся к порту из переменной окружения PORT.
 # --timeout 1200: Увеличено время ожидания воркера до 20 минут для тяжелых задач синхронизации.
+# -w 1: Уменьшено количество воркеров до 1 для экономии памяти в Serverless контейнере.
 # ВАЖНО: Команда обернута в `sh -c`, чтобы переменная ${PORT} корректно подставлялась.
-CMD ["/bin/sh", "-c", "gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app --bind 0.0.0.0:${PORT} --timeout 1200"]
+CMD ["/bin/sh", "-c", "gunicorn -w 1 -k uvicorn.workers.UvicornWorker main:app --bind 0.0.0.0:${PORT} --timeout 1200"]

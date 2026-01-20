@@ -34,7 +34,15 @@ from models_library.lists import (
 from models_library.system import SystemAccount, TokenLog, SystemTask
 # Новая модель AI токенов
 from models_library.ai_tokens import AiToken, AiTokenLog
-# Новая модель автоматизаций (Добавлен ReviewContestEntry и ReviewContestDeliveryLog)
-from models_library.automations import ReviewContest, PromoCode, ReviewContestEntry, ReviewContestDeliveryLog, ReviewContestBlacklist
+# Новая модель автоматизаций (Добавлен ReviewContestEntry и ReviewContestDeliveryLog и StoriesAutomation)
+from models_library.automations import (
+    ReviewContest, 
+    PromoCode, 
+    ReviewContestEntry, 
+    ReviewContestDeliveryLog, 
+    ReviewContestBlacklist,
+    StoriesAutomation,
+    StoriesAutomationLog
+)
 # NEW: Администрируемые группы
 from models_library.admin_tools import AdministeredGroup

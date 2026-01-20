@@ -64,9 +64,10 @@ export const ScheduleHeader: React.FC<ScheduleHeaderProps> = ({
     onOpenTagsModal,
     onSelectSearchPost,
 }) => {
-    const { handleRefreshPublished, handleRefreshScheduled } = useProjects();
+    const { handleRefreshPublished, handleRefreshScheduled, handleRefreshStories } = useProjects();
     const [isRefreshDropdownOpen, setIsRefreshDropdownOpen] = useState(false);
     const [isRetagging, setIsRetagging] = useState(false);
+    const [isRefreshingStories, setIsRefreshingStories] = useState(false);
     const refreshDropdownRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -94,7 +95,21 @@ export const ScheduleHeader: React.FC<ScheduleHeaderProps> = ({
         }
     };
 
-    const isRefreshingAny = loadingStates.isRefreshingPublished || loadingStates.isRefreshingScheduled || loadingStates.isRefreshingSystem || loadingStates.isRefreshingNotes || isRetagging;
+    const handleRefreshStoriesClick = async () => {
+        setIsRefreshingStories(true);
+        setIsRefreshDropdownOpen(false);
+        try {
+            await handleRefreshStories(project.id);
+            window.showAppToast?.("Истории обновлены", 'success');
+        } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : "Произошла ошибка";
+            window.showAppToast?.(`Не удалось обновить истории: ${errorMessage}`, 'error');
+        } finally {
+            setIsRefreshingStories(false);
+        }
+    };
+
+    const isRefreshingAny = loadingStates.isRefreshingPublished || loadingStates.isRefreshingScheduled || loadingStates.isRefreshingSystem || loadingStates.isRefreshingNotes || isRetagging || isRefreshingStories;
     const totalSelected = selectedPostIds.size + selectedNoteIds.size;
 
     const getNoteVisibilityButtonProps = () => {
@@ -213,13 +228,15 @@ export const ScheduleHeader: React.FC<ScheduleHeaderProps> = ({
                                 {isRefreshingAny ? <div className="loader h-4 w-4 mr-2"></div> : <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h5m11 2a9 9 0 11-2.064-5.364M20 4v5h-5" /></svg>}
                                 <span>Обновить</span>
                             </button>
-                            <div className={`transition-all duration-300 ease-in-out overflow-hidden flex items-center ${isRefreshDropdownOpen ? 'max-w-2xl opacity-100 ml-2' : 'max-w-0 opacity-0'}`}>
+                            <div className={`transition-all duration-300 ease-in-out overflow-hidden flex items-center ${isRefreshDropdownOpen ? 'max-w-4xl opacity-100 ml-2' : 'max-w-0 opacity-0'}`}>
                                 <div className="flex items-center gap-1 p-1 bg-white border border-gray-300 rounded-md shadow-sm whitespace-nowrap">
                                     <button onClick={() => { handleRefreshPublished(project.id); setIsRefreshDropdownOpen(false); }} disabled={isRefreshingAny} className="px-3 py-1 text-sm text-gray-700 hover:bg-gray-100 rounded-md disabled:opacity-50 flex items-center whitespace-nowrap">Опубликованные {loadingStates.isRefreshingPublished && <div className="loader h-3 w-3 ml-2"></div>}</button>
                                     <div className="h-5 w-px bg-gray-200"></div>
                                     <button onClick={() => { handleRefreshScheduled(project.id); setIsRefreshDropdownOpen(false); }} disabled={isRefreshingAny} className="px-3 py-1 text-sm text-gray-700 hover:bg-gray-100 rounded-md disabled:opacity-50 flex items-center whitespace-nowrap">Отложенные {loadingStates.isRefreshingScheduled && <div className="loader h-3 w-3 ml-2"></div>}</button>
                                     <div className="h-5 w-px bg-gray-200"></div>
                                     <button onClick={() => { onRefreshSystem(); setIsRefreshDropdownOpen(false); }} disabled={isRefreshingAny} className="px-3 py-1 text-sm text-gray-700 hover:bg-gray-100 rounded-md disabled:opacity-50 flex items-center whitespace-nowrap">Системные {loadingStates.isRefreshingSystem && <div className="loader h-3 w-3 ml-2"></div>}</button>
+                                    <div className="h-5 w-px bg-gray-200"></div>
+                                    <button onClick={handleRefreshStoriesClick} disabled={isRefreshingAny} className="px-3 py-1 text-sm text-gray-700 hover:bg-gray-100 rounded-md disabled:opacity-50 flex items-center whitespace-nowrap">Истории {isRefreshingStories && <div className="loader h-3 w-3 ml-2"></div>}</button>
                                     <div className="h-5 w-px bg-gray-200"></div>
                                     <button onClick={handleRetagProject} disabled={isRefreshingAny} className="px-3 py-1 text-sm text-gray-700 hover:bg-gray-100 rounded-md disabled:opacity-50 flex items-center whitespace-nowrap">Теги {isRetagging && <div className="loader h-3 w-3 ml-2"></div>}</button>
                                     <div className="h-5 w-px bg-gray-200"></div>

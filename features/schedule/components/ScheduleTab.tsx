@@ -28,6 +28,7 @@ export const ScheduleTab: React.FC<{
     permissionErrorMessage?: string | null;
     emptyScheduleMessage?: string | null;
     onNavigateToContest?: () => void; // New prop for navigation
+    onNavigateToGeneralContest?: (contestId?: string) => void;
     onNavigateToAiPosts?: (postId?: string) => void; // New prop for AI posts navigation
 }> = ({ 
     project, 
@@ -43,10 +44,11 @@ export const ScheduleTab: React.FC<{
     permissionErrorMessage,
     emptyScheduleMessage,
     onNavigateToContest,
+    onNavigateToGeneralContest,
     onNavigateToAiPosts
 }) => {
     
-    const { handleRefreshPublished, handleRefreshScheduled, handleSystemPostUpdate, handleBulkRefresh, syncDataForProject, handleRefreshAllSchedule } = useProjects();
+    const { handleRefreshPublished, handleRefreshScheduled, handleSystemPostUpdate, handleBulkRefresh, syncDataForProject, handleRefreshAllSchedule, allStories } = useProjects();
     const [isRefreshingSystem, setIsRefreshingSystem] = useState(false);
     const [isRefreshingNotes, setIsRefreshingNotes] = useState(false);
 
@@ -281,19 +283,22 @@ export const ScheduleTab: React.FC<{
 
             <div className="flex-grow flex flex-col overflow-y-hidden">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 px-4 pt-4 pb-2 flex-shrink-0">
-                    {weekDates.map((date, i) => (
-                        <DayColumn.Header
-                            key={`header-${i}`}
-                            date={date}
-                            isSelectionMode={interactionState.isSelectionMode}
-                            onOpenCreateModal={modalActions.handleOpenCreateModal}
-                        />
-                    ))}
+                    {weekDates.map((date, i) => {
+                        return (
+                            <DayColumn.Header
+                                key={`header-${i}`}
+                                date={date}
+                                isSelectionMode={interactionState.isSelectionMode}
+                                onOpenCreateModal={modalActions.handleOpenCreateModal}
+                            />
+                        );
+                    })}
                 </div>
                 
                 <ScheduleGrid
                     weekDates={weekDates}
                     posts={posts} // posts теперь содержит все типы постов
+                    stories={allStories[project.id] || []}
                     notes={notes}
                     noteVisibility={interactionState.noteVisibility}
                     tagVisibility={interactionState.tagVisibility}
@@ -331,6 +336,7 @@ export const ScheduleTab: React.FC<{
                     modalActions.setPublishSuccessInfo
                 )}
                 onNavigateToContest={onNavigateToContest}
+                onNavigateToGeneralContest={onNavigateToGeneralContest}
                 onNavigateToAiPosts={onNavigateToAiPosts}
             />
         </div>

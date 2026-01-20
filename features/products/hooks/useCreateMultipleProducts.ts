@@ -15,8 +15,8 @@ export const useCreateMultipleProducts = ({ onSave, onClose, initialRows }: UseC
         initialRows && initialRows.length > 0
             ? initialRows
             : [
-                { tempId: uuidv4(), price: '', old_price: '' },
-                { tempId: uuidv4(), price: '', old_price: '' }
+                { tempId: uuidv4(), price: '', old_price: '', useDefaultImage: true },
+                { tempId: uuidv4(), price: '', old_price: '', useDefaultImage: true }
             ]
     );
     
@@ -55,7 +55,7 @@ export const useCreateMultipleProducts = ({ onSave, onClose, initialRows }: UseC
     }, [rows, initialRows]);
 
     const handleAddRow = () => {
-        setRows(prev => [...prev, { tempId: uuidv4(), price: '', old_price: '' }]);
+        setRows(prev => [...prev, { tempId: uuidv4(), price: '', old_price: '', useDefaultImage: true }]);
     };
 
     const handleCopyRow = (tempId: string) => {
@@ -81,7 +81,7 @@ export const useCreateMultipleProducts = ({ onSave, onClose, initialRows }: UseC
              setErrors(prev => {
                 const rowErrors = prev[tempId] || [];
                 let newRowErrors = rowErrors.filter(e => e !== field);
-                if ((field === 'photoPreview' || field === 'photoFile') && rowErrors.includes('photo')) {
+                if ((field === 'photoPreview' || field === 'photoFile' || field === 'useDefaultImage') && rowErrors.includes('photo')) {
                      newRowErrors = newRowErrors.filter(e => e !== 'photo');
                 }
                 if (newRowErrors.length === rowErrors.length) return prev;
@@ -207,6 +207,7 @@ export const useCreateMultipleProducts = ({ onSave, onClose, initialRows }: UseC
         img.onload = () => {
             handleRowChange(tempId, 'photoPreview', url);
             handleRowChange(tempId, 'photoUrl', url);
+            handleRowChange(tempId, 'useDefaultImage', false);
             handleUrlInputChange(tempId, '');
         };
         img.src = url;
@@ -222,11 +223,11 @@ export const useCreateMultipleProducts = ({ onSave, onClose, initialRows }: UseC
         const validRows: NewProductRow[] = [];
         const newErrors: Record<string, string[]> = {};
         let hasErrors = false;
-        const rowsWithData = rows.filter(row => (row.title && row.title.trim() !== '') || (row.price && row.price !== '') || (row.description && row.description.trim() !== '') || row.category || row.photoPreview);
+        const rowsWithData = rows.filter(row => (row.title && row.title.trim() !== '') || (row.price && row.price !== '') || (row.description && row.description.trim() !== '') || row.category || row.photoPreview || row.useDefaultImage);
         const targetRows = rowsWithData.length > 0 ? rowsWithData : (rows.length > 0 ? [rows[0]] : []);
         targetRows.forEach((row) => {
             const rowErrors: string[] = [];
-            if (!row.photoPreview) rowErrors.push("photo");
+            if (!row.photoPreview && !row.useDefaultImage) rowErrors.push("photo");
             if (!row.title?.trim() || row.title.trim().length < 4) rowErrors.push("title");
             if (!row.description?.trim() || row.description.trim().length < 10) rowErrors.push("description");
             if (!row.price?.trim()) rowErrors.push("price");
@@ -275,12 +276,47 @@ export const useCreateMultipleProducts = ({ onSave, onClose, initialRows }: UseC
     }, [isDirty, onClose]);
 
     return {
-        rows, urlInputs, showCloseConfirm, activeDescriptionRowId, isDirty, activeDescriptionText: (activeDescriptionRowId ? rows.find(r => r.tempId === activeDescriptionRowId)?.description || '' : ''),
-        errors, serverErrors, isSubmitting, showConfirmSave, validRowsToSave, selectedTempIds, isBulkEditOpen, activeBulkModal, isPasteModalOpen,
+        rows,
+        urlInputs,
+        showCloseConfirm,
+        activeDescriptionRowId,
+        isDirty,
+        activeDescriptionText: activeDescriptionRowId ? (rows.find(r => r.tempId === activeDescriptionRowId)?.description || '') : '',
+        errors,
+        serverErrors,
+        isSubmitting,
+        showConfirmSave,
+        validRowsToSave,
+        selectedTempIds,
+        isBulkEditOpen,
+        activeBulkModal,
+        isPasteModalOpen,
         actions: {
-            setShowCloseConfirm, setActiveDescriptionRowId, handleAddRow, handleCopyRow, handleRowChange, handleRemoveRow, handleUrlInputChange, handleUrlBlur, handleClearPhoto,
-            handleSave: handleSaveClick, handleConfirmSave, setShowConfirmSave, handleCloseRequest, toggleSelection, toggleSelectAll, clearSelection, setIsBulkEditOpen, setActiveBulkModal, 
-            handleBulkEditSelect, handleBulkCategoryUpdate, handleBulkAlbumUpdate, handleBulkPriceUpdate, setIsPasteModalOpen, handleImportFromPaste
+            setShowCloseConfirm,
+            setActiveDescriptionRowId,
+            handleAddRow,
+            handleCopyRow,
+            handleRowChange,
+            handleRemoveRow,
+            handleUrlInputChange,
+            handleUrlBlur,
+            handleClearPhoto,
+            handleSave: handleSaveClick,
+            handleConfirmSave,
+            setShowConfirmSave,
+            handleCloseRequest,
+            toggleSelection,
+            toggleSelectAll,
+            clearSelection,
+            setIsBulkEditOpen,
+            setActiveBulkModal,
+            handleBulkEditSelect,
+            handleBulkCategoryUpdate,
+            handleBulkAlbumUpdate,
+            handleBulkPriceUpdate,
+            setIsPasteModalOpen,
+            handleImportFromPaste
         }
     };
 };
+// end hook

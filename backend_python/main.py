@@ -22,7 +22,7 @@ import services.scheduler_service as scheduler_service
 # Старый импорт трекера убираем из использования в startup, но оставляем импорт если он нужен где-то еще
 import services.post_tracker_service as post_tracker_service
 
-from routers import projects, posts, ai, media, notes, management, tags, system_posts, auth, users, ai_presets, global_variables, market, market_ai, lists, system_accounts, project_context, ai_tokens, automations, automations_ai, automations_general
+from routers import projects, posts, ai, media, notes, management, tags, system_posts, auth, users, ai_presets, global_variables, market, market_ai, lists, system_accounts, project_context, ai_tokens, automations, automations_ai, automations_general, stories_automation, vk_test_auth
 
 # Создание всех таблиц в базе данных при старте
 models.Base.metadata.create_all(bind=engine)
@@ -34,6 +34,7 @@ app = FastAPI()
 def startup_event():
     print("\n" + "="*50)
     print("!!! ЗАПУЩЕНА ВЕРСИЯ: v31 (APScheduler Post Tracker) !!!")
+    print(f"!!! ALLOWED ORIGINS: {origins} !!!")
     print("="*50 + "\n")
 
     # Шаг 0: Проверяем необходимость ротации ключей (перешифровки)
@@ -116,10 +117,19 @@ def startup_event():
     print("Startup complete.")
 
 
-# CORS Middleware для локальной разработки
+# Настройка CORS
+# Важно: для allow_credentials=True нельзя использовать ["*"], нужно указывать конкретные домены.
+origins = [
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "http://127.0.0.1:5173",
+    "https://vk-content-planner-frontend-preprod.website.yandexcloud.net",
+    "https://vk-content-planner-frontend.website.yandexcloud.net", # На будущее для прода
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -175,3 +185,5 @@ app.include_router(ai_tokens.router, prefix="/api", tags=["AI Tokens"])
 app.include_router(automations.router, prefix="/api", tags=["Automations"])
 app.include_router(automations_ai.router, prefix="/api", tags=["AI Posts Automation"])
 app.include_router(automations_general.router, prefix="/api", tags=["Automations General"])
+app.include_router(stories_automation.router, prefix="/api", tags=["Stories Automation"])
+app.include_router(vk_test_auth.router)

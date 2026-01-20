@@ -5,15 +5,28 @@ import { GeneralContestEditorPage } from './GeneralContestEditorPage';
 interface GeneralContestsPageProps {
     projectId: string;
     setNavigationBlocker?: React.Dispatch<React.SetStateAction<(() => boolean) | null>>;
+    initialContestId?: string; // NEW PROP
+    onClearParams?: () => void; // NEW PROP
 }
 
 export const GeneralContestsPage: React.FC<GeneralContestsPageProps> = ({ 
     projectId, 
-    setNavigationBlocker 
+    setNavigationBlocker,
+    initialContestId,
+    onClearParams
 }) => {
     // State
     const [viewMode, setViewMode] = useState<'list' | 'create'>('list');
     const [editingContestId, setEditingContestId] = useState<string | null>(null);
+
+    // Initial Load Effect (for deep linking)
+    useEffect(() => {
+        if (initialContestId) {
+            setEditingContestId(initialContestId);
+            setViewMode('create');
+            if (onClearParams) onClearParams();
+        }
+    }, [initialContestId]); // Run only when initialContestId changes (usually on mount or nav)
 
     // Ref to track project changes
     const prevProjectIdRef = useRef(projectId);

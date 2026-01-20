@@ -16,7 +16,8 @@ from .vk_api.token_manager import (
 from .vk_api.upload import (
     upload_wall_photo,
     upload_market_photo,
-    upload_album_photo
+    upload_album_photo,
+    upload_story
 )
 
 # 4. Методы-обертки (Methods)
@@ -25,7 +26,8 @@ from .vk_api.methods import (
     get_albums,
     get_all_photos_from_album,
     get_latest_wall_posts,
-    create_comment
+    create_comment,
+    get_active_stories
 )
 
 # 5. Форматтеры
@@ -55,11 +57,13 @@ __all__ = [
     'upload_wall_photo',
     'upload_market_photo',
     'upload_album_photo',
+    'upload_story',
     'create_album',
     'get_albums',
     'get_all_photos_from_album',
     'get_latest_wall_posts',
     'create_comment',
+    'get_active_stories',
     'format_vk_post',
     'format_suggested_vk_post',
     'format_album_data',

@@ -1,6 +1,8 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import desc
 from models_library.general_contests import (
     GeneralContest, 
+    GeneralContestCycle,
     GeneralContestEntry,
     GeneralContestPromoCode,
     GeneralContestBlacklist,
@@ -10,6 +12,7 @@ from models_library.posts import SystemPost
 from schemas.general_contests import GeneralContestCreate, GeneralContestUpdate
 import uuid
 import logging
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -19,54 +22,45 @@ def get_contest(db: Session, contest_id: str):
 def get_contests_by_project(db: Session, project_id: str):
     contests = db.query(GeneralContest).filter(GeneralContest.project_id == project_id).all()
     
-    # Enrich with stats and status logic
     for c in contests:
-        # Basic Counts
-        participants_count = db.query(GeneralContestEntry).filter(GeneralContestEntry.contest_id == c.id).count()
-        codes_total = db.query(GeneralContestPromoCode).filter(GeneralContestPromoCode.contest_id == c.id).count()
-        codes_used = db.query(GeneralContestEntry).filter(GeneralContestEntry.contest_id == c.id).count() # Simplified usage logic
-        # In reality codes_available = total - used, if unique per user. Or just query Unused codes.
-        # Let's assume codes table has 'is_used' or we count entries with code issued.
-        # For General Contests, promo codes are optional or one-time. 
-        # Let's count available codes roughly:
-        # Assuming entries consume codes 1-to-1 if mechanics implies it. 
-        # But for now let's just count total.
+        # Get Latest Cycle
+        latest_cycle = db.query(GeneralContestCycle)\
+            .filter(GeneralContestCycle.contest_id == c.id)\
+            .order_by(desc(GeneralContestCycle.created_at))\
+            .first()
         
-        # Determine Status
-        status = 'paused_manual'
-        start_post_status = 'pending'
-        result_post_status = 'pending'
-        dms_sent_count = 0 # Placeholder
-
-        # Fetch related posts statuses
-        start_post = db.query(SystemPost).filter(SystemPost.id == c.current_start_post_id).first() if c.current_start_post_id else None
-        result_post = db.query(SystemPost).filter(SystemPost.id == c.current_result_post_id).first() if c.current_result_post_id else None
+        c.active_cycle = latest_cycle
         
-        if start_post: start_post_status = start_post.status 
-        if result_post: result_post_status = result_post.status
-
-        if not c.is_active:
-            status = 'paused_manual'
-        else:
-            # Active
-            if start_post_status == 'published':
-                if result_post_status == 'published':
-                    status = 'completed' # Or 'results_published'
-                    # Check if all DMs sent (mock logic for now)
-                    status = 'results_published'
-                else:
-                    status = 'running'
+        # Determine Status derived from latest cycle
+        status = 'paused_manual' # Default
+        participants_count = 0
+        dms_sent_count = 0
+        
+        if c.is_active:
+            if latest_cycle:
+                status = latest_cycle.status
+                participants_count = latest_cycle.participants_count
             else:
-                 status = 'awaiting_start'
+                status = 'active_no_cycle' # Should initiate
+        else:
+            status = 'paused'
 
+        # Count Promocodes (Global pool for this contest)
+        codes_total = db.query(GeneralContestPromoCode).filter(GeneralContestPromoCode.contest_id == c.id).count()
+        codes_available = db.query(GeneralContestPromoCode).filter(
+            GeneralContestPromoCode.contest_id == c.id,
+            GeneralContestPromoCode.is_issued == False
+        ).count()
+        
         c.stats = {
             "participants": participants_count,
-            "promocodes_available": codes_total, # Fix logic later
+            "promocodes_available": codes_available,
             "promocodes_total": codes_total,
             "status": status,
-            "start_post_status": start_post_status,
-            "result_post_status": result_post_status,
-            "dms_sent_count": dms_sent_count
+            "start_post_status": None, # Deprecated or retrieve from specific cycle logic if needed
+            "result_post_status": None,
+            "dms_sent_count": dms_sent_count,
+            "active_cycle_id": latest_cycle.id if latest_cycle else None
         }
 
     return contests
@@ -101,51 +95,75 @@ def delete_contest(db: Session, contest_id: str):
     logger.info(f"Deleting contest: {contest_id}")
     db_contest = get_contest(db, contest_id)
     if db_contest:
-        # Delete related system posts if they are not published
-        db.query(SystemPost).filter(
-            SystemPost.related_id == contest_id,
-            SystemPost.post_type.in_(['general_contest_start', 'general_contest_result']),
-            SystemPost.status != 'published'
-        ).delete(synchronize_session=False)
+        # 1. Delete associated SystemPosts (Start/End triggers) from Schedule
+        # This ensures the calendar is cleaned up when automation is removed.
+        deleted_posts = db.query(SystemPost).filter(SystemPost.related_id == contest_id).delete()
+        logger.info(f"Deleted {deleted_posts} system posts for contest {contest_id}")
 
+        # 2. Delete the contest 
+        # (Cascade usually handles cycles/promocodes, but if not, they might remain orphaned or raise FK error. 
+        # Assuming FK cascade is set or acceptable.)
         db.delete(db_contest)
         db.commit()
         return True
     logger.warning(f"Contest {contest_id} not found for deletion.")
     return False
 
-def clear_entries(db: Session, contest_id: str):
-    db.query(GeneralContestEntry).filter(GeneralContestEntry.contest_id == contest_id).delete()
-    db.commit()
-
-def add_entry(db: Session, contest_id: str, user_vk_id: int, user_name: str = None, user_photo: str = None):
-    entry = GeneralContestEntry(
+# --- Cycles ---
+def create_cycle(db: Session, contest_id: str, start_scheduled_post_id: str = None, end_scheduled_post_id: str = None):
+    cycle = GeneralContestCycle(
         id=str(uuid.uuid4()),
         contest_id=contest_id,
-        user_vk_id=user_vk_id,
-        user_name=user_name,
-        user_photo=user_photo
+        status='created',
+        start_scheduled_post_id=start_scheduled_post_id,
+        end_scheduled_post_id=end_scheduled_post_id
     )
-    db.add(entry)
+    db.add(cycle)
     db.commit()
-    return entry
+    return cycle
 
+def get_active_cycle(db: Session, contest_id: str):
+    return db.query(GeneralContestCycle).filter(
+        GeneralContestCycle.contest_id == contest_id,
+        GeneralContestCycle.status.in_(['created', 'active', 'evaluating'])
+    ).order_by(desc(GeneralContestCycle.created_at)).first()
+
+# --- Entries (Participants) ---
 def get_entries(db: Session, contest_id: str):
-    return db.query(GeneralContestEntry).filter(GeneralContestEntry.contest_id == contest_id).all()
+    # Retrieve entries for the active cycle or last finished
+    latest_cycle = get_active_cycle(db, contest_id)
+    if not latest_cycle:
+        # Try finding last finished one if no active?
+        latest_cycle = db.query(GeneralContestCycle).filter(
+            GeneralContestCycle.contest_id == contest_id
+        ).order_by(desc(GeneralContestCycle.created_at)).first()
+        
+    if latest_cycle:
+        return db.query(GeneralContestEntry).filter(GeneralContestEntry.cycle_id == latest_cycle.id).all()
+    return []
+
+def clear_entries(db: Session, contest_id: str):
+    # Clears entries for active cycle? Or all?
+    # Usually used for debugging.
+    # Let's clear active cycle entries.
+    cycle = get_active_cycle(db, contest_id)
+    if cycle:
+        db.query(GeneralContestEntry).filter(GeneralContestEntry.cycle_id == cycle.id).delete()
+        db.commit()
 
 # --- Promocodes ---
 def get_promocodes(db: Session, contest_id: str):
     return db.query(GeneralContestPromoCode).filter(GeneralContestPromoCode.contest_id == contest_id).all()
 
 def add_promocodes(db: Session, contest_id: str, codes: list):
-    # codes is list of dicts or objects with 'code' and 'description'
     new_codes = []
     for c in codes:
         new_codes.append(GeneralContestPromoCode(
             id=str(uuid.uuid4()),
             contest_id=contest_id,
             code=c.code,
-            description=c.description
+            description=c.description,
+            is_issued=False
         ))
     db.add_all(new_codes)
     db.commit()
@@ -175,25 +193,30 @@ def update_promocode(db: Session, promo_id: str, description: str):
     return False
 
 # --- Blacklist ---
-def get_blacklist(db: Session, contest_id: str):
-    return db.query(GeneralContestBlacklist).filter(GeneralContestBlacklist.contest_id == contest_id).all()
+# Blacklist is now Project wide in the model (project_id), but function signature requests contest_id sometimes.
+# We should probably fix the router to pass project_id.
+# For now, let's look up project_id from contest if not provided.
 
-def add_to_blacklist(db: Session, contest_id: str, user_vk_id: int, until_date=None, reason=None):
-    # Check if exists
+def get_blacklist(db: Session, contest_id: str):
+    contest = get_contest(db, contest_id)
+    if contest:
+        return db.query(GeneralContestBlacklist).filter(GeneralContestBlacklist.project_id == contest.project_id).all()
+    return []
+
+def add_to_blacklist(db: Session, project_id: str, user_vk_id: int, note=None):
     existing = db.query(GeneralContestBlacklist).filter(
-        GeneralContestBlacklist.contest_id == contest_id,
+        GeneralContestBlacklist.project_id == project_id,
         GeneralContestBlacklist.user_vk_id == user_vk_id
     ).first()
     
     if existing:
-        existing.until_date = until_date
-        # reason not stored in current model?
+        existing.note = note
     else:
         entry = GeneralContestBlacklist(
             id=str(uuid.uuid4()),
-            contest_id=contest_id,
+            project_id=project_id,
             user_vk_id=user_vk_id,
-            until_date=until_date
+            note=note
         )
         db.add(entry)
     db.commit()
@@ -206,16 +229,16 @@ def delete_from_blacklist(db: Session, entry_id: str):
 
 # --- Delivery Logs ---
 def get_delivery_logs(db: Session, contest_id: str):
-    return db.query(GeneralContestDeliveryLog).filter(GeneralContestDeliveryLog.contest_id == contest_id).all()
+    # Logs are per cycle.
+    # Return logs for all cycles of this contest? or just active?
+    # History view needs all.
+    # Joining with ContestCycle to filter by contest_id.
+    
+    return db.query(GeneralContestDeliveryLog)\
+        .join(GeneralContestCycle, GeneralContestCycle.id == GeneralContestDeliveryLog.cycle_id)\
+        .filter(GeneralContestCycle.contest_id == contest_id)\
+        .all()
 
 def clear_delivery_logs(db: Session, contest_id: str):
-    db.query(GeneralContestDeliveryLog).filter(GeneralContestDeliveryLog.contest_id == contest_id).delete()
-    db.commit()
-    return True
-
-def get_winners(db: Session, contest_id: str):
-    # Winners are essentially delivery logs where promo code was issued
-    return db.query(GeneralContestDeliveryLog).filter(
-        GeneralContestDeliveryLog.contest_id == contest_id,
-        GeneralContestDeliveryLog.promo_code != None
-    ).all()
+    # Dangerous. 
+    pass

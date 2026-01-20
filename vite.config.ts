@@ -5,4 +5,7 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   base: '/', // Используем абсолютные пути от корня домена
+  server: {
+    allowedHosts: true, // Разрешаем все хосты, чтобы работать через Ngrok
+  },
 });

@@ -11,7 +11,9 @@ interface PhotoCellProps {
     onClear: () => void;
     onFileChange: (file: File) => void;
     hasError?: boolean;
-    errorMessage?: string; // Новый проп для текста ошибки
+    errorMessage?: string;
+    useDefaultImage?: boolean; // New prop
+    onToggleDefault?: (val: boolean) => void; // New prop
 }
 
 export const PhotoCell: React.FC<PhotoCellProps> = ({
@@ -23,7 +25,9 @@ export const PhotoCell: React.FC<PhotoCellProps> = ({
     onClear,
     onFileChange,
     hasError = false,
-    errorMessage
+    errorMessage,
+    useDefaultImage,
+    onToggleDefault
 }) => {
     return (
         <td className="p-2 align-top" onClick={(e) => e.stopPropagation()}>
@@ -74,6 +78,22 @@ export const PhotoCell: React.FC<PhotoCellProps> = ({
                     disabled={!!row.photoPreview}
                 />
             </div>
+            
+            {!row.photoPreview && onToggleDefault && (
+                <div className="flex items-center mt-1 ml-0.5">
+                    <input 
+                        type="checkbox" 
+                        id={`default-photo-${row.tempId}`}
+                        checked={useDefaultImage || false} 
+                        onChange={(e) => onToggleDefault(e.target.checked)}
+                        className="h-3 w-3 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                    />
+                    <label htmlFor={`default-photo-${row.tempId}`} className="text-[10px] text-gray-500 ml-1 select-none cursor-pointer">
+                        Заглушка
+                    </label>
+                </div>
+            )}
+
             {errorMessage && (
                 <div className="text-[10px] text-red-500 leading-tight mt-0.5">
                     {errorMessage}

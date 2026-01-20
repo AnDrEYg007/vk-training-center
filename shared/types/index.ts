@@ -97,13 +97,14 @@ export interface ScheduledPost {
 export interface SystemPost extends ScheduledPost {
     publication_date: string;
     status: 'pending_publication' | 'publishing' | 'error' | 'possible_error';
-    post_type: 'regular' | 'contest_winner' | 'ai_feed';
+    post_type: 'regular' | 'contest_winner' | 'ai_feed' | 'GENERAL_CONTEST_START' | 'GENERAL_CONTEST_END' | 'general_contest_start' | 'general_contest_result';
     images: any; 
     
     // Новые поля для автоматизации
     title?: string;
     description?: string;
     is_active?: boolean;
+    related_id?: string; // ID сущности, к которой относится пост
 }
 
 export interface SuggestedPost {
@@ -412,4 +413,19 @@ export interface SyncGroupsResult {
 export interface ContestStatus {
     isActive: boolean;
     promoCount: number;
+}
+
+export interface UnifiedStory {
+    vk_story_id: number;
+    date: number; // Unix timestamp for display order
+    type: string;
+    preview: string | null;
+    link: string | null;
+    
+    // Status flags
+    is_expired: boolean;
+    is_deleted: boolean;
+    
+    // If we have detailed stats (optional)
+    stats?: any; 
 }

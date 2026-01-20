@@ -6,6 +6,7 @@ from datetime import datetime
 
 from database import redis_client
 import services.post_tracker_service as post_tracker
+import services.automations.stories_background_service as stories_bg # NEW
 
 # Настройка логгера
 logging.basicConfig()
@@ -48,6 +49,33 @@ def job_system_post_publisher():
         except Exception as e:
             print(f"SCHEDULER ERROR (Post Tracker): {e}")
 
+def job_stories_automation():
+    """
+    Задача: Фоновая проверка и генерация историй из постов.
+    Запускается каждые 10 минут.
+    """
+    # Также используем блокировку (можно ту же или отдельную), чтобы не дублировать
+    # Для простоты используем ту же логику проверки лидерства или отдельный ключ?
+    # Лучше отдельный ключ, так как частота другая.
+    bg_lock_key = "vk_planner:stories_bg_lock"
+    bg_ttl = 590 # ~10 min
+    
+    should_run = False
+    if redis_client:
+        try:
+             if redis_client.set(bg_lock_key, "locked", nx=True, ex=bg_ttl):
+                 should_run = True
+        except Exception as e:
+             print(f"SCHEDULER: Stories lock error: {e}. Skipping.")
+    else:
+        should_run = True
+
+    if should_run:
+        try:
+             stories_bg.run_stories_automation_cycle()
+        except Exception as e:
+             print(f"SCHEDULER ERROR (Stories BG): {e}")
+
 # --- ЗАПУСК ---
 
 def start():
@@ -58,6 +86,14 @@ def start():
         job_system_post_publisher,
         IntervalTrigger(seconds=50),
         id='system_post_tracker',
+        replace_existing=True
+    )
+
+    # Добавляем задачу автоматизации историй (посты в истории) - каждые 10 минут
+    scheduler.add_job(
+        job_stories_automation,
+        IntervalTrigger(minutes=10),
+        id='stories_automation_bg',
         replace_existing=True
     )
 

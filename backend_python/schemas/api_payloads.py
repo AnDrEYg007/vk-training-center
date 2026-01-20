@@ -122,6 +122,7 @@ class NewMarketItemPayload(BaseModel):
     sku: Optional[str] = None
     album_id: Optional[int] = Field(None, alias='albumId')
     photoUrl: Optional[str] = None # URL фото, если не загружается файлом
+    useDefaultImage: Optional[bool] = False # Использовать дефолтное фото (заглушку)
     
 class CreateMarketItemsPayload(BaseModel):
     projectId: str

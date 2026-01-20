@@ -17,7 +17,7 @@ export const GeneralContestPreview: React.FC<GeneralContestPreviewProps> = ({ co
         return (contest.result_post_images || []).map(img => ({ url: img.url }));
     }, [contest.result_post_images]);
 
-    const startPostText = contest.start_post_text || 'Текст стартового поста...';
+    const startPostText = contest.post_text || 'Текст стартового поста...';
     const resultPostText = (contest.template_result_post || 'Поздравляем победителей!\n\n{winners_list}')
         .replace('{winners_list}', '1. Иван Петров (№42)');
 

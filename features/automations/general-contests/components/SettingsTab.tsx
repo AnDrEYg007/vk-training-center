@@ -27,9 +27,9 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({ contest, onChange, pro
                     </div>
                     <button
                         onClick={() => onChange('is_active', !contest.is_active)}
-                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${contest.is_active ? 'bg-indigo-600' : 'bg-gray-200'}`}
+                        className={`relative inline-flex items-center h-6 w-11 rounded-full transition-colors focus:outline-none ${contest.is_active ? 'bg-indigo-600' : 'bg-gray-300'}`}
                     >
-                        <span className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${contest.is_active ? 'translate-x-5' : 'translate-x-0'}`} />
+                        <span className={`inline-block w-4 h-4 transform bg-white rounded-full transition-transform ${contest.is_active ? 'translate-x-6' : 'translate-x-1'}`} />
                     </button>
                 </div>
                 <div className="flex-1">
@@ -57,31 +57,92 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({ contest, onChange, pro
             <div className="space-y-6 pb-6 last:pb-0">
                 <h3 className="text-lg font-bold text-gray-800 pb-2 border-b border-gray-200">Конкурсный пост (старт)</h3>
                 
-                <div className="flex gap-4 items-center p-3 bg-indigo-50 rounded-lg border border-indigo-100">
-                    <span className="text-sm font-medium text-indigo-900">Публикация:</span>
-                    <CustomDatePicker value={contest.start_date} onChange={(v) => onChange('start_date', v)} />
-                    <CustomTimePicker value={contest.start_time} onChange={(v) => onChange('start_time', v)} className="w-24" />
+                {/* Тумблер выбора сценария */}
+                <div className="flex bg-gray-100 p-1 rounded-lg gap-1 mb-4">
+                    <button
+                        type="button"
+                        onClick={() => onChange('start_type', 'new_post')}
+                        className={`flex-1 px-3 py-2 text-sm font-medium rounded-md transition-all ${
+                            contest.start_type === 'new_post' || !contest.start_type
+                                ? 'bg-white text-indigo-600 shadow-sm'
+                                : 'text-gray-600 hover:bg-gray-200'
+                        }`}
+                    >
+                        Создать новый пост
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => onChange('start_type', 'existing_post')}
+                        className={`flex-1 px-3 py-2 text-sm font-medium rounded-md transition-all ${
+                            contest.start_type === 'existing_post'
+                                ? 'bg-white text-indigo-600 shadow-sm'
+                                : 'text-gray-600 hover:bg-gray-200'
+                        }`}
+                    >
+                        Выбрать существующий
+                    </button>
                 </div>
 
-                <RichTemplateEditor 
-                    label="Текст поста" 
-                    value={contest.start_post_text}
-                    onChange={(val) => onChange('start_post_text', val)}
-                    project={project}
-                    rows={6}
-                />
-                
-                <PostMediaSection 
-                    mode="edit"
-                    projectId={project.id}
-                    editedImages={contest.start_post_images}
-                    onImagesChange={(imgs) => onChange('start_post_images', typeof imgs === 'function' ? imgs(contest.start_post_images) : imgs)}
-                    onUploadStateChange={() => {}}
-                    postAttachments={[]}
-                    editedAttachments={[]}
-                    onAttachmentsChange={() => {}}
-                    collapsible={true}
-                />
+                {contest.start_type === 'existing_post' ? (
+                    <div className="space-y-4 animate-in fade-in duration-300">
+                        <div className="p-4 bg-blue-50 border border-blue-100 rounded-lg flex items-start gap-3">
+                            <svg className="w-5 h-5 text-blue-600 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <div className="text-sm text-blue-800">
+                                <p className="font-medium mb-1">Режим существующего поста</p>
+                                <p>Механика привяжется к уже опубликованному посту. Сбор участников начнется сразу после сохранения и активации.</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-800 mb-1">Ссылка на пост ВКонтакте</label>
+                            <input 
+                                type="text"
+                                value={contest.existing_post_link || ''}
+                                onChange={e => onChange('existing_post_link', e.target.value)}
+                                className="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow"
+                                placeholder="https://vk.com/wall-xxxxxx_yyyyyy"
+                            />
+                            <p className="text-xs text-gray-500 mt-1">Скопируйте ссылку на пост из браузера или мобильного приложения.</p>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="space-y-6 animate-in fade-in duration-300">
+                        <div className="flex gap-4 items-center p-3 bg-indigo-50 rounded-lg border border-indigo-100">
+                            <span className="text-sm font-medium text-indigo-900">Публикация:</span>
+                            <CustomDatePicker value={contest.start_date || ''} onChange={(v) => onChange('start_date', v)} />
+                            <CustomTimePicker value={contest.start_time || (contest.start_date && contest.start_date.includes('T') ? contest.start_date.split('T')[1].substring(0, 5) : '12:00')} onChange={(v) => {
+                                // Update start_time directly
+                                onChange('start_time', v);
+                                // Ensure start_date is date-only so API combiner uses the new time
+                                if (contest.start_date && contest.start_date.includes('T')) {
+                                    onChange('start_date', contest.start_date.split('T')[0]);
+                                }
+                            }} className="w-24" />
+                        </div>
+
+                        <RichTemplateEditor 
+                            label="Текст поста" 
+                            value={contest.post_text || ''}
+                            onChange={(val) => onChange('post_text', val)}
+                            project={project}
+                            rows={6}
+                        />
+                        
+                        <PostMediaSection 
+                            mode="edit"
+                            projectId={project.id}
+                            editedImages={contest.post_media ? JSON.parse(typeof contest.post_media === 'string' ? contest.post_media : '[]') : []}
+                            onImagesChange={(imgs) => onChange('post_media', JSON.stringify(typeof imgs === 'function' ? imgs([]) : imgs))}
+                            onUploadStateChange={() => {}}
+                            postAttachments={[]}
+                            editedAttachments={[]}
+                            onAttachmentsChange={() => {}}
+                            collapsible={true}
+                        />
+                    </div>
+                )}
             </div>
 
             {/* Секция 3: Условия */}

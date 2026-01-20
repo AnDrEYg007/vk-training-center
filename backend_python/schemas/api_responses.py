@@ -21,6 +21,7 @@ class AllPostsForProjectsResponse(BaseModel):
     allSuggestedPosts: Dict[str, List[SuggestedPost]]
     allSystemPosts: Dict[str, List[SystemPost]]
     allNotes: Dict[str, List[Note]]
+    allStories: Dict[str, List[Dict[str, Any]]] = {} # Новое поле для историй
 
 class ForceRefreshResponse(BaseModel):
     projects: List[Project]

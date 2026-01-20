@@ -42,7 +42,11 @@ export const PostCard: React.FC<{
     // Определяем типы автоматизаций
     const isContestWinner = isSystemPost && 'post_type' in post && post.post_type === 'contest_winner';
     const isAiFeed = isSystemPost && 'post_type' in post && post.post_type === 'ai_feed';
-    const isAutomation = isContestWinner || isAiFeed;
+    const isGeneralContestStart = isSystemPost && 'post_type' in post && (post.post_type === 'GENERAL_CONTEST_START' || post.post_type === 'general_contest_start');
+    const isGeneralContestEnd = isSystemPost && 'post_type' in post && (post.post_type === 'GENERAL_CONTEST_END' || post.post_type === 'general_contest_result');
+    
+    const isGeneralContest = isGeneralContestStart || isGeneralContestEnd;
+    const isAutomation = isContestWinner || isAiFeed || isGeneralContest;
 
     const actionsContainerRef = useRef<HTMLDivElement>(null);
 
@@ -94,6 +98,22 @@ export const PostCard: React.FC<{
         if (isGhost) {
             bgClass = 'bg-fuchsia-50/20 opacity-70';
             borderClass = 'border border-fuchsia-200 border-dashed';
+        }
+    } else if (isGeneralContestStart) {
+        // Стиль для старта универсального конкурса (голубой/небесный)
+        borderClass = 'border border-sky-300';
+        bgClass = 'bg-sky-50/40 text-sky-900';
+        if (isGhost) {
+            bgClass = 'bg-sky-50/20 opacity-70';
+            borderClass = 'border border-sky-200 border-dashed';
+        }
+    } else if (isGeneralContestEnd) {
+        // Стиль для итогов универсального конкурса (оранжевый/золотой)
+        borderClass = 'border border-orange-300';
+        bgClass = 'bg-orange-50/40 text-orange-900';
+        if (isGhost) {
+            bgClass = 'bg-orange-50/20 opacity-70';
+            borderClass = 'border border-orange-200 border-dashed';
         }
     } else if (isAiFeed) {
         // Уникальный стиль для AI Feed (индиго/синий, более технологичный)
@@ -173,6 +193,30 @@ export const PostCard: React.FC<{
                 </div>
             )}
 
+            {/* Бейдж для Универсального конкурса (Старт) */}
+            {isGeneralContestStart && (
+                <div className="absolute top-[-8px] right-[-4px] flex items-center gap-1 z-10">
+                     <div className="bg-sky-100 text-sky-700 rounded-full px-1.5 py-0.5 border border-sky-200 shadow-sm flex items-center gap-1" title="Универсальный конкурс: Старт">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
+                        </svg>
+                        <span className="text-[9px] font-bold uppercase tracking-wider">Конкурс</span>
+                    </div>
+                </div>
+            )}
+
+            {/* Бейдж для Универсального конкурса (Итоги) */}
+            {isGeneralContestEnd && (
+                <div className="absolute top-[-8px] right-[-4px] flex items-center gap-1 z-10">
+                     <div className="bg-orange-100 text-orange-700 rounded-full px-1.5 py-0.5 border border-orange-200 shadow-sm flex items-center gap-1" title="Универсальный конкурс: Итоги">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                            <path fillRule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11 4a1 1 0 10-2 0v4a1 1 0 102 0V7zm-1 5a1 1 0 11-2 0 1 1 0 012 0z" clipRule="evenodd" />
+                        </svg>
+                        <span className="text-[9px] font-bold uppercase tracking-wider">Итоги</span>
+                    </div>
+                </div>
+            )}
+
             {/* Бейдж для AI автоматизации */}
             {isAiFeed && (
                 <div className="absolute top-[-8px] right-[-4px] flex items-center gap-1 z-10">
@@ -189,7 +233,13 @@ export const PostCard: React.FC<{
                 onClick={!isSelectionMode ? handleClick : undefined}
                 className={`flex justify-between items-center mb-1 ${isSelectionMode ? 'opacity-50' : ''} ${isPublished || (isSystemPost && !isAutomation) ? 'pl-7' : ''} ${!isSelectionMode ? 'cursor-pointer' : ''}`}
             >
-                <p className={`font-semibold ${isContestWinner ? 'text-fuchsia-800' : isAiFeed ? 'text-indigo-800' : 'text-gray-500'}`}>{new Date(post.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                <p className={`font-semibold ${
+                    isContestWinner ? 'text-fuchsia-800' : 
+                    isAiFeed ? 'text-indigo-800' : 
+                    isGeneralContestStart ? 'text-sky-800' :
+                    isGeneralContestEnd ? 'text-orange-800' :
+                    'text-gray-500'
+                }`}>{new Date(post.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
                 
                 {/* Скрываем действия для призраков и постов автоматизации */}
                 {!isGhost && !isAutomation && (
@@ -224,6 +274,16 @@ export const PostCard: React.FC<{
                 <AttachmentsDisplay attachments={post.attachments || []} />
             </div>
             
+            {/* Название автоматизации для Универсальных конкурсов */}
+            {(isGeneralContestStart || isGeneralContestEnd) && 'title' in post && post.title && (
+                 <div 
+                    onClick={!isSelectionMode ? handleClick : undefined}
+                    className={`mt-1.5 text-[10px] uppercase tracking-wider font-bold truncate cursor-pointer ${isGeneralContestStart ? 'text-sky-700' : 'text-orange-700'}`}
+                >
+                    {isGeneralContestStart ? 'Конкурс: ' : 'Итоги: '}{post.title}
+                </div>
+            )}
+
             <p 
                 onClick={!isSelectionMode ? () => isAutomation ? handleClick() : onToggleExpand(post.id) : undefined}
                 className={`text-gray-800 break-words ${!isSelectionMode ? 'cursor-pointer' : ''} overflow-hidden transition-[max-height] duration-500 ease-in-out mt-2 ${isExpanded ? 'max-h-96' : 'max-h-5'} ${isSelectionMode ? 'opacity-50' : ''}`}

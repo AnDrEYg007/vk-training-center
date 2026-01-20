@@ -77,6 +77,7 @@ export const getAllPostsForProjects = async (projectIds: string[]): Promise<{
     allSuggestedPosts: Record<string, SuggestedPost[]>;
     allSystemPosts: Record<string, SystemPost[]>;
     allNotes: Record<string, Note[]>;
+    allStories: Record<string, any[]>; // Added allStories
 }> => {
     return callApi('getAllPostsForProjects', { projectIds });
 };

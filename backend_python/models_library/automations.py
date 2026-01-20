@@ -47,15 +47,41 @@ class ReviewContestEntry(Base):
     user_vk_id = Column(BigInteger, nullable=False)
     user_name = Column(String, nullable=True)
     user_photo = Column(String, nullable=True) # New
+
+
+class StoriesAutomation(Base):
+    __tablename__ = "stories_automations"
+    
+    id = Column(String, primary_key=True, index=True) # UUID
+    project_id = Column(String, ForeignKey("projects.id", ondelete="CASCADE"), index=True, unique=True)
+    
+    is_active = Column(Boolean, default=False)
+    keywords = Column(String, nullable=True) # Comma separated or single keyword
+    
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+
+
+class StoriesAutomationLog(Base):
+    __tablename__ = "stories_automation_logs"
+    
+    id = Column(String, primary_key=True, index=True) # UUID
+    project_id = Column(String, ForeignKey("projects.id", ondelete="CASCADE"), index=True)
+    vk_post_id = Column(Integer, nullable=False)
+    
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
     
     post_link = Column(String, nullable=True)
     post_text = Column(Text, nullable=True)
+    image_url = Column(String, nullable=True)
     
     status = Column(String, default='new') # new, processing, commented, error, winner
     entry_number = Column(Integer, nullable=True)
     log = Column(Text, nullable=True)
     
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    # Statistics
+    stats = Column(Text, nullable=True) # JSON stored as text
+    stats_updated_at = Column(DateTime(timezone=True), nullable=True)
 
 class PromoCode(Base):
     __tablename__ = "promo_codes"

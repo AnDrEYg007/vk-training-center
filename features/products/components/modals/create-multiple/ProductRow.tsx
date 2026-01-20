@@ -49,10 +49,21 @@ export const ProductRow: React.FC<ProductRowProps> = ({
         reader.onloadend = () => {
             onRowChange(row.tempId, 'photoPreview', reader.result as string);
             onRowChange(row.tempId, 'photoUrl', undefined);
+            onRowChange(row.tempId, 'useDefaultImage', false);
         };
         reader.readAsDataURL(file);
         onRowChange(row.tempId, 'photoFile', file);
     };
+
+    const handleToggleDefault = (val: boolean) => {
+        onRowChange(row.tempId, 'useDefaultImage', val);
+        if (val) {
+             // Clear errors if any regarding photo
+             // We can't clear errors directly here without passing a cleaner, 
+             // but validation runs on save anyway or via useEffect in parent
+        }
+    };
+
 
     // Функция для генерации классов валидации
     const getInputClass = (fieldName: string) => {
@@ -144,6 +155,8 @@ export const ProductRow: React.FC<ProductRowProps> = ({
                 onFileChange={handleFileChange}
                 hasError={errors.includes('photo')}
                 errorMessage={getErrorMessage('photo')}
+                useDefaultImage={row.useDefaultImage}
+                onToggleDefault={handleToggleDefault}
             />
             
             {/* НАЗВАНИЕ */}

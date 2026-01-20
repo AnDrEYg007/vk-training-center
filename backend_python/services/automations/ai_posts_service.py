@@ -193,8 +193,9 @@ def generate_and_publish_post(db: Session, post: models.SystemPost) -> str:
                 if val and val.value:
                     company_parts.append(f"{field_name}: {val.value}")
         if company_parts:
-            company_block = "\\n".join(company_parts)
-            context_string += f"\n[КОНТЕКСТ КОМПАНИИ]\n{company_block}\n"
+            # FIX: f-string expression part cannot include a backslash in Python < 3.12
+            joined_company_parts = "\n".join(company_parts)
+            context_string += f"\n[КОНТЕКСТ КОМПАНИИ]\n{joined_company_parts}\n"
 
     # 2. Генерация текста
     final_prompt = f"{context_string}\n{user_prompt}"

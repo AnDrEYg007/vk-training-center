@@ -182,21 +182,6 @@ export const PostTextSection: React.FC<PostTextSectionProps> = ({
                             isMultiGenerationMode={isAiMultiMode}
                             onSelectionChange={onSelectionChange}
                         />
-                         
-                         {/* Toggle for AI Multi Mode */}
-                         {onToggleAiMultiMode && (
-                            <div className="mt-2 flex items-center justify-end gap-2 p-2 bg-indigo-50/50 rounded-md border border-indigo-100">
-                                <label className="flex items-center gap-2 cursor-pointer">
-                                    <input 
-                                        type="checkbox" 
-                                        checked={isAiMultiMode}
-                                        onChange={(e) => onToggleAiMultiMode(e.target.checked)}
-                                        className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                                    />
-                                    <span className="text-sm text-indigo-900 font-medium">Генерировать уникальный текст для каждого поста</span>
-                                </label>
-                            </div>
-                         )}
                     </div>
                 </div>
 

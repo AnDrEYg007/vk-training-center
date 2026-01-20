@@ -1,6 +1,6 @@
 
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { Project, AllPosts, ScheduledPost, SuggestedPost, Note, SystemPost, GlobalVariableDefinition, ProjectGlobalVariableValue, ContestStatus } from '../shared/types';
+import { Project, AllPosts, ScheduledPost, SuggestedPost, Note, SystemPost, GlobalVariableDefinition, ProjectGlobalVariableValue, ContestStatus, UnifiedStory } from '../shared/types';
 import { AppView } from '../App';
 import { useDataInitialization } from './hooks/useDataInitialization';
 import { useUpdatePolling } from './hooks/useUpdatePolling';
@@ -13,7 +13,8 @@ interface IProjectsContext {
     allSuggestedPosts: Record<string, SuggestedPost[]>;
     // FIX: Add `setAllSuggestedPosts` to the context interface to make it available to consumers.
     setAllSuggestedPosts: React.Dispatch<React.SetStateAction<Record<string, SuggestedPost[]>>>;
-    allSystemPosts: Record<string, SystemPost[]>; // Новое состояние
+    allSystemPosts: Record<string, SystemPost[]>;
+    allStories: Record<string, UnifiedStory[]>; // Новое состояние для историй
     allNotes: Record<string, Note[]>;
     allGlobalVarDefs: GlobalVariableDefinition[];
     allGlobalVarValues: Record<string, ProjectGlobalVariableValue[]>;
@@ -43,6 +44,7 @@ interface IProjectsContext {
     handleRefreshPublished: (projectId: string) => Promise<void>;
     handleRefreshScheduled: (projectId: string) => Promise<ScheduledPost[]>;
     handleRefreshSuggested: (projectId: string) => Promise<SuggestedPost[]>;
+    handleRefreshStories: (projectId: string) => Promise<void>; // Новая функция
     handleRefreshAllSchedule: (projectId: string) => Promise<void>;
 }
 
@@ -66,6 +68,7 @@ export const ProjectsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const [allScheduledPosts, setAllScheduledPosts] = useState<Record<string, ScheduledPost[]>>(initialData.allScheduledPosts);
     const [allSuggestedPosts, setAllSuggestedPosts] = useState<Record<string, SuggestedPost[]>>(initialData.allSuggestedPosts);
     const [allSystemPosts, setAllSystemPosts] = useState<Record<string, SystemPost[]>>(initialData.allSystemPosts);
+    const [allStories, setAllStories] = useState<Record<string, UnifiedStory[]>>(initialData.allStories || {});
     const [allNotes, setAllNotes] = useState<Record<string, Note[]>>(initialData.allNotes);
     const [allGlobalVarDefs, setAllGlobalVarDefs] = useState<GlobalVariableDefinition[]>(initialData.allGlobalVarDefs);
     const [allGlobalVarValues, setAllGlobalVarValues] = useState<Record<string, ProjectGlobalVariableValue[]>>(initialData.allGlobalVarValues);
@@ -79,6 +82,7 @@ export const ProjectsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         setAllScheduledPosts(initialData.allScheduledPosts);
         setAllSuggestedPosts(initialData.allSuggestedPosts);
         setAllSystemPosts(initialData.allSystemPosts);
+        setAllStories(initialData.allStories || {});
         setAllNotes(initialData.allNotes);
         setAllGlobalVarDefs(initialData.allGlobalVarDefs);
         setAllGlobalVarValues(initialData.allGlobalVarValues);
@@ -88,7 +92,7 @@ export const ProjectsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }, [initialData]);
 
     // 3. Хук для фонового опроса
-    const { updatedProjectIds, setUpdatedProjectIds } = useUpdatePolling();
+    const { updatedProjectIds, setUpdatedProjectIds, addRecentRefresh } = useUpdatePolling();
     
     // 4. Хук для всех функций обновления (передаем ему состояния и сеттеры)
     const {
@@ -102,12 +106,14 @@ export const ProjectsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         allScheduledPosts, setAllScheduledPosts,
         allSuggestedPosts, setAllSuggestedPosts,
         allSystemPosts, setAllSystemPosts,
+        allStories, setAllStories,
         allNotes, setAllNotes,
         allGlobalVarDefs, setAllGlobalVarDefs,
         allGlobalVarValues, setAllGlobalVarValues,
         scheduledPostCounts, setScheduledPostCounts,
         suggestedPostCounts, setSuggestedPostCounts,
         updatedProjectIds, setUpdatedProjectIds,
+        addRecentRefresh,
     });
     
     const value = {
@@ -116,6 +122,7 @@ export const ProjectsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         ...refreshers,
         reviewsContestStatuses,
         setReviewsContestStatuses,
+        allStories,
         isInitialLoading,
         // FIX: Provide `setAllSuggestedPosts` in the context value.
         setAllSuggestedPosts,

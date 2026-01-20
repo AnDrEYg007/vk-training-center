@@ -1,14 +1,16 @@
 
 import React, { useMemo } from 'react';
-import { Note, GlobalVariableDefinition, ProjectGlobalVariableValue, SystemPost } from '../../../shared/types';
+import { Note, GlobalVariableDefinition, ProjectGlobalVariableValue, SystemPost, UnifiedStory } from '../../../shared/types';
 import { UnifiedPost } from '../hooks/useScheduleData'; // Импортируем новый объединенный тип
 import { PostCard } from '../../posts/components/PostCard';
 import { NoteCard } from '../../notes/components/NoteCard';
 import { DayColumn } from './DayColumn';
+import { DayStories } from './DayStories';
 
 interface ScheduleGridProps {
     weekDates: Date[];
     posts: UnifiedPost[];
+    stories?: UnifiedStory[];
     notes: Note[];
     noteVisibility: 'expanded' | 'collapsed' | 'hidden';
     tagVisibility: 'visible' | 'hidden';
@@ -71,6 +73,7 @@ const addInterval = (date: Date, post: SystemPost): Date => {
 const ScheduleGrid: React.FC<ScheduleGridProps> = React.memo(({
     weekDates,
     posts,
+    stories = [],
     notes,
     noteVisibility,
     tagVisibility,
@@ -142,8 +145,8 @@ const ScheduleGrid: React.FC<ScheduleGridProps> = React.memo(({
                     if (nextDate > endDate) break;
                 }
 
-                // Добавляем призрака только если он попадает в видимую область (>= начала недели)
-                if (nextDate >= viewStart) {
+                // Добавляем призрака только если он попадает в видимую область (>= начала недели) И ЕСЛИ ОН В БУДУЩЕМ
+                if (nextDate >= viewStart && nextDate > now) {
                     ghosts.push({
                         ...sourcePost,
                         id: `ghost-${sourcePost.id}-${nextDate.getTime()}`,
@@ -169,14 +172,36 @@ const ScheduleGrid: React.FC<ScheduleGridProps> = React.memo(({
             }
         });
 
+        // 3. Для финального отображения фильтруем системные посты в прошлом.
+        // Мы скрываем системные посты, которые остались в прошлом (т.е. время их публикации прошло), 
+        // но они все еще висят как системные (скорее всего ожидающие или исходники циклических).
+        // Реальные опубликованные посты должны приходить как обычные посты, а не system.
+        const visibleBasePosts = activeBasePosts.filter(p => {
+             if (p.postType === 'system') {
+                  const pDate = new Date(p.date);
+                  // Оставляем только те, что в будущем (или сейчас)
+                  if (pDate < now) return false;
+             }
+             return true;
+        });
+
         // Возвращаем отфильтрованные реальные посты + призраки
-        return [...activeBasePosts, ...ghosts];
+        return [...visibleBasePosts, ...ghosts];
     }, [posts, weekDates]);
 
 
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 flex-grow overflow-y-auto custom-scrollbar px-4 pb-4">
             {weekDates.map((date, i) => {
+                const dayStart = new Date(date); dayStart.setHours(0,0,0,0);
+                const dayEnd = new Date(date); dayEnd.setHours(23,59,59,999);
+                const startTs = dayStart.getTime() / 1000;
+                const endTs = dayEnd.getTime() / 1000;
+                
+                const dayStories = stories
+                    .filter(s => s.date >= startTs && s.date <= endTs)
+                    .sort((a, b) => a.date - b.date);
+
                 const dayPosts = postsWithGhosts.filter(p => new Date(p.date).toDateString() === date.toDateString());
                 const dayNotes = notes.filter(n => new Date(n.date).toDateString() === date.toDateString());
                 
@@ -195,6 +220,8 @@ const ScheduleGrid: React.FC<ScheduleGridProps> = React.memo(({
                         })}
                         onDoubleClick={() => modalActions.handleOpenCreateNoteModal(date)}
                     >
+                        <DayStories stories={dayStories} />
+
                         {dayItems.map((item, index) => {
                             if (item.type === 'note') {
                                 if (noteVisibility === 'hidden') return null;
@@ -225,6 +252,7 @@ const ScheduleGrid: React.FC<ScheduleGridProps> = React.memo(({
                                 // Проверка типов системных постов
                                 const isContestWinner = isSystem && ('post_type' in post && post.post_type === 'contest_winner');
                                 const isAiFeed = isSystem && ('post_type' in post && post.post_type === 'ai_feed');
+                                const isGeneralContest = isSystem && ('post_type' in post && (post.post_type === 'GENERAL_CONTEST_START' || post.post_type === 'GENERAL_CONTEST_END' || post.post_type === 'general_contest_start' || post.post_type === 'general_contest_result'));
 
                                 // Обработчики кликов
                                 const handleClick = () => {
@@ -237,6 +265,8 @@ const ScheduleGrid: React.FC<ScheduleGridProps> = React.memo(({
                                                 modalActions.setViewingContestPost(originalPost);
                                             } else if (originalPost.postType === 'system' && originalPost.post_type === 'ai_feed') {
                                                 modalActions.setViewingAiFeedPost(originalPost);
+                                            } else if (originalPost.postType === 'system' && (originalPost.post_type === 'GENERAL_CONTEST_START' || originalPost.post_type === 'GENERAL_CONTEST_END' || originalPost.post_type === 'general_contest_start' || originalPost.post_type === 'general_contest_result')) {
+                                                modalActions.setViewingGeneralContestPost(originalPost);
                                             } else {
                                                 modalActions.setEditingPost(originalPost);
                                             }
@@ -244,6 +274,7 @@ const ScheduleGrid: React.FC<ScheduleGridProps> = React.memo(({
                                     } else {
                                         if (isContestWinner) modalActions.setViewingContestPost(post);
                                         else if (isAiFeed) modalActions.setViewingAiFeedPost(post);
+                                        else if (isGeneralContest) modalActions.setViewingGeneralContestPost(post);
                                         else modalActions.setViewingPost(post); // Просмотр (а не редактирование) по умолчанию для обычного клика
                                     }
                                 };
@@ -252,6 +283,7 @@ const ScheduleGrid: React.FC<ScheduleGridProps> = React.memo(({
                                 const handleEdit = () => {
                                      if (isContestWinner) modalActions.setViewingContestPost(post);
                                      else if (isAiFeed) modalActions.setViewingAiFeedPost(post); // AI посты тоже открываем в превью
+                                     else if (isGeneralContest) modalActions.setViewingGeneralContestPost(post);
                                      else modalActions.setEditingPost(post);
                                 };
                                 

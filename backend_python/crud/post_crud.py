@@ -63,6 +63,76 @@ def replace_published_posts(db: Session, project_id: str, posts: list[dict], tim
         db.add_all(new_db_posts)
     db.commit()
 
+def upsert_published_posts(db: Session, project_id: str, posts: list[dict], timestamp: str) -> bool:
+    """
+    Updates existing published posts or inserts new ones based on ID.
+    Does NOT delete other posts.
+    Returns True if any post was inserted or updated (content changed).
+    """
+    if not posts:
+        return False
+
+    has_changes = False
+
+    # Extract IDs to check existence
+    post_ids = [str(p['id']) for p in posts]
+    
+    # Find existing posts
+    existing_posts = db.query(models.Post).filter(
+        models.Post.projectId == project_id,
+        models.Post.id.in_(post_ids)
+    ).all()
+    
+    existing_map = {p.id: p for p in existing_posts}
+    
+    new_objects = []
+    
+    for p_data in posts:
+        pid = str(p_data['id'])
+        if pid in existing_map:
+            # Update
+            db_obj = existing_map[pid]
+            
+            new_images_json = json.dumps(p_data['images'])
+            new_attachments_json = json.dumps(p_data.get('attachments', []))
+            
+            changes_detected = False
+            if db_obj.date != p_data['date']: changes_detected = True
+            if db_obj.text != p_data['text']: changes_detected = True
+            if db_obj.images != new_images_json: changes_detected = True
+            if db_obj.attachments != new_attachments_json: changes_detected = True
+            if db_obj.vkPostUrl != p_data.get('vkPostUrl'): changes_detected = True
+            
+            if changes_detected:
+                db_obj.date = p_data['date']
+                db_obj.text = p_data['text']
+                db_obj.images = new_images_json
+                db_obj.attachments = new_attachments_json
+                db_obj.vkPostUrl = p_data.get('vkPostUrl')
+                db_obj._lastUpdated = timestamp
+                has_changes = True
+        else:
+            # Insert
+            new_obj = models.Post(
+                id=pid,
+                projectId=project_id,
+                date=p_data['date'],
+                text=p_data['text'],
+                images=json.dumps(p_data['images']),
+                attachments=json.dumps(p_data.get('attachments', [])),
+                vkPostUrl=p_data.get('vkPostUrl'),
+                tags=p_data.get('tags', []), 
+                _lastUpdated=timestamp
+            )
+            new_objects.append(new_obj)
+            has_changes = True
+            
+    if new_objects:
+        db.add_all(new_objects)
+        
+    db.commit()
+    return has_changes
+
 def replace_scheduled_posts(db: Session, project_id: str, posts: list[dict], timestamp: str):
     # 1. Очищаем связи тегов
     posts_subquery = db.query(models.ScheduledPost.id).filter(models.ScheduledPost.projectId == project_id).subquery()
@@ -186,6 +256,20 @@ def get_all_data_for_project_ids(db: Session, project_ids: list[str]) -> dict:
     all_suggested = {pid: [] for pid in project_ids}
     all_system = {pid: [] for pid in project_ids}
     all_notes = {pid: [] for pid in project_ids}
+    all_stories = {pid: [] for pid in project_ids}
+
+    # Fetch stories using service (Lazy import to avoid circular deps)
+    from services.automations.stories_service import get_unified_stories
+
+    for pid in project_ids:
+        try:
+           result = get_unified_stories(db, pid)
+           if isinstance(result, dict) and 'items' in result:
+               all_stories[pid] = result['items']
+           else:
+               all_stories[pid] = [] # Fallback
+        except Exception:
+           pass # Fail silently for stories to not break main flow
 
     for p in db.query(models.Post).options(subqueryload(models.Post.tags)).filter(models.Post.projectId.in_(project_ids)).all():
         all_posts[p.projectId].append(ScheduledPost.model_validate(p, from_attributes=True))
@@ -207,7 +291,8 @@ def get_all_data_for_project_ids(db: Session, project_ids: list[str]) -> dict:
         "allScheduledPosts": all_scheduled,
         "allSuggestedPosts": all_suggested,
         "allSystemPosts": all_system,
-        "allNotes": all_notes
+        "allNotes": all_notes,
+        "allStories": all_stories
     }
 
 

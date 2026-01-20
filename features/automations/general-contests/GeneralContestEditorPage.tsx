@@ -27,7 +27,7 @@ const DEFAULT_CONTEST: GeneralContest = {
     title: 'Новый конкурс',
     description: '',
     is_active: true,
-    start_post_text: '',
+    post_text: '',
     start_post_images: [],
     start_date: new Date().toISOString().split('T')[0],
     start_time: '12:00',

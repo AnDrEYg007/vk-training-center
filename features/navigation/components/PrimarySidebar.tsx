@@ -96,6 +96,12 @@ export const PrimarySidebar: React.FC<PrimarySidebarProps> = ({
 
                 {/* Нижняя группа: Глобальные действия */}
                 <div className="space-y-4">
+                     <IconButton label="VK Auth Integration Test" isActive={activeView === 'vk-auth-test'} onClick={() => onSelectGlobalView('vk-auth-test')}>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                        </svg>
+                     </IconButton>
+
                      {userRole === 'admin' && (
                         <IconButton label="Управление пользователями" isActive={activeView === 'user-management'} onClick={() => onSelectGlobalView('user-management')}>
                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" /></svg>

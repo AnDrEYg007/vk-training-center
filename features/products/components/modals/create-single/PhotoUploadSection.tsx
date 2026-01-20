@@ -10,6 +10,8 @@ interface PhotoUploadSectionProps {
     onClearPhoto: () => void;
     fileInputRef: RefObject<HTMLInputElement>;
     hasError?: boolean;
+    useDefaultImage: boolean;
+    setUseDefaultImage: (val: boolean) => void;
 }
 
 export const PhotoUploadSection: React.FC<PhotoUploadSectionProps> = ({
@@ -20,7 +22,9 @@ export const PhotoUploadSection: React.FC<PhotoUploadSectionProps> = ({
     onUrlBlur,
     onClearPhoto,
     fileInputRef,
-    hasError
+    hasError,
+    useDefaultImage,
+    setUseDefaultImage
 }) => {
     const borderClass = hasError ? 'border-red-500 bg-red-50' : 'border-gray-300 bg-gray-50';
 
@@ -63,6 +67,19 @@ export const PhotoUploadSection: React.FC<PhotoUploadSectionProps> = ({
                         onKeyDown={(e) => e.key === 'Enter' && onUrlBlur()}
                         className={`w-full h-10 text-sm border p-2 rounded-md focus:outline-none focus:ring-2 ${hasError ? 'border-red-500 focus:ring-red-500' : 'focus:ring-indigo-500'}`}
                     />
+                </div>
+                
+                <div className="flex items-center gap-2 mt-2">
+                    <input 
+                        type="checkbox" 
+                        id="useDefaultImage" 
+                        checked={useDefaultImage}
+                        onChange={(e) => setUseDefaultImage(e.target.checked)}
+                        className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded cursor-pointer"
+                    />
+                    <label htmlFor="useDefaultImage" className="text-xs text-gray-700 cursor-pointer select-none">
+                        Заглушка (дефолтное фото)
+                    </label>
                 </div>
             </div>
         </div>

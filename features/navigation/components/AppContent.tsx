@@ -19,6 +19,8 @@ import { WelcomeScreen } from '../../../shared/components/WelcomeScreen';
 import { AiPostsPage } from '../../automations/ai-posts/AiPostsPage';
 // NEW IMPORTS
 import { GeneralContestsPage } from '../../automations/general-contests/GeneralContestsPage';
+import { StoriesAutomationPage } from '../../automations/stories-automation/StoriesAutomationPage';
+import { VkTestPage } from '../../test-auth/VkTestPage';
 
 interface AppContentProps {
     activeModule: AppModule | null;
@@ -32,6 +34,7 @@ interface AppContentProps {
     onActiveListGroupChange: (group: ListGroup) => void;
     onForceRefreshProjects: () => Promise<void>;
     onNavigateToContest?: () => void;
+    onNavigateToGeneralContest?: (contestId?: string) => void;
     onNavigateToAiPosts?: (postId?: string) => void;
     setNavigationBlocker?: React.Dispatch<React.SetStateAction<(() => boolean) | null>>;
 }
@@ -48,6 +51,7 @@ export const AppContent: React.FC<AppContentProps> = ({
     onActiveListGroupChange,
     onForceRefreshProjects,
     onNavigateToContest,
+    onNavigateToGeneralContest,
     onNavigateToAiPosts,
     setNavigationBlocker
 }) => {
@@ -91,11 +95,18 @@ export const AppContent: React.FC<AppContentProps> = ({
     if (activeView === 'training') {
         return <TrainingPage />;
     }
+    if (activeView === 'vk-auth-test') {
+        return <VkTestPage />;
+    }
     
     if (activeView === 'automations') {
         return <PlaceholderPage title="Автоматизации" message="Выберите подраздел для настройки автоматизаций." />;
     }
     
+    if (activeView === 'automations-stories') {
+        return <StoriesAutomationPage projectId={activeProject?.id} />;
+    }
+
     if (activeView === 'automations-reviews-contest') {
         if (!activeProject) return <WelcomeScreen />;
         return <ReviewsContestPage project={activeProject} />;
@@ -109,6 +120,8 @@ export const AppContent: React.FC<AppContentProps> = ({
             <GeneralContestsPage 
                 projectId={activeProject.id} 
                 setNavigationBlocker={setNavigationBlocker}
+                initialContestId={activeViewParams?.contestId}
+                onClearParams={onClearParams}
             />
         );
     }
@@ -145,6 +158,7 @@ export const AppContent: React.FC<AppContentProps> = ({
                     permissionErrorMessage={projectPermissionErrors[activeProject.id]}
                     emptyScheduleMessage={projectEmptyScheduleNotices[activeProject.id]}
                     onNavigateToContest={onNavigateToContest}
+                    onNavigateToGeneralContest={onNavigateToGeneralContest}
                     onNavigateToAiPosts={onNavigateToAiPosts}
                 />
             );

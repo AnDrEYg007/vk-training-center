@@ -22,6 +22,7 @@ export const useCreateSingleProduct = ({ onClose, onSave, projectId, initialData
     const [photoFile, setPhotoFile] = useState<File | null>(null);
     const [photoUrl, setPhotoUrl] = useState('');
     const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+    const [useDefaultImage, setUseDefaultImage] = useState(true);
     
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -48,6 +49,9 @@ export const useCreateSingleProduct = ({ onClose, onSave, projectId, initialData
             setOldPrice(initialData.price.old_amount ? String(Number(initialData.price.old_amount) / 100) : '');
             setSku(initialData.sku || '');
             setPhotoPreview(initialData.thumb_photo);
+            if (initialData.thumb_photo) {
+                setUseDefaultImage(false);
+            }
             
             // Категория и альбом требуют дополнительной логики поиска, которая должна быть в компоненте
             // Мы передадим их ID, а компонент найдет объекты
@@ -66,9 +70,10 @@ export const useCreateSingleProduct = ({ onClose, onSave, projectId, initialData
             selectedCategory || 
             photoFile || 
             photoUrl.trim() ||
-            photoPreview
+            photoPreview ||
+            useDefaultImage
         );
-    }, [name, description, price, oldPrice, sku, selectedAlbum, selectedCategory, photoFile, photoUrl, photoPreview, initialData]);
+    }, [name, description, price, oldPrice, sku, selectedAlbum, selectedCategory, photoFile, photoUrl, photoPreview, initialData, useDefaultImage]);
 
     const handleCloseRequest = useCallback(() => {
         if (isDirty) {
@@ -88,6 +93,7 @@ export const useCreateSingleProduct = ({ onClose, onSave, projectId, initialData
         if (file) {
             setPhotoFile(file);
             setPhotoUrl('');
+            setUseDefaultImage(false);
             const reader = new FileReader();
             reader.onloadend = () => {
                 setPhotoPreview(reader.result as string);
@@ -98,7 +104,7 @@ export const useCreateSingleProduct = ({ onClose, onSave, projectId, initialData
     }, []);
 
     const handleUrlBlur = useCallback(() => {
-        if (!photoUrl.trim()) return;
+        setUseDefaultImage(false);if (!photoUrl.trim()) return;
         
         const img = new Image();
         img.onload = () => {
@@ -140,7 +146,7 @@ export const useCreateSingleProduct = ({ onClose, onSave, projectId, initialData
         if (!description.trim() || description.trim().length < 10) newErrors.push("description");
         if (!price.trim()) newErrors.push("price");
         if (!selectedCategory) newErrors.push("category");
-        if (!photoFile && !photoPreview) newErrors.push("photo"); // Изменено на photoPreview
+        if (!photoFile && !photoPreview && !useDefaultImage) newErrors.push("photo"); // Изменено на photoPreview
 
         setErrors(newErrors);
 
@@ -160,6 +166,7 @@ export const useCreateSingleProduct = ({ onClose, onSave, projectId, initialData
             categoryId: selectedCategory?.id,
             photoFile,
             photoUrl: photoUrl.trim() || (photoPreview && !photoFile ? photoPreview : undefined), // Используем превью как URL, если нет файла
+            useDefaultImage
         };
 
         try {
@@ -201,6 +208,7 @@ export const useCreateSingleProduct = ({ onClose, onSave, projectId, initialData
             sku, setSku,
             selectedAlbum, setSelectedAlbum,
             selectedCategory, setSelectedCategory: updateCategory,
+            useDefaultImage, setUseDefaultImage,
             photoFile, photoUrl, setPhotoUrl, photoPreview,
         },
         uiState: {

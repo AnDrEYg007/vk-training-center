@@ -18,6 +18,7 @@ export type NewProductRow = Partial<Omit<MarketItem, 'id' | 'owner_id' | 'price'
     photoFile?: File;
     photoUrl?: string;
     photoPreview?: string;
+    useDefaultImage?: boolean; // Флаг для использования заглушки
     vk_id?: string;
     vk_link?: string;
 };

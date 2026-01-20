@@ -10,6 +10,7 @@ from services.vk_service import VkApiError
 from services.post_helpers import get_rounded_timestamp
 import models
 from .helpers import _fetch_vk_posts, _apply_tags_to_db_posts
+import services.automations.stories_service as stories_service
 
 def get_published_posts(db: Session, project_id: str) -> list[ScheduledPost]:
     posts = crud.get_posts_by_project_id(db, project_id)
@@ -26,10 +27,43 @@ def refresh_published_posts(db: Session, project_id: str, user_token: str) -> li
         posts_from_vk = [vk_service.format_vk_post(item, is_published=int(item.get('date', 0)) <= now_ts) for item in deduplicated_items]
         print(f"SERVICE: Fetched {len(posts_from_vk)} published posts.")
         
+        # --- STORIES AUTOMATION ---
+        try:
+             stories_service.process_stories_automation(db, project_id, deduplicated_items, user_token)
+        except Exception as auto_e:
+             print(f"WARNING: Stories automation failed: {auto_e}")
+        # --------------------------
+
         # 1. Сохраняем посты в базу (без тегов или со старыми тегами, если они пришли, но мы их пересчитаем)
         print(f"SERVICE: Saving published posts to DB...")
         crud.replace_published_posts(db, project_id, posts_from_vk, timestamp)
         
+        # LINKING GENERAL CONTESTS POSTS
+        # New logic: Check if any of these published posts correspond to an active General Contest Cycle
+        # that is missing its VK ID or needs visual tagging.
+        try:
+             # Lazy import to avoid circular dependency
+             from models_library.general_contests import GeneralContestCycle
+             # Find cycles for this project that are ACTIVE but maybe missing clear linkage or just to tag the post?
+             # Actually, we need to inject 'post_type' = 'general_contest_start' into the Published Post model if it matches?
+             # No, 'ScheduledPost' schema has no 'post_type' field usually designated for system types.
+             # But 'PostCard' checks 'post_type' in 'SystemPost'. For published posts it renders them as 'ScheduledPost' (Post model).
+             
+             # The user wants the PUBLISHED post to look like the contest post.
+             # PostCard.tsx: const isGeneralContestStart = isSystemPost && ...
+             # It explicitly checks `isSystemPost`. If it's a published post, `isSystemPost` is false.
+             # We need to adapt the frontend to recognize Linked Published Posts OR
+             # make the backend return them with a special flag.
+             
+             # Current approach: The frontend likely doesn't support "Published Post acting as System Post" visual yet.
+             # But let's at least clear the System Post from the schedule (done in post_tracker_service)
+             # and ensure the Cycle is updated (done in general_contest_service.on_start_post_published).
+             
+             # If the user wants the published post to clearly SAY "Contest", we might need to update the text or tags?
+             pass
+        except Exception as e:
+            print(f"WARNING: General Contest linking failed: {e}")
+
         # 2. Применяем теги к постам уже в базе данных
         print(f"SERVICE: Applying tags to published posts...")
         _apply_tags_to_db_posts(db, project_id, models.Post)

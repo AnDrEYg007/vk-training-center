@@ -62,6 +62,8 @@ def update_project_settings(db: Session, project_data: Project) -> models.Projec
     db.refresh(db_project)
     return db_project
 
+import services.update_tracker as update_tracker
+
 def update_project_last_update_time(db: Session, project_id: str, update_type: str, timestamp: str):
     """Обновляет время последнего обновления для проекта."""
     project = get_project_by_id(db, project_id)
@@ -72,8 +74,13 @@ def update_project_last_update_time(db: Session, project_id: str, update_type: s
             project.last_scheduled_update = timestamp
         elif update_type == 'market':
             project.last_market_update = timestamp
-        # Для suggested постов пока не отслеживаем отдельно, можно добавить при необходимости
+        
         db.commit()
+        # NOTIFY FRONTEND via Update Tracker
+        try:
+             update_tracker.add_updated_project(project_id)
+        except Exception as e:
+             print(f"Warning: Failed to update tracker: {e}")
 
 
 def get_project_variables(db: Session, project_id: str) -> list[dict]:

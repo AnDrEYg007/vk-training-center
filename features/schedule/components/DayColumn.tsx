@@ -1,4 +1,6 @@
 import React, { DragEvent } from 'react';
+import { UnifiedStory } from '../../../shared/types';
+import { DayStories } from './DayStories';
 
 // --- DayColumn Header ---
 interface DayColumnHeaderProps {
@@ -23,6 +25,7 @@ const Header: React.FC<DayColumnHeaderProps> = ({ date, isSelectionMode, onOpenC
                     {date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' })}
                 </p>
             </div>
+
             <button
                 onClick={() => onOpenCreateModal(date)}
                 disabled={isPast || isSelectionMode}

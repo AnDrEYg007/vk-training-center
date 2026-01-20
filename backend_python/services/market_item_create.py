@@ -5,6 +5,7 @@ from typing import List, Optional
 import requests
 import time
 import json
+import os
 
 import crud
 import schemas
@@ -18,7 +19,8 @@ def create_market_item(
     item_data: schemas.NewMarketItemPayload, 
     user_token: str, 
     file: Optional[UploadFile] = None,
-    photo_url: Optional[str] = None
+    photo_url: Optional[str] = None,
+    use_default_image: bool = False
 ) -> schemas.MarketItem:
     project = crud.get_project_by_id(db, project_id)
     if not project:
@@ -49,8 +51,26 @@ def create_market_item(
                 file_bytes = response.content
                 filename = photo_url.split('/')[-1].split('?')[0] or "image_from_url.jpg"
             except Exception as e:
-                 print(f"  > ERROR downloading image: {e}")
-                 raise HTTPException(400, f"Failed to download image from URL: {e}")
+                print(f"  > ERROR downloading image: {e}")
+                raise HTTPException(400, f"Failed to download image from URL: {e}")
+        elif use_default_image:
+            print(f"  > Source: DEFAULT IMAGE")
+            default_path = os.path.join(os.path.dirname(__file__), "..", "assets", "default_product.jpg")
+            if not os.path.exists(default_path):
+                # Fallback check relative to CWD if running from root
+                default_path = os.path.join("assets", "default_product.jpg")
+                
+            if os.path.exists(default_path):
+                try:
+                    with open(default_path, "rb") as f:
+                        file_bytes = f.read()
+                    filename = "default_product.jpg"
+                except Exception as e:
+                    print(f"  > ERROR reading default image: {e}")
+                    raise HTTPException(500, f"Failed to read default image: {e}")
+            else:
+                print(f"  > ERROR: Default image not found at {default_path}")
+                raise HTTPException(404, "Default image asset missing on server.")
         else:
             print("  > ERROR: No photo source provided")
             raise HTTPException(400, "Main photo (file or url) is required for creating a market item.")
@@ -198,7 +218,8 @@ def create_market_items(db: Session, project_id: str, items: List[schemas.NewMar
                 item_data=item_data,
                 user_token=user_token,
                 file=None,
-                photo_url=item_data.photoUrl
+                photo_url=item_data.photoUrl,
+                use_default_image=item_data.useDefaultImage or False
             )
             success_count += 1
             

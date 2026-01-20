@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Project, AllPosts, ScheduledPost, SuggestedPost, Note, SystemPost, GlobalVariableDefinition, ProjectGlobalVariableValue } from '../../shared/types';
+import { Project, AllPosts, ScheduledPost, SuggestedPost, Note, SystemPost, GlobalVariableDefinition, ProjectGlobalVariableValue, UnifiedStory } from '../../shared/types';
 import * as api from '../../services/api';
 import { interpretApiError } from '../../services/errorService';
 import { AppView } from '../../App';
@@ -13,12 +13,14 @@ interface UseDataRefreshersProps {
     allScheduledPosts: Record<string, ScheduledPost[]>; setAllScheduledPosts: React.Dispatch<React.SetStateAction<Record<string, ScheduledPost[]>>>;
     allSuggestedPosts: Record<string, SuggestedPost[]>; setAllSuggestedPosts: React.Dispatch<React.SetStateAction<Record<string, SuggestedPost[]>>>;
     allSystemPosts: Record<string, SystemPost[]>; setAllSystemPosts: React.Dispatch<React.SetStateAction<Record<string, SystemPost[]>>>;
+    allStories: Record<string, UnifiedStory[]>; setAllStories: React.Dispatch<React.SetStateAction<Record<string, UnifiedStory[]>>>;
     allNotes: Record<string, Note[]>; setAllNotes: React.Dispatch<React.SetStateAction<Record<string, Note[]>>>;
     scheduledPostCounts: Record<string, number>; setScheduledPostCounts: React.Dispatch<React.SetStateAction<Record<string, number>>>;
     suggestedPostCounts: Record<string, number>; setSuggestedPostCounts: React.Dispatch<React.SetStateAction<Record<string, number>>>;
     allGlobalVarDefs: GlobalVariableDefinition[]; setAllGlobalVarDefs: React.Dispatch<React.SetStateAction<GlobalVariableDefinition[]>>;
     allGlobalVarValues: Record<string, ProjectGlobalVariableValue[]>; setAllGlobalVarValues: React.Dispatch<React.SetStateAction<Record<string, ProjectGlobalVariableValue[]>>>;
     updatedProjectIds: Set<string>; setUpdatedProjectIds: React.Dispatch<React.SetStateAction<Set<string>>>;
+    addRecentRefresh: (projectId: string) => void;
 }
 
 /**
@@ -31,12 +33,14 @@ export const useDataRefreshers = ({
     allScheduledPosts, setAllScheduledPosts,
     allSuggestedPosts, setAllSuggestedPosts,
     allSystemPosts, setAllSystemPosts,
+    allStories, setAllStories,
     allNotes, setAllNotes,
     scheduledPostCounts, setScheduledPostCounts,
     suggestedPostCounts, setSuggestedPostCounts,
     allGlobalVarDefs, setAllGlobalVarDefs,
     allGlobalVarValues, setAllGlobalVarValues,
     updatedProjectIds, setUpdatedProjectIds,
+    addRecentRefresh,
 }: UseDataRefreshersProps) => {
 
     const [projectPermissionErrors, setProjectPermissionErrors] = useLocalStorage<Record<string, string | null>>('projectPermissionErrors', {});
@@ -51,13 +55,22 @@ export const useDataRefreshers = ({
         console.log(`Обновление опубликованных постов для проекта ${projectId} из VK...`);
         try {
             // 1. Обновляем данные из VK (синхронизация)
-            await api.refreshPublishedPosts(projectId);
+            // Параллельно запрашиваем истории, так как это логически связанный контент
+            const [_, stories] = await Promise.all([
+                api.refreshPublishedPosts(projectId),
+                api.getCommunityStories(projectId).catch(err => {
+                    console.warn(`Не удалось загрузить истории для проекта ${projectId}:`, err);
+                    return [] as UnifiedStory[];
+                })
+            ]);
             
             // 2. Запрашиваем свежие данные из кэша БД (гарантирует наличие тегов и корректность связей)
             // Это решает проблему "гонки", когда теги могли не успеть подгрузиться в ответе refreshPublishedPosts
             const cachedPosts = await api.getCachedPublishedPosts(projectId);
             
             setAllPosts(prev => ({ ...prev, [projectId]: cachedPosts }));
+            setAllStories(prev => ({ ...prev, [projectId]: stories }));
+
         } catch (error) {
             const errorAction = interpretApiError(error, { projectId, projectName: project?.name });
             if (errorAction.type === 'PERMISSION_ERROR' && errorAction.projectId) {
@@ -136,11 +149,32 @@ export const useDataRefreshers = ({
         }
     }, [projects, setProjectPermissionErrors]);
 
+    const handleRefreshStories = useCallback(async (projectId: string): Promise<void> => {
+        console.log(`[CONTEXT] Обновление историй для проекта ${projectId}...`);
+        try {
+            // FORCE REFRESH = TRUE here, because this is an explicit action (e.g. from user or bulk refresh)
+            const stories = await api.getCommunityStories(projectId, true);
+            console.log(`[CONTEXT] Получено историй для проекта ${projectId}: ${stories.length}`);
+            setAllStories(prev => {
+                const updated = { ...prev, [projectId]: stories };
+                return updated;
+            });
+        } catch(error) {
+             console.error(`Ошибка при обновлении историй для ${projectId}:`, error);
+        }
+    }, []);
+
     const handleRefreshAllSchedule = useCallback(async (projectId: string): Promise<void> => {
         const project = projects.find(p => p.id === projectId);
         console.log(`Полное обновление расписания для проекта ${projectId}...`);
         try {
-            const { published, scheduled } = await api.refreshAllScheduleData(projectId);
+            // Параллельно запускаем обновление всех типов контента
+            const [scheduleData, _] = await Promise.all([
+                 api.refreshAllScheduleData(projectId),
+                 handleRefreshStories(projectId) // <-- Added stories fetch
+            ]);
+            
+            const { published, scheduled } = scheduleData;
             
             setAllPosts(prev => ({ ...prev, [projectId]: published }));
             setAllScheduledPosts(prev => ({ ...prev, [projectId]: scheduled }));
@@ -229,6 +263,10 @@ export const useDataRefreshers = ({
             return newSet;
         });
 
+        // Отмечаем, что проект был только что обновлен вручную, чтобы игнорировать
+        // отстающие уведомления из поллинга (которые могли бы снова включить "синюю точку")
+        addRecentRefresh(projectId);
+
         let count = 0;
         const mainResult = results[0];
         if (mainResult.status === 'fulfilled') {
@@ -251,7 +289,8 @@ export const useDataRefreshers = ({
         scheduledPostCounts,
         suggestedPostCounts,
         setUpdatedProjectIds,
-        setAllNotes
+        setAllNotes,
+        addRecentRefresh
     ]);
 
     const syncDataForProject = useCallback(async (projectId: string, activeView: AppView) => {
@@ -295,8 +334,10 @@ export const useDataRefreshers = ({
                 newSet.delete(projectId);
                 return newSet;
             });
+            // Игнорируем последующие уведомления
+            addRecentRefresh(projectId);
         }
-    }, [setAllNotes, setAllPosts, setAllScheduledPosts, setAllSuggestedPosts, setAllSystemPosts, setScheduledPostCounts, setSuggestedPostCounts, setUpdatedProjectIds]);
+    }, [setAllNotes, setAllPosts, setAllScheduledPosts, setAllSuggestedPosts, setAllSystemPosts, setScheduledPostCounts, setSuggestedPostCounts, setUpdatedProjectIds, addRecentRefresh]);
     
     // --- Действия по сохранению/обновлению ---
 
@@ -447,6 +488,7 @@ export const useDataRefreshers = ({
             handleRefreshScheduled,
             handleRefreshSuggested,
             handleRefreshAllSchedule,
+            handleRefreshStories,
         }
     }
 };

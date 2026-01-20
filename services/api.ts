@@ -17,6 +17,7 @@ export * from './api/media.api';
 export * from './api/note.api';
 export * from './api/post.api';
 export * from './api/project.api';
+export * from './api/stories.api'; // Export newly created stories API
 export * from './api/tag.api';
 export * from './api/lists.api';
 export * from './api/system_accounts.api';

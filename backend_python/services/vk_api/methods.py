@@ -68,3 +68,27 @@ def create_comment(owner_id: int, post_id: int, message: str, token: str, from_g
         'from_group': from_group
     }
     return publish_with_fallback(params, method='wall.createComment', preferred_token=token)
+
+def get_active_stories(group_id: int, token: str) -> List[Dict]:
+    """
+    Fetches active stories for a community.
+    """
+    try:
+        response = call_vk_api('stories.get', {
+            'owner_id': -int(group_id),
+            'access_token': token,
+            'extended': 0,
+            'v': '5.199'
+        })
+        
+        all_stories = []
+        items_list = response.get('items', [])
+        for item in items_list:
+            if 'stories' in item:
+                all_stories.extend(item['stories'])
+            # Sometimes single story object might be in list? 
+            # Usually stories.get returns: { count: N, items: [ { type, stories: [...] } ] }
+        return all_stories
+    except Exception as e:
+        print(f"VK_API: Error fetching active stories for group {group_id}: {e}")
+        return []
