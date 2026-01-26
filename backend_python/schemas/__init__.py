@@ -54,6 +54,8 @@ ProjectContextValue = base_models_module.ProjectContextValue
 # Схемы для AI токенов
 AiToken = base_models_module.AiToken
 AiTokenLog = base_models_module.AiTokenLog
+AiTokenVerifyResult = base_models_module.AiTokenVerifyResult
+VerifyAiTokensResponse = base_models_module.VerifyAiTokensResponse
 
 # NEW: Administered Group
 AdministeredGroup = admin_tools_module.AdministeredGroup
@@ -148,6 +150,8 @@ VerifyTokenPayload = api_payloads_module.VerifyTokenPayload
 # Схемы для логов и графиков
 GetLogsPayload = api_payloads_module.GetLogsPayload
 ClearLogsPayload = api_payloads_module.ClearLogsPayload
+DeleteLogPayload = api_payloads_module.DeleteLogPayload
+DeleteLogsBatchPayload = api_payloads_module.DeleteLogsBatchPayload
 AccountChartPayload = api_payloads_module.AccountChartPayload
 
 # Схемы для контекста проектов
@@ -160,6 +164,8 @@ UpdateAiTokensPayload = api_payloads_module.UpdateAiTokensPayload
 DeleteAiTokenPayload = api_payloads_module.DeleteAiTokenPayload
 GetAiLogsPayload = api_payloads_module.GetAiLogsPayload
 ClearAiLogsPayload = api_payloads_module.ClearAiLogsPayload
+DeleteAiLogPayload = api_payloads_module.DeleteAiLogPayload
+DeleteAiLogsBatchPayload = api_payloads_module.DeleteAiLogsBatchPayload
 
 InitialDataResponse = api_responses_module.InitialDataResponse
 AllPostsForProjectsResponse = api_responses_module.AllPostsForProjectsResponse

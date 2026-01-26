@@ -152,10 +152,10 @@ def migrate(engine: Engine):
         check_and_add_column(engine, table, 'platform', 'INTEGER')
 
     # Миграция 43: Добавить поля added_at и source в system_list_mailing
-    check_and_add_column(engine, 'system_list_mailing', 'added_at', 'DATETIME')
+    check_and_add_column(engine, 'system_list_mailing', 'added_at', 'TIMESTAMP')
     check_and_add_column(engine, 'system_list_mailing', 'source', 'VARCHAR DEFAULT \'manual\'')
     
     # Миграция 44: Добавить поля анализа первого сообщения для mailing
-    # DATETIME и BIGINT для SQLite/Postgres
-    check_and_add_column(engine, 'system_list_mailing', 'first_message_date', 'DATETIME')
+    # TIMESTAMP и BIGINT для Postgres
+    check_and_add_column(engine, 'system_list_mailing', 'first_message_date', 'TIMESTAMP')
     check_and_add_column(engine, 'system_list_mailing', 'first_message_from_id', 'BIGINT')

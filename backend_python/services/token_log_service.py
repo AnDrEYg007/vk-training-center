@@ -77,6 +77,14 @@ def get_logs(
 def clear_logs(db: Session, account_id: str = None):
     log_crud.clear_logs(db, account_id)
 
+def delete_log(db: Session, log_id: str):
+    """Удаляет одну запись лога."""
+    log_crud.delete_log(db, log_id)
+
+def delete_logs_batch(db: Session, log_ids: List[str]):
+    """Удаляет несколько записей логов."""
+    log_crud.delete_logs_batch(db, log_ids)
+
 def get_stats(db: Session, account_id: str):
     """Получает агрегированную статистику по аккаунту."""
     results = log_crud.get_aggregated_stats(db, account_id)

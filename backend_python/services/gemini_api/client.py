@@ -177,7 +177,13 @@ def generate_text(user_prompt: str, system_instruction: Optional[str] = None, st
     
     proxies = {}
     if settings.gemini_proxy_url:
-        proxy_url = settings.gemini_proxy_url.replace('http://', 'socks5h://', 1)
+        proxy_url = settings.gemini_proxy_url
+        # Если URL начинается с socks5:// или socks5h:// — используем как есть
+        # Иначе используем как HTTP прокси (не конвертируем)
+        if not proxy_url.startswith('socks'):
+            print(f"   📡 Using HTTP proxy: {proxy_url[:30]}...")
+        else:
+            print(f"   📡 Using SOCKS proxy: {proxy_url[:30]}...")
         proxies = { 'http': proxy_url, 'https': proxy_url }
     
     permanently_invalid_keys: Set[str] = set()

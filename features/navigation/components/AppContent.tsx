@@ -21,6 +21,7 @@ import { AiPostsPage } from '../../automations/ai-posts/AiPostsPage';
 import { GeneralContestsPage } from '../../automations/general-contests/GeneralContestsPage';
 import { StoriesAutomationPage } from '../../automations/stories-automation/StoriesAutomationPage';
 import { VkTestPage } from '../../test-auth/VkTestPage';
+import { SettingsPage } from '../../settings/components/SettingsPage';
 
 interface AppContentProps {
     activeModule: AppModule | null;
@@ -37,6 +38,8 @@ interface AppContentProps {
     onNavigateToGeneralContest?: (contestId?: string) => void;
     onNavigateToAiPosts?: (postId?: string) => void;
     setNavigationBlocker?: React.Dispatch<React.SetStateAction<(() => boolean) | null>>;
+    /** Колбэк для перехода в центр обучения */
+    onGoToTraining?: () => void;
 }
 
 export const AppContent: React.FC<AppContentProps> = ({
@@ -53,7 +56,8 @@ export const AppContent: React.FC<AppContentProps> = ({
     onNavigateToContest,
     onNavigateToGeneralContest,
     onNavigateToAiPosts,
-    setNavigationBlocker
+    setNavigationBlocker,
+    onGoToTraining
 }) => {
     const {
         projects,
@@ -92,6 +96,9 @@ export const AppContent: React.FC<AppContentProps> = ({
     if (activeView === 'user-management' && user?.role === 'admin') {
         return <UserManagementPage />;
     }
+    if (activeView === 'settings') {
+        return <SettingsPage />;
+    }
     if (activeView === 'training') {
         return <TrainingPage />;
     }
@@ -108,13 +115,13 @@ export const AppContent: React.FC<AppContentProps> = ({
     }
 
     if (activeView === 'automations-reviews-contest') {
-        if (!activeProject) return <WelcomeScreen />;
+        if (!activeProject) return <WelcomeScreen onGoToTraining={onGoToTraining} />;
         return <ReviewsContestPage project={activeProject} />;
     }
 
     // --- GENERAL CONTESTS ROUTING ---
     if (activeView === 'automations-contests') {
-        if (!activeProject) return <WelcomeScreen />;
+        if (!activeProject) return <WelcomeScreen onGoToTraining={onGoToTraining} />;
         
         return (
             <GeneralContestsPage 
@@ -127,7 +134,7 @@ export const AppContent: React.FC<AppContentProps> = ({
     }
     
     if (activeView === 'automations-ai-posts') {
-        if (!activeProject) return <WelcomeScreen />;
+        if (!activeProject) return <WelcomeScreen onGoToTraining={onGoToTraining} />;
         return (
             <AiPostsPage 
                 projectId={activeProject.id} 
@@ -140,7 +147,7 @@ export const AppContent: React.FC<AppContentProps> = ({
     
     // ... rest of the component (schedule, products, lists)
     if (activeModule === 'km') {
-        if (!activeProject) return <WelcomeScreen />;
+        if (!activeProject) return <WelcomeScreen onGoToTraining={onGoToTraining} />;
         if (activeView === 'schedule') {
              return (
                 <ScheduleTab
@@ -189,7 +196,7 @@ export const AppContent: React.FC<AppContentProps> = ({
     }
     
     if (activeModule === 'lists') {
-        if (!activeProject) return <WelcomeScreen />;
+        if (!activeProject) return <WelcomeScreen onGoToTraining={onGoToTraining} />;
         if (activeView === 'lists-system' || activeView === 'lists-automations') {
             return <SystemListsTab 
                 project={activeProject} 
@@ -201,5 +208,5 @@ export const AppContent: React.FC<AppContentProps> = ({
          return <PlaceholderPage title="Раздел в разработке" message="Этот раздел скоро появится." />;
     }
 
-    return <WelcomeScreen />;
+    return <WelcomeScreen onGoToTraining={onGoToTraining} />;
 };

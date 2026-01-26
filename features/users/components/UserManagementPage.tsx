@@ -5,10 +5,7 @@ import { User } from '../../../shared/types';
 import * as api from '../../../services/api';
 import { v4 as uuidv4 } from 'uuid';
 import { ConfirmationModal } from '../../../shared/components/modals/ConfirmationModal';
-import { SystemAccountsTab } from './SystemAccountsTab';
-import { TokenLogsDashboard } from './TokenLogsDashboard';
-import { ActiveTasksTab } from './ActiveTasksTab';
-import { AiTokensTab } from './AiTokensTab'; // Новый импорт
+import { VkUsersTab } from './VkUsersTab';
 
 const UserTable: React.FC<{
     users: User[];
@@ -79,7 +76,7 @@ const UserTable: React.FC<{
 };
 
 export const UserManagementPage: React.FC = () => {
-    const [activeTab, setActiveTab] = useState<'users' | 'system' | 'logs' | 'tasks' | 'ai-tokens'>('users');
+    const [activeTab, setActiveTab] = useState<'users' | 'vk_users'>('users');
     
     const [initialUsers, setInitialUsers] = useState<User[]>([]);
     const [users, setUsers] = useState<User[]>([]);
@@ -183,10 +180,7 @@ export const UserManagementPage: React.FC = () => {
                 <div className="px-4 pt-2 border-b border-gray-200 overflow-x-auto">
                     <div className="flex gap-4 min-w-max">
                         <button onClick={() => setActiveTab('users')} className={tabClass('users')}>Пользователи</button>
-                        <button onClick={() => setActiveTab('system')} className={tabClass('system')}>Системные страницы</button>
-                        <button onClick={() => setActiveTab('logs')} className={tabClass('logs')}>Логи токенов</button>
-                        <button onClick={() => setActiveTab('tasks')} className={tabClass('tasks')}>Активные задачи</button>
-                        <button onClick={() => setActiveTab('ai-tokens')} className={tabClass('ai-tokens')}>AI Tokens</button>
+                        <button onClick={() => setActiveTab('vk_users')} className={tabClass('vk_users')}>VK Пользователи</button>
                     </div>
                 </div>
                 {activeTab === 'users' && (
@@ -219,10 +213,11 @@ export const UserManagementPage: React.FC = () => {
                         )}
                     </div>
                 )}
-                {activeTab === 'system' && <SystemAccountsTab />}
-                {activeTab === 'logs' && <TokenLogsDashboard />}
-                {activeTab === 'tasks' && <ActiveTasksTab />}
-                {activeTab === 'ai-tokens' && <AiTokensTab />}
+                {activeTab === 'vk_users' && (
+                    <div className="p-4 overflow-auto custom-scrollbar h-full">
+                        <VkUsersTab />
+                    </div>
+                )}
             </main>
             {deleteConfirmation && (
                 <ConfirmationModal

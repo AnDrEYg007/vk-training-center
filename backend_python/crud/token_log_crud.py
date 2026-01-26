@@ -74,6 +74,16 @@ def clear_logs(db: Session, account_id: str = None):
     query.delete(synchronize_session=False)
     db.commit()
 
+def delete_log(db: Session, log_id: str):
+    """Удаляет одну запись лога по ID."""
+    db.query(models.TokenLog).filter(models.TokenLog.id == log_id).delete(synchronize_session=False)
+    db.commit()
+
+def delete_logs_batch(db: Session, log_ids: List[str]):
+    """Удаляет несколько записей логов по списку ID."""
+    db.query(models.TokenLog).filter(models.TokenLog.id.in_(log_ids)).delete(synchronize_session=False)
+    db.commit()
+
 def get_aggregated_stats(db: Session, account_id: str):
     """
     Агрегирует статистику по токену: общее кол-во, успех/ошибка,

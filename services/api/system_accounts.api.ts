@@ -73,6 +73,20 @@ export const clearLogs = async (accountId: string | null): Promise<{ success: bo
 };
 
 /**
+ * Удаляет одну запись лога VK.
+ */
+export const deleteVkLog = async (logId: string): Promise<{ success: boolean }> => {
+    return callApi('system-accounts/logs/delete', { logId });
+};
+
+/**
+ * Удаляет несколько записей логов VK.
+ */
+export const deleteVkLogsBatch = async (logIds: number[]): Promise<{ success: boolean }> => {
+    return callApi('system-accounts/logs/delete-batch', { logIds });
+};
+
+/**
  * Получает агрегированную статистику по аккаунту.
  */
 export const getAccountStats = async (accountId: string): Promise<AccountStats> => {

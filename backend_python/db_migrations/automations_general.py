@@ -36,8 +36,8 @@ def migrate(engine: Engine):
             ("name", "VARCHAR"),
             ("post_text", "TEXT"),
             ("post_media", "TEXT"),
-            ("start_date", "DATETIME"),
-            ("finish_date", "DATETIME"),
+            ("start_date", "TIMESTAMP"),
+            ("finish_date", "TIMESTAMP"),
             ("winners_count", "INTEGER DEFAULT 1"),
             ("is_active", "BOOLEAN DEFAULT 0")
         ]
@@ -75,7 +75,7 @@ def migrate(engine: Engine):
              ("issued_in_cycle_id", "VARCHAR"),
              ("issued_to_user_id", "BIGINT"),
              ("issued_to_user_name", "VARCHAR"),
-             ("issued_at", "DATETIME")
+             ("issued_at", "TIMESTAMP")
         ]
         with engine.connect() as conn:
             for col_name, col_type in columns_to_check_promo:

@@ -11,7 +11,8 @@ from db_migrations import (
     system,
     ai_tokens,
     automations,
-    automations_general
+    automations_general,
+    vk_users
 )
 
 def run_migrations(engine: Engine):
@@ -32,5 +33,6 @@ def run_migrations(engine: Engine):
     ai_tokens.migrate(engine)
     automations.migrate(engine)
     automations_general.migrate(engine)
+    vk_users.migrate()
 
     print("Migrations complete.")

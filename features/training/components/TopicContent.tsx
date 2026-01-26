@@ -1,8 +1,35 @@
 import React from 'react';
 import { Topic } from './TableOfContents';
 import { PlaceholderPage } from './content/PlaceholderPage';
-import { PostCardDeepDive } from './content/PostCardDeepDive'; // Импортируем новый компонент
+import { PostCardDeepDive } from './content/PostCardDeepDive';
 import { SidebarNavDeepDive } from './content/SidebarNavDeepDive';
+// Раздел 0: О Центре обучения
+import { WhatIsTrainingCenter } from './content/section0/WhatIsTrainingCenter';
+import { HowToUse } from './content/section0/HowToUse';
+import { WhatYouWillLearn } from './content/section0/WhatYouWillLearn';
+import { Purpose } from './content/section0/Purpose';
+import { TargetAudience } from './content/section0/TargetAudience';
+import { DocumentationStructure } from './content/section0/DocumentationStructure';
+import { Navigation } from './content/section0/Navigation';
+import { Sandboxes } from './content/section0/Sandboxes';
+import { RealExamples } from './content/section0/RealExamples';
+import { ContentManagement } from './content/section0/ContentManagement';
+import { Products } from './content/section0/Products';
+import { Automations } from './content/section0/Automations';
+import { Administration } from './content/section0/Administration';
+// Раздел 1: Введение в приложение
+import { Overview } from './content/section1/Overview';
+import { Tasks } from './content/section1/Tasks';
+import { UseCases } from './content/section1/UseCases';
+import { InterfaceOverview } from './content/section1/InterfaceOverview';
+import { PrimarySidebarIntro } from './content/section1/PrimarySidebarIntro';
+import { ProjectsSidebarIntro } from './content/section1/ProjectsSidebarIntro';
+import { WorkspaceIntro } from './content/section1/WorkspaceIntro';
+
+import { WelcomeScreenComponent } from './content/section1/WelcomeScreen';
+import { ProjectsFirstStep } from './content/section1/ProjectsFirstStep';
+// Раздел 2: Контент-менеджмент
+import { SidebarProjectsContent } from './content/section2/SidebarProjectsContent';
 
 interface TopicContentProps {
     selectedTopic: Topic | null;
@@ -10,6 +37,35 @@ interface TopicContentProps {
 
 // Карта, сопоставляющая путь топика с его компонентом
 const componentMap: Record<string, React.FC<{ title: string }>> = {
+    // Раздел 0: О Центре обучения
+    '0-about-training-center': WhatIsTrainingCenter, // Корневой раздел -> первая страница
+    '0-1-what-is-training-center': WhatIsTrainingCenter,
+    '0-1-1-purpose': Purpose,
+    '0-1-2-target-audience': TargetAudience,
+    '0-1-3-documentation-structure': DocumentationStructure,
+    '0-2-how-to-use': HowToUse,
+    '0-2-1-navigation': Navigation,
+    '0-2-2-sandboxes': Sandboxes,
+    '0-2-3-real-examples': RealExamples,
+    '0-3-what-you-will-learn': WhatYouWillLearn,
+    '0-3-1-content-management': ContentManagement,
+    '0-3-2-products': Products,
+    '0-3-3-automations': Automations,
+    '0-3-4-administration': Administration,
+    // Раздел 1: Введение в приложение
+    '1-intro': Overview,
+    '1-1-what-is': Overview,
+    '1-1-1-overview': Overview,
+    '1-1-2-tasks': Tasks,
+    '1-1-3-use-cases': UseCases,
+    '1-2-interface-overview': InterfaceOverview,
+    '1-2-1-primary-sidebar-intro': PrimarySidebarIntro,
+    '1-2-2-projects-sidebar-intro': ProjectsSidebarIntro,
+    '1-2-3-workspace-intro': WorkspaceIntro,
+    '1-4-welcome-screen': WelcomeScreenComponent,
+    '1-5-projects-first-step': ProjectsFirstStep,
+    // Раздел 2: Контент-менеджмент
+    '2-1-1-sidebar-nav': SidebarProjectsContent,
     '2-4-3-postcard-deep-dive': PostCardDeepDive,
     '2-1-sidebar-nav': SidebarNavDeepDive,
 };

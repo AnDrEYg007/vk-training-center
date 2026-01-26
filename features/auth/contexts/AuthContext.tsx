@@ -3,10 +3,20 @@ import * as api from '../../../services/api';
 import { AuthUser } from '../../../shared/types';
 import { LoginPayload } from '../../../services/api';
 
+// Данные VK пользователя после авторизации
+interface VkAuthData {
+    vk_user_id: string;
+    first_name: string;
+    last_name: string;
+    photo_url?: string;
+    access_token: string;
+}
+
 interface IAuthContext {
     user: AuthUser | null;
     isLoading: boolean;
     login: (credentials: LoginPayload) => Promise<void>;
+    loginWithVk: (vkData: VkAuthData) => void;
     logout: () => void;
 }
 
@@ -42,10 +52,30 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const login = useCallback(async (credentials: LoginPayload) => {
         const response = await api.login(credentials);
         if (response.success) {
-            const authUser: AuthUser = { username: response.username, role: response.role as 'admin' | 'user' };
+            // При обычном логине явно НЕ устанавливаем vk_user_id и photo_url
+            const authUser: AuthUser = { 
+                username: response.username, 
+                role: response.role as 'admin' | 'user',
+                vk_user_id: undefined,
+                photo_url: undefined
+            };
             setUser(authUser);
             sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(authUser));
         }
+    }, []);
+
+    // Авторизация через VK
+    const loginWithVk = useCallback((vkData: VkAuthData) => {
+        console.log('🔐 loginWithVk called with:', vkData);
+        const authUser: AuthUser = { 
+            username: `${vkData.first_name} ${vkData.last_name}`.trim(),
+            role: 'user', // VK пользователи получают роль user по умолчанию
+            vk_user_id: vkData.vk_user_id,
+            photo_url: vkData.photo_url
+        };
+        console.log('🔐 Setting authUser:', authUser);
+        setUser(authUser);
+        sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(authUser));
     }, []);
 
     const logout = useCallback(() => {
@@ -53,7 +83,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         sessionStorage.removeItem(SESSION_STORAGE_KEY);
     }, []);
 
-    const value = { user, isLoading, login, logout };
+    const value = { user, isLoading, login, loginWithVk, logout };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

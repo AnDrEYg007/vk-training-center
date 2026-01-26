@@ -258,6 +258,12 @@ class GetLogsPayload(BaseModel):
 class ClearLogsPayload(BaseModel):
     accountId: Optional[str] = None # Опционально: очистить только для одного. Если None -> очистить все (или по фильтру)
 
+class DeleteLogPayload(BaseModel):
+    logId: str
+
+class DeleteLogsBatchPayload(BaseModel):
+    logIds: List[int]  # VK логи используют Integer ID
+
 class AccountChartPayload(BaseModel):
     accountId: str
     granularity: str # 'hour', 'day', 'week', 'month'
@@ -301,3 +307,9 @@ class GetAiLogsPayload(BaseModel):
 
 class ClearAiLogsPayload(BaseModel):
     tokenId: Optional[str] = None
+
+class DeleteAiLogPayload(BaseModel):
+    logId: str
+
+class DeleteAiLogsBatchPayload(BaseModel):
+    logIds: List[int]  # AI логи используют Integer ID

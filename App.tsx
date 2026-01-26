@@ -14,7 +14,7 @@ import { useAppState } from './hooks/useAppState';
 import { useSmartRefresh } from './hooks/useSmartRefresh';
 import { AppContent } from './features/navigation/components/AppContent';
 
-export type AppView = 'schedule' | 'suggested' | 'products' | 'automations' | 'db-management' | 'user-management' | 'training' | 'automations-stories' | 'automations-reviews-contest' | 'automations-promo-drop' | 'automations-contests' | 'automations-ai-posts' | 'automations-birthday' | 'automations-activity-contest' | 'lists-system' | 'lists-user' | 'lists-automations' | 'vk-auth-test';
+export type AppView = 'schedule' | 'suggested' | 'products' | 'automations' | 'db-management' | 'user-management' | 'settings' | 'training' | 'automations-stories' | 'automations-reviews-contest' | 'automations-promo-drop' | 'automations-contests' | 'automations-ai-posts' | 'automations-birthday' | 'automations-activity-contest' | 'lists-system' | 'lists-user' | 'lists-automations' | 'vk-auth-test';
 export type AppModule = 'km' | 'am' | 'stats' | 'lists';
 
 const App: React.FC = () => {
@@ -194,6 +194,7 @@ const App: React.FC = () => {
                     onNavigateToGeneralContest={handleNavigateToGeneralContest}
                     onNavigateToAiPosts={handleNavigateToAiPosts}
                     setNavigationBlocker={setNavigationBlocker} // Передаем сеттер блокировщика
+                    onGoToTraining={() => handleSelectGlobalView('training')} // Переход в центр обучения
                 />
             </main>
             

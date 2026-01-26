@@ -1,6 +1,6 @@
 
 from fastapi import FastAPI, HTTPException, Request, Depends, Response
-from fastapi.responses import JSONResponse, PlainTextResponse
+from fastapi.responses import JSONResponse, PlainTextResponse, HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 import uuid 
@@ -22,18 +22,193 @@ import services.scheduler_service as scheduler_service
 # Старый импорт трекера убираем из использования в startup, но оставляем импорт если он нужен где-то еще
 import services.post_tracker_service as post_tracker_service
 
-from routers import projects, posts, ai, media, notes, management, tags, system_posts, auth, users, ai_presets, global_variables, market, market_ai, lists, system_accounts, project_context, ai_tokens, automations, automations_ai, automations_general, stories_automation, vk_test_auth
+from routers import projects, posts, ai, media, notes, management, tags, system_posts, auth, users, ai_presets, global_variables, market, market_ai, lists, system_accounts, project_context, ai_tokens, automations, automations_ai, automations_general, stories_automation, vk_test_auth, vk_callback
+
+# Версия бэкенда - обновляй при каждом деплое!
+BACKEND_VERSION = "v1.0.46_fix_community_token"
 
 # Создание всех таблиц в базе данных при старте
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+app.include_router(vk_callback.router, prefix="/api/vk", tags=["vk_callback"])
+
+# ===== Эндпоинт версии =====
+@app.get("/api/version")
+def get_version():
+    """Возвращает текущую версию бэкенда."""
+    return {"version": BACKEND_VERSION}
+
+
+# ===== VK OAuth Callback Handler =====
+# Обрабатывает редирект от VK после авторизации
+@app.get("/", response_class=HTMLResponse)
+async def vk_oauth_callback(
+    code: str = None,
+    device_id: str = None,
+    state: str = None,
+    ext_id: str = None,
+    type: str = None,
+    expires_in: int = None
+):
+    """
+    Обработчик callback от VK OAuth.
+    VK перенаправляет сюда после авторизации пользователя.
+    Страница пытается передать код обратно в opener через postMessage.
+    """
+    if code:
+        # Это callback от VK с кодом авторизации
+        html_content = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>VK Авторизация — Планировщик контента</title>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <style>
+                * {{
+                    box-sizing: border-box;
+                    margin: 0;
+                    padding: 0;
+                }}
+                body {{
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    min-height: 100vh;
+                    background-color: #f3f4f6;
+                }}
+                .card {{
+                    background: white;
+                    padding: 32px 40px;
+                    border-radius: 8px;
+                    box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+                    text-align: center;
+                    max-width: 400px;
+                    width: 90%;
+                }}
+                .icon {{
+                    width: 48px;
+                    height: 48px;
+                    margin: 0 auto 16px;
+                    background: #DEF7EC;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }}
+                .icon svg {{
+                    width: 24px;
+                    height: 24px;
+                    color: #059669;
+                }}
+                h1 {{
+                    color: #111827;
+                    font-size: 18px;
+                    font-weight: 600;
+                    margin-bottom: 8px;
+                }}
+                .status {{
+                    color: #6b7280;
+                    font-size: 14px;
+                    margin-bottom: 16px;
+                }}
+                .loader {{
+                    width: 20px;
+                    height: 20px;
+                    border: 2px solid #e5e7eb;
+                    border-top-color: #4f46e5;
+                    border-radius: 50%;
+                    animation: spin 0.8s linear infinite;
+                    margin: 0 auto;
+                }}
+                @keyframes spin {{
+                    to {{ transform: rotate(360deg); }}
+                }}
+                .code-block {{
+                    background: #f9fafb;
+                    border: 1px solid #e5e7eb;
+                    padding: 12px;
+                    border-radius: 6px;
+                    font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+                    font-size: 11px;
+                    color: #374151;
+                    word-break: break-all;
+                    margin-top: 16px;
+                    text-align: left;
+                }}
+                .hint {{
+                    color: #9ca3af;
+                    font-size: 12px;
+                    margin-top: 16px;
+                }}
+            </style>
+        </head>
+        <body>
+            <div class="card">
+                <div class="icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h1>Авторизация успешна</h1>
+                <p class="status" id="status">Передаём данные...</p>
+                <div class="loader" id="loader"></div>
+                <div class="code-block" id="code-block" style="display:none">
+                    <strong>Code:</strong> {code[:40]}...
+                </div>
+                <p class="hint" id="close-hint" style="display:none">
+                    Можете закрыть это окно
+                </p>
+            </div>
+            
+            <script>
+                const authData = {{
+                    code: "{code}",
+                    device_id: "{device_id or ''}",
+                    state: "{state or ''}",
+                    type: "{type or ''}"
+                }};
+                
+                if (window.opener) {{
+                    try {{
+                        window.opener.postMessage({{
+                            type: 'VK_AUTH_CALLBACK',
+                            payload: authData
+                        }}, '*');
+                        
+                        document.getElementById('status').textContent = 'Данные переданы! Закрываем окно...';
+                        document.getElementById('loader').style.display = 'none';
+                        
+                        setTimeout(() => window.close(), 1200);
+                    }} catch (e) {{
+                        document.getElementById('status').textContent = 'Не удалось передать данные автоматически';
+                        document.getElementById('code-block').style.display = 'block';
+                        document.getElementById('close-hint').style.display = 'block';
+                        document.getElementById('loader').style.display = 'none';
+                    }}
+                }} else {{
+                    document.getElementById('status').textContent = 'Код авторизации:';
+                    document.getElementById('code-block').style.display = 'block';
+                    document.getElementById('close-hint').style.display = 'block';
+                    document.getElementById('loader').style.display = 'none';
+                }}
+            </script>
+        </body>
+        </html>
+        """
+        return HTMLResponse(content=html_content)
+    else:
+        # Обычный GET / без параметров
+        return HTMLResponse(content="<h1>VK Planner Backend</h1><p>API is running.</p>")
+
 # Событие при старте для миграций и начального заполнения БД
 @app.on_event("startup")
 def startup_event():
     print("\n" + "="*50)
-    print("!!! ЗАПУЩЕНА ВЕРСИЯ: v31 (APScheduler Post Tracker) !!!")
+    print(f"!!! ЗАПУЩЕНА ВЕРСИЯ: {BACKEND_VERSION} !!!")
     print(f"!!! ALLOWED ORIGINS: {origins} !!!")
     print("="*50 + "\n")
 
@@ -130,6 +305,7 @@ origins = [
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
+    allow_origin_regex=r"https://.*\.ngrok-free\.app", # Разрешаем динамические адреса ngrok
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

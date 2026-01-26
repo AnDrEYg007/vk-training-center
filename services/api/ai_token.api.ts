@@ -57,6 +57,20 @@ export const clearAiLogs = async (tokenId: string | null): Promise<{ success: bo
 };
 
 /**
+ * Удаляет одну запись лога AI.
+ */
+export const deleteAiLog = async (logId: string): Promise<{ success: boolean }> => {
+    return callApi('ai-tokens/logs/delete', { logId });
+};
+
+/**
+ * Удаляет несколько записей логов AI.
+ */
+export const deleteAiLogsBatch = async (logIds: number[]): Promise<{ success: boolean }> => {
+    return callApi('ai-tokens/logs/delete-batch', { logIds });
+};
+
+/**
  * Получает агрегированную статистику по AI токену.
  */
 export const getAiTokenStats = async (tokenId: string): Promise<AccountStats> => {
@@ -77,4 +91,21 @@ export const getAiTokenChartData = async (
         metric 
     });
     return response;
+};
+
+// --- ПРОВЕРКА ТОКЕНОВ ---
+
+export interface AiTokenVerifyResult {
+    token_id: string;
+    description: string | null;
+    is_valid: boolean;
+    error: string | null;
+    models_count: number;
+}
+
+/**
+ * Проверяет все AI токены на валидность через Google Gemini API.
+ */
+export const verifyAiTokens = async (): Promise<{ results: AiTokenVerifyResult[] }> => {
+    return callApi<{ results: AiTokenVerifyResult[] }>('ai-tokens/verify');
 };

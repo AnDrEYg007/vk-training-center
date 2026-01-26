@@ -1,8 +1,20 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
+from sqlalchemy.orm import Session
+from datetime import datetime, timedelta
 import httpx
 
+import models
+from database import SessionLocal
+
 router = APIRouter(prefix="/api/vk-test", tags=["vk-test"])
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 # Configuration (In production, use env vars)
 # App 1 (Original)
@@ -20,7 +32,7 @@ APPS_CONFIG = {
 
 # Redirect URI must match what is configured in VK App (even if not used for redirect in embedded OneTap)
 # For OneTap/SDK, it's often the origin or a specific callback
-VK_REDIRECT_URI = "https://6ec0eb7d692d.ngrok-free.app/callback" # Update this to your current ngrok
+VK_REDIRECT_URI = "https://718f01ee96c1.ngrok-free.app" # Update this to your current ngrok
 
 class VKExchangeRequest(BaseModel):
     code: str
@@ -30,7 +42,7 @@ class VKExchangeRequest(BaseModel):
     app_id: int = VK_APP_ID_1 # Default to App 1 if not specified
 
 @router.post("/exchange-token")
-async def exchange_token(data: VKExchangeRequest):
+async def exchange_token(data: VKExchangeRequest, db: Session = Depends(get_db)):
     # Use URI from frontend if provided, else fallback to env/const
     final_redirect_uri = data.redirect_uri if data.redirect_uri else VK_REDIRECT_URI
     
@@ -115,8 +127,134 @@ async def exchange_token(data: VKExchangeRequest):
         else:
             groups_sample = groups_data.get("response", {}).get("items", [])[:3]
 
+        # 3. Получаем информацию о пользователе
+        user_info_params = {
+            "access_token": access_token,
+            "v": "5.199",
+            "user_ids": user_id,
+            "fields": "photo_100,photo_200,first_name,last_name"
+        }
+        
+        user_info_resp = await client.get(
+            "https://api.vk.com/method/users.get",
+            params=user_info_params
+        )
+        user_info_data = user_info_resp.json()
+        
+        user_info = {}
+        if "response" in user_info_data and len(user_info_data["response"]) > 0:
+            user_info = user_info_data["response"][0]
+            print(f"👤 User Info: {user_info.get('first_name')} {user_info.get('last_name')}")
+
+        # 4. Сохраняем или обновляем пользователя в базе
+        vk_user_id_str = str(user_id)
+        existing_user = db.query(models.VkUser).filter(models.VkUser.vk_user_id == vk_user_id_str).first()
+        
+        # Рассчитываем время истечения токена
+        expires_in = resp_data.get("expires_in", 0)
+        token_expires_at = datetime.utcnow() + timedelta(seconds=expires_in) if expires_in else None
+        
+        if existing_user:
+            # Обновляем существующего пользователя
+            existing_user.first_name = user_info.get("first_name")
+            existing_user.last_name = user_info.get("last_name")
+            existing_user.photo_url = user_info.get("photo_200") or user_info.get("photo_100")
+            existing_user.access_token = access_token
+            existing_user.refresh_token = resp_data.get("refresh_token")
+            existing_user.token_expires_at = token_expires_at
+            existing_user.scope = resp_data.get("scope")
+            existing_user.app_id = str(data.app_id)
+            existing_user.last_login = datetime.utcnow()
+            existing_user.is_active = True
+            print(f"🔄 Updated existing VK user: {vk_user_id_str}")
+        else:
+            # Создаём нового пользователя
+            new_user = models.VkUser(
+                vk_user_id=vk_user_id_str,
+                first_name=user_info.get("first_name"),
+                last_name=user_info.get("last_name"),
+                photo_url=user_info.get("photo_200") or user_info.get("photo_100"),
+                access_token=access_token,
+                refresh_token=resp_data.get("refresh_token"),
+                token_expires_at=token_expires_at,
+                scope=resp_data.get("scope"),
+                app_id=str(data.app_id),
+                is_active=True,
+                last_login=datetime.utcnow(),
+                created_at=datetime.utcnow()
+            )
+            db.add(new_user)
+            print(f"✅ Created new VK user: {vk_user_id_str}")
+        
+        db.commit()
+
         print(f"DEBUG: VK Response Body: {resp.text}")
         return {
             "auth_data": resp_data,
-            "groups_sample": groups_sample
+            "user_info": user_info,
+            "groups_sample": groups_sample,
+            "saved_to_db": True
         }
+
+
+# ===== ENDPOINTS ДЛЯ УПРАВЛЕНИЯ VK ПОЛЬЗОВАТЕЛЯМИ =====
+
+@router.get("/users/current")
+def get_current_vk_user(db: Session = Depends(get_db)):
+    """
+    Получает текущего активного VK пользователя (последний авторизовавшийся с активным токеном).
+    """
+    user = db.query(models.VkUser).filter(
+        models.VkUser.is_active == True
+    ).order_by(models.VkUser.last_login.desc()).first()
+    
+    if not user:
+        return None
+    
+    return {
+        "vk_user_id": user.vk_user_id,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "photo_url": user.photo_url,
+        "is_active": user.is_active,
+    }
+
+
+@router.get("/users")
+def get_vk_users(db: Session = Depends(get_db)):
+    """
+    Получает список всех авторизованных VK пользователей.
+    """
+    users = db.query(models.VkUser).order_by(models.VkUser.last_login.desc()).all()
+    
+    return [
+        {
+            "vk_user_id": u.vk_user_id,
+            "first_name": u.first_name,
+            "last_name": u.last_name,
+            "photo_url": u.photo_url,
+            "email": u.email,
+            "scope": u.scope,
+            "app_id": u.app_id,
+            "is_active": u.is_active,
+            "last_login": u.last_login.isoformat() if u.last_login else None,
+            "created_at": u.created_at.isoformat() if u.created_at else None,
+            "token_expires_at": u.token_expires_at.isoformat() if u.token_expires_at else None,
+        }
+        for u in users
+    ]
+
+
+@router.delete("/users/{vk_user_id}")
+def delete_vk_user(vk_user_id: str, db: Session = Depends(get_db)):
+    """
+    Удаляет VK пользователя из базы.
+    """
+    user = db.query(models.VkUser).filter(models.VkUser.vk_user_id == vk_user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    db.delete(user)
+    db.commit()
+    
+    return {"success": True, "deleted_user_id": vk_user_id}

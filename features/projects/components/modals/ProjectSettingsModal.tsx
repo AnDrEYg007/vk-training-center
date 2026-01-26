@@ -28,6 +28,7 @@ export const ProjectSettingsModal: React.FC<{
     initialOpenSection?: AccordionSectionKey | null,
 }> = ({ project, uniqueTeams, onClose, onSave, zIndex = 'z-50', initialOpenSection = null }) => {
     
+    // ВАЖНО: Применяем zIndex к модальному окну, чтобы оно перекрывало другие элементы
     const { state, actions } = useProjectSettingsManager({
         project,
         uniqueTeams,
@@ -96,7 +97,7 @@ export const ProjectSettingsModal: React.FC<{
 
     return (
         <div className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center ${zIndex} p-4`}>
-            <form onSubmit={(e) => { e.preventDefault(); handleSubmit(e); }} autoComplete="off" className="bg-white rounded-lg shadow-xl max-w-2xl w-full flex flex-col max-h-[90vh] animate-fade-in-up">
+            <form onSubmit={(e) => { e.preventDefault(); handleSubmit(e); }} autoComplete="off" className="bg-white rounded-lg shadow-xl max-w-2xl w-full flex flex-col max-h-[90vh] animate-fade-in-up z-[70]">
                 <header className="p-4 border-b flex justify-between items-center flex-shrink-0">
                     <h2 className="text-xl font-semibold text-gray-800 truncate">
                         Настройки проекта: <span className="text-indigo-600">{project.name}</span>

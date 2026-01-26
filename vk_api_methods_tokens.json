@@ -1,0 +1,3746 @@
+{
+  "metadata": {
+    "generated_at": "2026-01-23T15:25:52.569804",
+    "total_methods": 360,
+    "source_url": "https://dev.vk.com/ru/method"
+  },
+  "summary": {
+    "user_token_count": 298,
+    "community_token_count": 83,
+    "service_token_count": 53,
+    "no_token_info_count": 31
+  },
+  "methods_by_token_type": {
+    "user_token": {
+      "description": "Методы, которые можно вызывать с ключом доступа пользователя",
+      "count": 298,
+      "methods": [
+        "account.getAppPermissions",
+        "ads.addOfficeUsers",
+        "ads.checkLink",
+        "ads.createAds",
+        "ads.createCampaigns",
+        "ads.createClients",
+        "ads.createLookalikeRequest",
+        "ads.createTargetGroup",
+        "ads.createTargetPixel",
+        "ads.deleteAds",
+        "ads.deleteCampaigns",
+        "ads.deleteClients",
+        "ads.deleteTargetGroup",
+        "ads.deleteTargetPixel",
+        "ads.getAccounts",
+        "ads.getAds",
+        "ads.getAdsLayout",
+        "ads.getAdsTargeting",
+        "ads.getBudget",
+        "ads.getCampaigns",
+        "ads.getCategories",
+        "ads.getClients",
+        "ads.getDemographics",
+        "ads.getFloodStats",
+        "ads.getLookalikeRequests",
+        "ads.getMusicians",
+        "ads.getMusiciansByIds",
+        "ads.getOfficeUsers",
+        "ads.getPostsReach",
+        "ads.getRejectionReason",
+        "ads.getStatistics",
+        "ads.getSuggestions",
+        "ads.getTargetGroups",
+        "ads.getTargetPixels",
+        "ads.getTargetingStats",
+        "ads.getUploadURL",
+        "ads.getVideoUploadURL",
+        "ads.importTargetContacts",
+        "ads.removeOfficeUsers",
+        "ads.removeTargetContacts",
+        "ads.saveLookalikeRequestResult",
+        "ads.shareTargetGroup",
+        "ads.updateAds",
+        "ads.updateCampaigns",
+        "ads.updateClients",
+        "ads.updateOfficeUsers",
+        "ads.updateTargetGroup",
+        "ads.updateTargetPixel",
+        "appWidgets.getAppImages",
+        "appWidgets.getImagesById",
+        "apps.deleteAppRequests",
+        "apps.get",
+        "apps.getCatalog",
+        "apps.getFriendsList",
+        "apps.getLeaderboard",
+        "apps.getMiniAppPolicies",
+        "apps.getScopes",
+        "apps.getScore",
+        "apps.isNotificationsAllowed",
+        "apps.promoHasActiveGift",
+        "apps.promoUseGift",
+        "apps.sendRequest",
+        "board.getComments",
+        "board.getTopics",
+        "calls.forceFinish",
+        "calls.start",
+        "channels.deleteMessage",
+        "channels.editMessage",
+        "channels.get",
+        "channels.getById",
+        "channels.getHistory",
+        "channels.getMessagesById",
+        "channels.sendMessage",
+        "database.getCities",
+        "database.getCitiesById",
+        "database.getRegions",
+        "docs.get",
+        "docs.getById",
+        "docs.getMessagesUploadServer",
+        "docs.getWallUploadServer",
+        "donut.getFriends",
+        "donut.getSubscription",
+        "donut.getSubscriptions",
+        "donut.isDon",
+        "ecosystem.addLibverifyEvent",
+        "ecosystem.checkPasskey",
+        "ecosystem.getNextPhone",
+        "ecosystem.initCallin",
+        "ecosystem.sendOtpCallReset",
+        "ecosystem.updateCallInStatus",
+        "execute",
+        "friends.areFriends",
+        "friends.get",
+        "friends.getAppUsers",
+        "friends.getLists",
+        "friends.getMutual",
+        "friends.getOnline",
+        "friends.getRecent",
+        "friends.getRequests",
+        "friends.getSuggestions",
+        "friends.search",
+        "gifts.get",
+        "groups.addAddress",
+        "groups.addCallbackServer",
+        "groups.deleteAddress",
+        "groups.deleteCallbackServer",
+        "groups.disableOnline",
+        "groups.editAddress",
+        "groups.editCallbackServer",
+        "groups.enableOnline",
+        "groups.get",
+        "groups.getAddresses",
+        "groups.getBanned",
+        "groups.getById",
+        "groups.getCallbackConfirmationCode",
+        "groups.getCallbackServers",
+        "groups.getCallbackSettings",
+        "groups.getCatalogInfo",
+        "groups.getInvitedUsers",
+        "groups.getInvites",
+        "groups.getLongPollServer",
+        "groups.getLongPollSettings",
+        "groups.getMembers",
+        "groups.getOnlineStatus",
+        "groups.getRequests",
+        "groups.getTagList",
+        "groups.isMember",
+        "groups.search",
+        "groups.setCallbackSettings",
+        "groups.setLongPollSettings",
+        "groups.setSettings",
+        "groups.setUserNote",
+        "groups.tagAdd",
+        "groups.tagBind",
+        "groups.tagDelete",
+        "groups.tagUpdate",
+        "groups.toggleMarket",
+        "groups.unban",
+        "leadForms.create",
+        "leadForms.delete",
+        "leadForms.get",
+        "leadForms.getLeads",
+        "leadForms.getUploadURL",
+        "leadForms.list",
+        "leadForms.update",
+        "likes.getList",
+        "likes.isLiked",
+        "market.add",
+        "market.addAlbum",
+        "market.addProperty",
+        "market.addPropertyVariant",
+        "market.addToAlbum",
+        "market.createComment",
+        "market.delete",
+        "market.deleteAlbum",
+        "market.deleteComment",
+        "market.deleteProperty",
+        "market.deletePropertyVariant",
+        "market.edit",
+        "market.editAlbum",
+        "market.editComment",
+        "market.editOrder",
+        "market.editProperty",
+        "market.editPropertyVariant",
+        "market.get",
+        "market.getAlbumById",
+        "market.getAlbums",
+        "market.getById",
+        "market.getCategories",
+        "market.getComments",
+        "market.getGroupOrders",
+        "market.getOrderById",
+        "market.getOrderItems",
+        "market.getOrders",
+        "market.getProductPhotoUploadServer",
+        "market.getProperties",
+        "market.groupItems",
+        "market.removeFromAlbum",
+        "market.reorderAlbums",
+        "market.reorderItems",
+        "market.report",
+        "market.reportComment",
+        "market.restore",
+        "market.restoreComment",
+        "market.saveProductPhoto",
+        "market.saveProductPhotoBulk",
+        "market.search",
+        "market.searchItems",
+        "market.searchItemsBasic",
+        "market.ungroupItems",
+        "messages.addChatUser",
+        "messages.allowMessagesFromGroup",
+        "messages.createChat",
+        "messages.delete",
+        "messages.deleteChatPhoto",
+        "messages.deleteConversation",
+        "messages.deleteReaction",
+        "messages.denyMessagesFromGroup",
+        "messages.edit",
+        "messages.editChat",
+        "messages.forceCallFinish",
+        "messages.getByConversationMessageId",
+        "messages.getById",
+        "messages.getChat",
+        "messages.getChatPreview",
+        "messages.getConversationMembers",
+        "messages.getConversations",
+        "messages.getConversationsById",
+        "messages.getHistory",
+        "messages.getHistoryAttachments",
+        "messages.getImportantMessages",
+        "messages.getInviteLink",
+        "messages.getLastActivity",
+        "messages.getLongPollHistory",
+        "messages.getLongPollServer",
+        "messages.getMessagesReactions",
+        "messages.getReactedPeers",
+        "messages.getReactionsAssets",
+        "messages.isMessagesFromGroupAllowed",
+        "messages.joinChatByInviteLink",
+        "messages.markAsAnsweredConversation",
+        "messages.markAsImportant",
+        "messages.markAsImportantConversation",
+        "messages.markAsRead",
+        "messages.markReactionsAsRead",
+        "messages.pin",
+        "messages.removeChatUser",
+        "messages.restore",
+        "messages.search",
+        "messages.searchConversations",
+        "messages.send",
+        "messages.sendReaction",
+        "messages.setActivity",
+        "messages.setChatPhoto",
+        "messages.startCall",
+        "messages.unpin",
+        "newsfeed.get",
+        "newsfeed.getBanned",
+        "newsfeed.getComments",
+        "newsfeed.getMentions",
+        "newsfeed.getRecommended",
+        "newsfeed.getSuggestedSources",
+        "newsfeed.search",
+        "notifications.get",
+        "orders.getAmount",
+        "orders.getById",
+        "pages.clearCache",
+        "pages.get",
+        "pages.getHistory",
+        "pages.getTitles",
+        "pages.getVersion",
+        "pages.parseWiki",
+        "pages.save",
+        "pages.saveAccess",
+        "photos.copy",
+        "photos.createAlbum",
+        "photos.createComment",
+        "photos.delete",
+        "photos.deleteAlbum",
+        "photos.deleteComment",
+        "photos.edit",
+        "photos.editAlbum",
+        "photos.editComment",
+        "photos.get",
+        "photos.getAlbums",
+        "photos.getAlbumsCount",
+        "photos.getAll",
+        "photos.getAllComments",
+        "photos.getById",
+        "photos.getChatUploadServer",
+        "photos.getComments",
+        "photos.getMarketAlbumUploadServer",
+        "photos.getMessagesUploadServer",
+        "photos.getOwnerCoverPhotoUploadServer",
+        "photos.getOwnerPhotoUploadServer",
+        "photos.getUploadServer",
+        "photos.getUserPhotos",
+        "photos.getWallUploadServer",
+        "photos.makeCover",
+        "photos.move",
+        "photos.reorderAlbums",
+        "photos.reorderPhotos",
+        "photos.report",
+        "photos.reportComment",
+        "photos.restore",
+        "photos.restoreComment",
+        "photos.save",
+        "photos.saveMarketAlbumPhoto",
+        "photos.saveMessagesPhoto",
+        "photos.saveOwnerCoverPhoto",
+        "photos.saveOwnerPhoto",
+        "photos.saveWallPhoto",
+        "photos.search",
+        "podcasts.searchPodcast",
+        "polls.create",
+        "polls.edit",
+        "polls.getBackgrounds",
+        "polls.getById"
+      ]
+    },
+    "community_token": {
+      "description": "Методы, которые можно вызывать с ключом доступа сообщества",
+      "count": 83,
+      "methods": [
+        "appWidgets.getAppImages",
+        "appWidgets.getGroupImageUploadServer",
+        "appWidgets.getGroupImages",
+        "appWidgets.getImagesById",
+        "appWidgets.saveGroupImage",
+        "appWidgets.update",
+        "docs.getById",
+        "docs.getMessagesUploadServer",
+        "docs.getWallUploadServer",
+        "execute",
+        "groups.addAddress",
+        "groups.addCallbackServer",
+        "groups.deleteAddress",
+        "groups.deleteCallbackServer",
+        "groups.disableOnline",
+        "groups.editAddress",
+        "groups.editCallbackServer",
+        "groups.enableOnline",
+        "groups.getBanned",
+        "groups.getById",
+        "groups.getCallbackConfirmationCode",
+        "groups.getCallbackServers",
+        "groups.getCallbackSettings",
+        "groups.getLongPollServer",
+        "groups.getLongPollSettings",
+        "groups.getMembers",
+        "groups.getOnlineStatus",
+        "groups.getTagList",
+        "groups.getTokenPermissions",
+        "groups.isMember",
+        "groups.setCallbackSettings",
+        "groups.setLongPollSettings",
+        "groups.setSettings",
+        "groups.setUserNote",
+        "groups.tagAdd",
+        "groups.tagBind",
+        "groups.tagDelete",
+        "groups.tagUpdate",
+        "market.editOrder",
+        "market.getGroupOrders",
+        "market.getOrderById",
+        "market.getOrderItems",
+        "messages.createChat",
+        "messages.delete",
+        "messages.deleteChatPhoto",
+        "messages.deleteConversation",
+        "messages.deleteReaction",
+        "messages.edit",
+        "messages.editChat",
+        "messages.getByConversationMessageId",
+        "messages.getById",
+        "messages.getConversationMembers",
+        "messages.getConversations",
+        "messages.getConversationsById",
+        "messages.getHistory",
+        "messages.getHistoryAttachments",
+        "messages.getImportantMessages",
+        "messages.getInviteLink",
+        "messages.getLongPollHistory",
+        "messages.getLongPollServer",
+        "messages.getMessagesReactions",
+        "messages.getReactedPeers",
+        "messages.isMessagesFromGroupAllowed",
+        "messages.markAsAnsweredConversation",
+        "messages.markAsImportantConversation",
+        "messages.markAsRead",
+        "messages.pin",
+        "messages.removeChatUser",
+        "messages.restore",
+        "messages.search",
+        "messages.searchConversations",
+        "messages.send",
+        "messages.sendMessageEventAnswer",
+        "messages.sendReaction",
+        "messages.setActivity",
+        "messages.setChatPhoto",
+        "messages.unpin",
+        "photos.getChatUploadServer",
+        "photos.getMessagesUploadServer",
+        "photos.getOwnerCoverPhotoUploadServer",
+        "photos.saveMessagesPhoto",
+        "photos.saveOwnerCoverPhoto",
+        "podcasts.searchPodcast"
+      ]
+    },
+    "service_token": {
+      "description": "Методы, которые можно вызывать с сервисным ключом доступа",
+      "count": 53,
+      "methods": [
+        "appWidgets.getAppImageUploadServer",
+        "appWidgets.getAppImages",
+        "appWidgets.getImagesById",
+        "appWidgets.saveAppImage",
+        "apps.addSnippet",
+        "apps.addUsersToTestingGroup",
+        "apps.deleteSnippet",
+        "apps.get",
+        "apps.getCatalog",
+        "apps.getSnippets",
+        "apps.getTestingGroups",
+        "apps.isNotificationsAllowed",
+        "apps.promoHasActiveGift",
+        "apps.promoUseGift",
+        "apps.removeTestingGroup",
+        "apps.removeUsersFromTestingGroups",
+        "apps.updateMetaForTestingGroup",
+        "board.getComments",
+        "board.getTopics",
+        "database.getCities",
+        "database.getCitiesById",
+        "database.getRegions",
+        "ecosystem.addLibverifyEvent",
+        "ecosystem.updateCallInStatus",
+        "friends.get",
+        "groups.get",
+        "groups.getAddresses",
+        "groups.getById",
+        "groups.getMembers",
+        "groups.isMember",
+        "likes.getList",
+        "loyaltyTeen.hasAccount",
+        "loyaltyTeen.partnerCompleteAchievement",
+        "loyaltyTeen.partnerCompleteTask",
+        "loyaltyTeen.partnerCreateAccount",
+        "loyaltyTeen.partnerGetAchievements",
+        "loyaltyTeen.partnerGetBalance",
+        "loyaltyTeen.partnerGetOffers",
+        "loyaltyTeen.partnerHasAccount",
+        "loyaltyTeen.sumsubCallback",
+        "newsfeed.search",
+        "notifications.sendMessage",
+        "orders.cancelSubscription",
+        "orders.changeState",
+        "orders.get",
+        "orders.getById",
+        "orders.getUserSubscriptionById",
+        "orders.getUserSubscriptions",
+        "pages.clearCache",
+        "photos.get",
+        "photos.getAlbums",
+        "photos.getById",
+        "photos.search"
+      ]
+    },
+    "no_token_info": {
+      "description": "Методы, для которых не удалось определить тип токена",
+      "count": 31,
+      "methods": [
+        "account.ban",
+        "account.changePassword",
+        "account.getActiveOffers",
+        "account.getBanned",
+        "account.getCounters",
+        "account.getInfo",
+        "account.getProfileInfo",
+        "account.getPushSettings",
+        "account.registerDevice",
+        "account.saveProfileInfo",
+        "account.setInfo",
+        "account.setOffline",
+        "account.setOnline",
+        "account.setPushSettings",
+        "account.setSettings",
+        "account.unban",
+        "account.unregisterDevice",
+        "bugtracker.addCompanyGroupsMembers",
+        "bugtracker.addCompanyMembers",
+        "bugtracker.changeBugreportStatus",
+        "bugtracker.createComment",
+        "bugtracker.getBugreportById",
+        "bugtracker.getCompanyGroupMembers",
+        "bugtracker.getCompanyMembers",
+        "bugtracker.getDownloadVersionUrl",
+        "bugtracker.getProductBuildUploadServer",
+        "bugtracker.removeCompanyGroupMember",
+        "bugtracker.removeCompanyMember",
+        "bugtracker.saveProductVersion",
+        "bugtracker.setCompanyMemberRole",
+        "bugtracker.setProductIsOver"
+      ]
+    }
+  },
+  "all_methods": [
+    {
+      "name": "market.saveProductPhotoBulk",
+      "url": "https://dev.vk.com/ru/method/market.saveProductPhotoBulk",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.search",
+      "url": "https://dev.vk.com/ru/method/market.search",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.searchItems",
+      "url": "https://dev.vk.com/ru/method/market.searchItems",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.searchItemsBasic",
+      "url": "https://dev.vk.com/ru/method/market.searchItemsBasic",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.ungroupItems",
+      "url": "https://dev.vk.com/ru/method/market.ungroupItems",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.addChatUser",
+      "url": "https://dev.vk.com/ru/method/messages.addChatUser",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.allowMessagesFromGroup",
+      "url": "https://dev.vk.com/ru/method/messages.allowMessagesFromGroup",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.createChat",
+      "url": "https://dev.vk.com/ru/method/messages.createChat",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.delete",
+      "url": "https://dev.vk.com/ru/method/messages.delete",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.deleteChatPhoto",
+      "url": "https://dev.vk.com/ru/method/messages.deleteChatPhoto",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.deleteConversation",
+      "url": "https://dev.vk.com/ru/method/messages.deleteConversation",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.deleteReaction",
+      "url": "https://dev.vk.com/ru/method/messages.deleteReaction",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.denyMessagesFromGroup",
+      "url": "https://dev.vk.com/ru/method/messages.denyMessagesFromGroup",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.edit",
+      "url": "https://dev.vk.com/ru/method/messages.edit",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.editChat",
+      "url": "https://dev.vk.com/ru/method/messages.editChat",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.forceCallFinish",
+      "url": "https://dev.vk.com/ru/method/messages.forceCallFinish",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.getByConversationMessageId",
+      "url": "https://dev.vk.com/ru/method/messages.getByConversationMessageId",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.getById",
+      "url": "https://dev.vk.com/ru/method/messages.getById",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.getChat",
+      "url": "https://dev.vk.com/ru/method/messages.getChat",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.getChatPreview",
+      "url": "https://dev.vk.com/ru/method/messages.getChatPreview",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.getConversationMembers",
+      "url": "https://dev.vk.com/ru/method/messages.getConversationMembers",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.getConversations",
+      "url": "https://dev.vk.com/ru/method/messages.getConversations",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.getConversationsById",
+      "url": "https://dev.vk.com/ru/method/messages.getConversationsById",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.getHistory",
+      "url": "https://dev.vk.com/ru/method/messages.getHistory",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.getHistoryAttachments",
+      "url": "https://dev.vk.com/ru/method/messages.getHistoryAttachments",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.getImportantMessages",
+      "url": "https://dev.vk.com/ru/method/messages.getImportantMessages",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.getInviteLink",
+      "url": "https://dev.vk.com/ru/method/messages.getInviteLink",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.getLastActivity",
+      "url": "https://dev.vk.com/ru/method/messages.getLastActivity",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.getLongPollHistory",
+      "url": "https://dev.vk.com/ru/method/messages.getLongPollHistory",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.getLongPollServer",
+      "url": "https://dev.vk.com/ru/method/messages.getLongPollServer",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.getMessagesReactions",
+      "url": "https://dev.vk.com/ru/method/messages.getMessagesReactions",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.getReactedPeers",
+      "url": "https://dev.vk.com/ru/method/messages.getReactedPeers",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.getReactionsAssets",
+      "url": "https://dev.vk.com/ru/method/messages.getReactionsAssets",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.isMessagesFromGroupAllowed",
+      "url": "https://dev.vk.com/ru/method/messages.isMessagesFromGroupAllowed",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.joinChatByInviteLink",
+      "url": "https://dev.vk.com/ru/method/messages.joinChatByInviteLink",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.markAsAnsweredConversation",
+      "url": "https://dev.vk.com/ru/method/messages.markAsAnsweredConversation",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.markAsImportant",
+      "url": "https://dev.vk.com/ru/method/messages.markAsImportant",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.markAsImportantConversation",
+      "url": "https://dev.vk.com/ru/method/messages.markAsImportantConversation",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.markAsRead",
+      "url": "https://dev.vk.com/ru/method/messages.markAsRead",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.markReactionsAsRead",
+      "url": "https://dev.vk.com/ru/method/messages.markReactionsAsRead",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.pin",
+      "url": "https://dev.vk.com/ru/method/messages.pin",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.removeChatUser",
+      "url": "https://dev.vk.com/ru/method/messages.removeChatUser",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.restore",
+      "url": "https://dev.vk.com/ru/method/messages.restore",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.search",
+      "url": "https://dev.vk.com/ru/method/messages.search",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.searchConversations",
+      "url": "https://dev.vk.com/ru/method/messages.searchConversations",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.send",
+      "url": "https://dev.vk.com/ru/method/messages.send",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.sendMessageEventAnswer",
+      "url": "https://dev.vk.com/ru/method/messages.sendMessageEventAnswer",
+      "tokens": {
+        "user_token": false,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.sendReaction",
+      "url": "https://dev.vk.com/ru/method/messages.sendReaction",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.setActivity",
+      "url": "https://dev.vk.com/ru/method/messages.setActivity",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.setChatPhoto",
+      "url": "https://dev.vk.com/ru/method/messages.setChatPhoto",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.startCall",
+      "url": "https://dev.vk.com/ru/method/messages.startCall",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "messages.unpin",
+      "url": "https://dev.vk.com/ru/method/messages.unpin",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "newsfeed.get",
+      "url": "https://dev.vk.com/ru/method/newsfeed.get",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "newsfeed.getBanned",
+      "url": "https://dev.vk.com/ru/method/newsfeed.getBanned",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "newsfeed.getComments",
+      "url": "https://dev.vk.com/ru/method/newsfeed.getComments",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "newsfeed.getMentions",
+      "url": "https://dev.vk.com/ru/method/newsfeed.getMentions",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "newsfeed.getRecommended",
+      "url": "https://dev.vk.com/ru/method/newsfeed.getRecommended",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "newsfeed.getSuggestedSources",
+      "url": "https://dev.vk.com/ru/method/newsfeed.getSuggestedSources",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "newsfeed.search",
+      "url": "https://dev.vk.com/ru/method/newsfeed.search",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "notifications.get",
+      "url": "https://dev.vk.com/ru/method/notifications.get",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "notifications.sendMessage",
+      "url": "https://dev.vk.com/ru/method/notifications.sendMessage",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "orders.cancelSubscription",
+      "url": "https://dev.vk.com/ru/method/orders.cancelSubscription",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "orders.changeState",
+      "url": "https://dev.vk.com/ru/method/orders.changeState",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "orders.get",
+      "url": "https://dev.vk.com/ru/method/orders.get",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "orders.getAmount",
+      "url": "https://dev.vk.com/ru/method/orders.getAmount",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "orders.getById",
+      "url": "https://dev.vk.com/ru/method/orders.getById",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "orders.getUserSubscriptionById",
+      "url": "https://dev.vk.com/ru/method/orders.getUserSubscriptionById",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "orders.getUserSubscriptions",
+      "url": "https://dev.vk.com/ru/method/orders.getUserSubscriptions",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "pages.clearCache",
+      "url": "https://dev.vk.com/ru/method/pages.clearCache",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "pages.get",
+      "url": "https://dev.vk.com/ru/method/pages.get",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "pages.getHistory",
+      "url": "https://dev.vk.com/ru/method/pages.getHistory",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "pages.getTitles",
+      "url": "https://dev.vk.com/ru/method/pages.getTitles",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "pages.getVersion",
+      "url": "https://dev.vk.com/ru/method/pages.getVersion",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "pages.parseWiki",
+      "url": "https://dev.vk.com/ru/method/pages.parseWiki",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "pages.save",
+      "url": "https://dev.vk.com/ru/method/pages.save",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "pages.saveAccess",
+      "url": "https://dev.vk.com/ru/method/pages.saveAccess",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.copy",
+      "url": "https://dev.vk.com/ru/method/photos.copy",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.createAlbum",
+      "url": "https://dev.vk.com/ru/method/photos.createAlbum",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.createComment",
+      "url": "https://dev.vk.com/ru/method/photos.createComment",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.delete",
+      "url": "https://dev.vk.com/ru/method/photos.delete",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.deleteAlbum",
+      "url": "https://dev.vk.com/ru/method/photos.deleteAlbum",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.deleteComment",
+      "url": "https://dev.vk.com/ru/method/photos.deleteComment",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.edit",
+      "url": "https://dev.vk.com/ru/method/photos.edit",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.editAlbum",
+      "url": "https://dev.vk.com/ru/method/photos.editAlbum",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.editComment",
+      "url": "https://dev.vk.com/ru/method/photos.editComment",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.get",
+      "url": "https://dev.vk.com/ru/method/photos.get",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "photos.getAlbums",
+      "url": "https://dev.vk.com/ru/method/photos.getAlbums",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "photos.getAlbumsCount",
+      "url": "https://dev.vk.com/ru/method/photos.getAlbumsCount",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.getAll",
+      "url": "https://dev.vk.com/ru/method/photos.getAll",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.getAllComments",
+      "url": "https://dev.vk.com/ru/method/photos.getAllComments",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.getById",
+      "url": "https://dev.vk.com/ru/method/photos.getById",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "photos.getChatUploadServer",
+      "url": "https://dev.vk.com/ru/method/photos.getChatUploadServer",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.getComments",
+      "url": "https://dev.vk.com/ru/method/photos.getComments",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.getMarketAlbumUploadServer",
+      "url": "https://dev.vk.com/ru/method/photos.getMarketAlbumUploadServer",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.getMessagesUploadServer",
+      "url": "https://dev.vk.com/ru/method/photos.getMessagesUploadServer",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.getOwnerCoverPhotoUploadServer",
+      "url": "https://dev.vk.com/ru/method/photos.getOwnerCoverPhotoUploadServer",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.getOwnerPhotoUploadServer",
+      "url": "https://dev.vk.com/ru/method/photos.getOwnerPhotoUploadServer",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.getUploadServer",
+      "url": "https://dev.vk.com/ru/method/photos.getUploadServer",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.getUserPhotos",
+      "url": "https://dev.vk.com/ru/method/photos.getUserPhotos",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.getWallUploadServer",
+      "url": "https://dev.vk.com/ru/method/photos.getWallUploadServer",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.makeCover",
+      "url": "https://dev.vk.com/ru/method/photos.makeCover",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.move",
+      "url": "https://dev.vk.com/ru/method/photos.move",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.reorderAlbums",
+      "url": "https://dev.vk.com/ru/method/photos.reorderAlbums",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.reorderPhotos",
+      "url": "https://dev.vk.com/ru/method/photos.reorderPhotos",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.report",
+      "url": "https://dev.vk.com/ru/method/photos.report",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.reportComment",
+      "url": "https://dev.vk.com/ru/method/photos.reportComment",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.restore",
+      "url": "https://dev.vk.com/ru/method/photos.restore",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.restoreComment",
+      "url": "https://dev.vk.com/ru/method/photos.restoreComment",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.save",
+      "url": "https://dev.vk.com/ru/method/photos.save",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.saveMarketAlbumPhoto",
+      "url": "https://dev.vk.com/ru/method/photos.saveMarketAlbumPhoto",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.saveMessagesPhoto",
+      "url": "https://dev.vk.com/ru/method/photos.saveMessagesPhoto",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.saveOwnerCoverPhoto",
+      "url": "https://dev.vk.com/ru/method/photos.saveOwnerCoverPhoto",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.saveOwnerPhoto",
+      "url": "https://dev.vk.com/ru/method/photos.saveOwnerPhoto",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.saveWallPhoto",
+      "url": "https://dev.vk.com/ru/method/photos.saveWallPhoto",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "photos.search",
+      "url": "https://dev.vk.com/ru/method/photos.search",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "podcasts.searchPodcast",
+      "url": "https://dev.vk.com/ru/method/podcasts.searchPodcast",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "polls.create",
+      "url": "https://dev.vk.com/ru/method/polls.create",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "polls.edit",
+      "url": "https://dev.vk.com/ru/method/polls.edit",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "polls.getBackgrounds",
+      "url": "https://dev.vk.com/ru/method/polls.getBackgrounds",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "polls.getById",
+      "url": "https://dev.vk.com/ru/method/polls.getById",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "account.ban",
+      "url": "https://dev.vk.com/ru/method/account.ban",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "account.changePassword",
+      "url": "https://dev.vk.com/ru/method/account.changePassword",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "account.getActiveOffers",
+      "url": "https://dev.vk.com/ru/method/account.getActiveOffers",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "account.getAppPermissions",
+      "url": "https://dev.vk.com/ru/method/account.getAppPermissions",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "account.getBanned",
+      "url": "https://dev.vk.com/ru/method/account.getBanned",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "account.getCounters",
+      "url": "https://dev.vk.com/ru/method/account.getCounters",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "account.getInfo",
+      "url": "https://dev.vk.com/ru/method/account.getInfo",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "account.getProfileInfo",
+      "url": "https://dev.vk.com/ru/method/account.getProfileInfo",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "account.getPushSettings",
+      "url": "https://dev.vk.com/ru/method/account.getPushSettings",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "account.registerDevice",
+      "url": "https://dev.vk.com/ru/method/account.registerDevice",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "account.saveProfileInfo",
+      "url": "https://dev.vk.com/ru/method/account.saveProfileInfo",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "account.setInfo",
+      "url": "https://dev.vk.com/ru/method/account.setInfo",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "account.setOffline",
+      "url": "https://dev.vk.com/ru/method/account.setOffline",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "account.setOnline",
+      "url": "https://dev.vk.com/ru/method/account.setOnline",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "account.setPushSettings",
+      "url": "https://dev.vk.com/ru/method/account.setPushSettings",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "account.setSettings",
+      "url": "https://dev.vk.com/ru/method/account.setSettings",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "account.unban",
+      "url": "https://dev.vk.com/ru/method/account.unban",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "account.unregisterDevice",
+      "url": "https://dev.vk.com/ru/method/account.unregisterDevice",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.addOfficeUsers",
+      "url": "https://dev.vk.com/ru/method/ads.addOfficeUsers",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.checkLink",
+      "url": "https://dev.vk.com/ru/method/ads.checkLink",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.createAds",
+      "url": "https://dev.vk.com/ru/method/ads.createAds",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.createCampaigns",
+      "url": "https://dev.vk.com/ru/method/ads.createCampaigns",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.createClients",
+      "url": "https://dev.vk.com/ru/method/ads.createClients",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.createLookalikeRequest",
+      "url": "https://dev.vk.com/ru/method/ads.createLookalikeRequest",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.createTargetGroup",
+      "url": "https://dev.vk.com/ru/method/ads.createTargetGroup",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.createTargetPixel",
+      "url": "https://dev.vk.com/ru/method/ads.createTargetPixel",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.deleteAds",
+      "url": "https://dev.vk.com/ru/method/ads.deleteAds",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.deleteCampaigns",
+      "url": "https://dev.vk.com/ru/method/ads.deleteCampaigns",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.deleteClients",
+      "url": "https://dev.vk.com/ru/method/ads.deleteClients",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.deleteTargetGroup",
+      "url": "https://dev.vk.com/ru/method/ads.deleteTargetGroup",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.deleteTargetPixel",
+      "url": "https://dev.vk.com/ru/method/ads.deleteTargetPixel",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.getAccounts",
+      "url": "https://dev.vk.com/ru/method/ads.getAccounts",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.getAds",
+      "url": "https://dev.vk.com/ru/method/ads.getAds",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.getAdsLayout",
+      "url": "https://dev.vk.com/ru/method/ads.getAdsLayout",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.getAdsTargeting",
+      "url": "https://dev.vk.com/ru/method/ads.getAdsTargeting",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.getBudget",
+      "url": "https://dev.vk.com/ru/method/ads.getBudget",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.getCampaigns",
+      "url": "https://dev.vk.com/ru/method/ads.getCampaigns",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.getCategories",
+      "url": "https://dev.vk.com/ru/method/ads.getCategories",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.getClients",
+      "url": "https://dev.vk.com/ru/method/ads.getClients",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.getDemographics",
+      "url": "https://dev.vk.com/ru/method/ads.getDemographics",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.getFloodStats",
+      "url": "https://dev.vk.com/ru/method/ads.getFloodStats",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.getLookalikeRequests",
+      "url": "https://dev.vk.com/ru/method/ads.getLookalikeRequests",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.getMusicians",
+      "url": "https://dev.vk.com/ru/method/ads.getMusicians",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.getMusiciansByIds",
+      "url": "https://dev.vk.com/ru/method/ads.getMusiciansByIds",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.getOfficeUsers",
+      "url": "https://dev.vk.com/ru/method/ads.getOfficeUsers",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.getPostsReach",
+      "url": "https://dev.vk.com/ru/method/ads.getPostsReach",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.getRejectionReason",
+      "url": "https://dev.vk.com/ru/method/ads.getRejectionReason",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.getStatistics",
+      "url": "https://dev.vk.com/ru/method/ads.getStatistics",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.getSuggestions",
+      "url": "https://dev.vk.com/ru/method/ads.getSuggestions",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.getTargetGroups",
+      "url": "https://dev.vk.com/ru/method/ads.getTargetGroups",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.getTargetPixels",
+      "url": "https://dev.vk.com/ru/method/ads.getTargetPixels",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.getTargetingStats",
+      "url": "https://dev.vk.com/ru/method/ads.getTargetingStats",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.getUploadURL",
+      "url": "https://dev.vk.com/ru/method/ads.getUploadURL",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.getVideoUploadURL",
+      "url": "https://dev.vk.com/ru/method/ads.getVideoUploadURL",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.importTargetContacts",
+      "url": "https://dev.vk.com/ru/method/ads.importTargetContacts",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.removeOfficeUsers",
+      "url": "https://dev.vk.com/ru/method/ads.removeOfficeUsers",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.removeTargetContacts",
+      "url": "https://dev.vk.com/ru/method/ads.removeTargetContacts",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.saveLookalikeRequestResult",
+      "url": "https://dev.vk.com/ru/method/ads.saveLookalikeRequestResult",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.shareTargetGroup",
+      "url": "https://dev.vk.com/ru/method/ads.shareTargetGroup",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.updateAds",
+      "url": "https://dev.vk.com/ru/method/ads.updateAds",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.updateCampaigns",
+      "url": "https://dev.vk.com/ru/method/ads.updateCampaigns",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.updateClients",
+      "url": "https://dev.vk.com/ru/method/ads.updateClients",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.updateOfficeUsers",
+      "url": "https://dev.vk.com/ru/method/ads.updateOfficeUsers",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.updateTargetGroup",
+      "url": "https://dev.vk.com/ru/method/ads.updateTargetGroup",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ads.updateTargetPixel",
+      "url": "https://dev.vk.com/ru/method/ads.updateTargetPixel",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "appWidgets.getAppImageUploadServer",
+      "url": "https://dev.vk.com/ru/method/appWidgets.getAppImageUploadServer",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "appWidgets.getAppImages",
+      "url": "https://dev.vk.com/ru/method/appWidgets.getAppImages",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": true
+      }
+    },
+    {
+      "name": "appWidgets.getGroupImageUploadServer",
+      "url": "https://dev.vk.com/ru/method/appWidgets.getGroupImageUploadServer",
+      "tokens": {
+        "user_token": false,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "appWidgets.getGroupImages",
+      "url": "https://dev.vk.com/ru/method/appWidgets.getGroupImages",
+      "tokens": {
+        "user_token": false,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "appWidgets.getImagesById",
+      "url": "https://dev.vk.com/ru/method/appWidgets.getImagesById",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": true
+      }
+    },
+    {
+      "name": "appWidgets.saveAppImage",
+      "url": "https://dev.vk.com/ru/method/appWidgets.saveAppImage",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "appWidgets.saveGroupImage",
+      "url": "https://dev.vk.com/ru/method/appWidgets.saveGroupImage",
+      "tokens": {
+        "user_token": false,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "appWidgets.update",
+      "url": "https://dev.vk.com/ru/method/appWidgets.update",
+      "tokens": {
+        "user_token": false,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "apps.addSnippet",
+      "url": "https://dev.vk.com/ru/method/apps.addSnippet",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "apps.addUsersToTestingGroup",
+      "url": "https://dev.vk.com/ru/method/apps.addUsersToTestingGroup",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "apps.deleteAppRequests",
+      "url": "https://dev.vk.com/ru/method/apps.deleteAppRequests",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "apps.deleteSnippet",
+      "url": "https://dev.vk.com/ru/method/apps.deleteSnippet",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "apps.get",
+      "url": "https://dev.vk.com/ru/method/apps.get",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "apps.getCatalog",
+      "url": "https://dev.vk.com/ru/method/apps.getCatalog",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "apps.getFriendsList",
+      "url": "https://dev.vk.com/ru/method/apps.getFriendsList",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "apps.getLeaderboard",
+      "url": "https://dev.vk.com/ru/method/apps.getLeaderboard",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "apps.getMiniAppPolicies",
+      "url": "https://dev.vk.com/ru/method/apps.getMiniAppPolicies",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "apps.getScopes",
+      "url": "https://dev.vk.com/ru/method/apps.getScopes",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "apps.getScore",
+      "url": "https://dev.vk.com/ru/method/apps.getScore",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "apps.getSnippets",
+      "url": "https://dev.vk.com/ru/method/apps.getSnippets",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "apps.getTestingGroups",
+      "url": "https://dev.vk.com/ru/method/apps.getTestingGroups",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "apps.isNotificationsAllowed",
+      "url": "https://dev.vk.com/ru/method/apps.isNotificationsAllowed",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "apps.promoHasActiveGift",
+      "url": "https://dev.vk.com/ru/method/apps.promoHasActiveGift",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "apps.promoUseGift",
+      "url": "https://dev.vk.com/ru/method/apps.promoUseGift",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "apps.removeTestingGroup",
+      "url": "https://dev.vk.com/ru/method/apps.removeTestingGroup",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "apps.removeUsersFromTestingGroups",
+      "url": "https://dev.vk.com/ru/method/apps.removeUsersFromTestingGroups",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "apps.sendRequest",
+      "url": "https://dev.vk.com/ru/method/apps.sendRequest",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "apps.updateMetaForTestingGroup",
+      "url": "https://dev.vk.com/ru/method/apps.updateMetaForTestingGroup",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "board.getComments",
+      "url": "https://dev.vk.com/ru/method/board.getComments",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "board.getTopics",
+      "url": "https://dev.vk.com/ru/method/board.getTopics",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "bugtracker.addCompanyGroupsMembers",
+      "url": "https://dev.vk.com/ru/method/bugtracker.addCompanyGroupsMembers",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "bugtracker.addCompanyMembers",
+      "url": "https://dev.vk.com/ru/method/bugtracker.addCompanyMembers",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "bugtracker.changeBugreportStatus",
+      "url": "https://dev.vk.com/ru/method/bugtracker.changeBugreportStatus",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "bugtracker.createComment",
+      "url": "https://dev.vk.com/ru/method/bugtracker.createComment",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "bugtracker.getBugreportById",
+      "url": "https://dev.vk.com/ru/method/bugtracker.getBugreportById",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "bugtracker.getCompanyGroupMembers",
+      "url": "https://dev.vk.com/ru/method/bugtracker.getCompanyGroupMembers",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "bugtracker.getCompanyMembers",
+      "url": "https://dev.vk.com/ru/method/bugtracker.getCompanyMembers",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "bugtracker.getDownloadVersionUrl",
+      "url": "https://dev.vk.com/ru/method/bugtracker.getDownloadVersionUrl",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "bugtracker.getProductBuildUploadServer",
+      "url": "https://dev.vk.com/ru/method/bugtracker.getProductBuildUploadServer",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "bugtracker.removeCompanyGroupMember",
+      "url": "https://dev.vk.com/ru/method/bugtracker.removeCompanyGroupMember",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "bugtracker.removeCompanyMember",
+      "url": "https://dev.vk.com/ru/method/bugtracker.removeCompanyMember",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "bugtracker.saveProductVersion",
+      "url": "https://dev.vk.com/ru/method/bugtracker.saveProductVersion",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "bugtracker.setCompanyMemberRole",
+      "url": "https://dev.vk.com/ru/method/bugtracker.setCompanyMemberRole",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "bugtracker.setProductIsOver",
+      "url": "https://dev.vk.com/ru/method/bugtracker.setProductIsOver",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "calls.forceFinish",
+      "url": "https://dev.vk.com/ru/method/calls.forceFinish",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "calls.start",
+      "url": "https://dev.vk.com/ru/method/calls.start",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "channels.deleteMessage",
+      "url": "https://dev.vk.com/ru/method/channels.deleteMessage",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "channels.editMessage",
+      "url": "https://dev.vk.com/ru/method/channels.editMessage",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "channels.get",
+      "url": "https://dev.vk.com/ru/method/channels.get",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "channels.getById",
+      "url": "https://dev.vk.com/ru/method/channels.getById",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "channels.getHistory",
+      "url": "https://dev.vk.com/ru/method/channels.getHistory",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "channels.getMessagesById",
+      "url": "https://dev.vk.com/ru/method/channels.getMessagesById",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "channels.sendMessage",
+      "url": "https://dev.vk.com/ru/method/channels.sendMessage",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "database.getCities",
+      "url": "https://dev.vk.com/ru/method/database.getCities",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "database.getCitiesById",
+      "url": "https://dev.vk.com/ru/method/database.getCitiesById",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "database.getRegions",
+      "url": "https://dev.vk.com/ru/method/database.getRegions",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "docs.get",
+      "url": "https://dev.vk.com/ru/method/docs.get",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "docs.getById",
+      "url": "https://dev.vk.com/ru/method/docs.getById",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "docs.getMessagesUploadServer",
+      "url": "https://dev.vk.com/ru/method/docs.getMessagesUploadServer",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "docs.getWallUploadServer",
+      "url": "https://dev.vk.com/ru/method/docs.getWallUploadServer",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "donut.getFriends",
+      "url": "https://dev.vk.com/ru/method/donut.getFriends",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "donut.getSubscription",
+      "url": "https://dev.vk.com/ru/method/donut.getSubscription",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "donut.getSubscriptions",
+      "url": "https://dev.vk.com/ru/method/donut.getSubscriptions",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "donut.isDon",
+      "url": "https://dev.vk.com/ru/method/donut.isDon",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ecosystem.addLibverifyEvent",
+      "url": "https://dev.vk.com/ru/method/ecosystem.addLibverifyEvent",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "ecosystem.checkPasskey",
+      "url": "https://dev.vk.com/ru/method/ecosystem.checkPasskey",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ecosystem.getNextPhone",
+      "url": "https://dev.vk.com/ru/method/ecosystem.getNextPhone",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ecosystem.initCallin",
+      "url": "https://dev.vk.com/ru/method/ecosystem.initCallin",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ecosystem.sendOtpCallReset",
+      "url": "https://dev.vk.com/ru/method/ecosystem.sendOtpCallReset",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "ecosystem.updateCallInStatus",
+      "url": "https://dev.vk.com/ru/method/ecosystem.updateCallInStatus",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "execute",
+      "url": "https://dev.vk.com/ru/method/execute",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "friends.areFriends",
+      "url": "https://dev.vk.com/ru/method/friends.areFriends",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "friends.get",
+      "url": "https://dev.vk.com/ru/method/friends.get",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "friends.getAppUsers",
+      "url": "https://dev.vk.com/ru/method/friends.getAppUsers",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "friends.getLists",
+      "url": "https://dev.vk.com/ru/method/friends.getLists",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "friends.getMutual",
+      "url": "https://dev.vk.com/ru/method/friends.getMutual",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "friends.getOnline",
+      "url": "https://dev.vk.com/ru/method/friends.getOnline",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "friends.getRecent",
+      "url": "https://dev.vk.com/ru/method/friends.getRecent",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "friends.getRequests",
+      "url": "https://dev.vk.com/ru/method/friends.getRequests",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "friends.getSuggestions",
+      "url": "https://dev.vk.com/ru/method/friends.getSuggestions",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "friends.search",
+      "url": "https://dev.vk.com/ru/method/friends.search",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "gifts.get",
+      "url": "https://dev.vk.com/ru/method/gifts.get",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.addAddress",
+      "url": "https://dev.vk.com/ru/method/groups.addAddress",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.addCallbackServer",
+      "url": "https://dev.vk.com/ru/method/groups.addCallbackServer",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.deleteAddress",
+      "url": "https://dev.vk.com/ru/method/groups.deleteAddress",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.deleteCallbackServer",
+      "url": "https://dev.vk.com/ru/method/groups.deleteCallbackServer",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.disableOnline",
+      "url": "https://dev.vk.com/ru/method/groups.disableOnline",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.editAddress",
+      "url": "https://dev.vk.com/ru/method/groups.editAddress",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.editCallbackServer",
+      "url": "https://dev.vk.com/ru/method/groups.editCallbackServer",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.enableOnline",
+      "url": "https://dev.vk.com/ru/method/groups.enableOnline",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.get",
+      "url": "https://dev.vk.com/ru/method/groups.get",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "groups.getAddresses",
+      "url": "https://dev.vk.com/ru/method/groups.getAddresses",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "groups.getBanned",
+      "url": "https://dev.vk.com/ru/method/groups.getBanned",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.getById",
+      "url": "https://dev.vk.com/ru/method/groups.getById",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": true
+      }
+    },
+    {
+      "name": "groups.getCallbackConfirmationCode",
+      "url": "https://dev.vk.com/ru/method/groups.getCallbackConfirmationCode",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.getCallbackServers",
+      "url": "https://dev.vk.com/ru/method/groups.getCallbackServers",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.getCallbackSettings",
+      "url": "https://dev.vk.com/ru/method/groups.getCallbackSettings",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.getCatalogInfo",
+      "url": "https://dev.vk.com/ru/method/groups.getCatalogInfo",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.getInvitedUsers",
+      "url": "https://dev.vk.com/ru/method/groups.getInvitedUsers",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.getInvites",
+      "url": "https://dev.vk.com/ru/method/groups.getInvites",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.getLongPollServer",
+      "url": "https://dev.vk.com/ru/method/groups.getLongPollServer",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.getLongPollSettings",
+      "url": "https://dev.vk.com/ru/method/groups.getLongPollSettings",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.getMembers",
+      "url": "https://dev.vk.com/ru/method/groups.getMembers",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": true
+      }
+    },
+    {
+      "name": "groups.getOnlineStatus",
+      "url": "https://dev.vk.com/ru/method/groups.getOnlineStatus",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.getRequests",
+      "url": "https://dev.vk.com/ru/method/groups.getRequests",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.getTagList",
+      "url": "https://dev.vk.com/ru/method/groups.getTagList",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.getTokenPermissions",
+      "url": "https://dev.vk.com/ru/method/groups.getTokenPermissions",
+      "tokens": {
+        "user_token": false,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.isMember",
+      "url": "https://dev.vk.com/ru/method/groups.isMember",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": true
+      }
+    },
+    {
+      "name": "groups.search",
+      "url": "https://dev.vk.com/ru/method/groups.search",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.setCallbackSettings",
+      "url": "https://dev.vk.com/ru/method/groups.setCallbackSettings",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.setLongPollSettings",
+      "url": "https://dev.vk.com/ru/method/groups.setLongPollSettings",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.setSettings",
+      "url": "https://dev.vk.com/ru/method/groups.setSettings",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.setUserNote",
+      "url": "https://dev.vk.com/ru/method/groups.setUserNote",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.tagAdd",
+      "url": "https://dev.vk.com/ru/method/groups.tagAdd",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.tagBind",
+      "url": "https://dev.vk.com/ru/method/groups.tagBind",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.tagDelete",
+      "url": "https://dev.vk.com/ru/method/groups.tagDelete",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.tagUpdate",
+      "url": "https://dev.vk.com/ru/method/groups.tagUpdate",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.toggleMarket",
+      "url": "https://dev.vk.com/ru/method/groups.toggleMarket",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "groups.unban",
+      "url": "https://dev.vk.com/ru/method/groups.unban",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "leadForms.create",
+      "url": "https://dev.vk.com/ru/method/leadForms.create",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "leadForms.delete",
+      "url": "https://dev.vk.com/ru/method/leadForms.delete",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "leadForms.get",
+      "url": "https://dev.vk.com/ru/method/leadForms.get",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "leadForms.getLeads",
+      "url": "https://dev.vk.com/ru/method/leadForms.getLeads",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "leadForms.getUploadURL",
+      "url": "https://dev.vk.com/ru/method/leadForms.getUploadURL",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "leadForms.list",
+      "url": "https://dev.vk.com/ru/method/leadForms.list",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "leadForms.update",
+      "url": "https://dev.vk.com/ru/method/leadForms.update",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "likes.getList",
+      "url": "https://dev.vk.com/ru/method/likes.getList",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "likes.isLiked",
+      "url": "https://dev.vk.com/ru/method/likes.isLiked",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "loyaltyTeen.hasAccount",
+      "url": "https://dev.vk.com/ru/method/loyaltyTeen.hasAccount",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "loyaltyTeen.partnerCompleteAchievement",
+      "url": "https://dev.vk.com/ru/method/loyaltyTeen.partnerCompleteAchievement",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "loyaltyTeen.partnerCompleteTask",
+      "url": "https://dev.vk.com/ru/method/loyaltyTeen.partnerCompleteTask",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "loyaltyTeen.partnerCreateAccount",
+      "url": "https://dev.vk.com/ru/method/loyaltyTeen.partnerCreateAccount",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "loyaltyTeen.partnerGetAchievements",
+      "url": "https://dev.vk.com/ru/method/loyaltyTeen.partnerGetAchievements",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "loyaltyTeen.partnerGetBalance",
+      "url": "https://dev.vk.com/ru/method/loyaltyTeen.partnerGetBalance",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "loyaltyTeen.partnerGetOffers",
+      "url": "https://dev.vk.com/ru/method/loyaltyTeen.partnerGetOffers",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "loyaltyTeen.partnerHasAccount",
+      "url": "https://dev.vk.com/ru/method/loyaltyTeen.partnerHasAccount",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "loyaltyTeen.sumsubCallback",
+      "url": "https://dev.vk.com/ru/method/loyaltyTeen.sumsubCallback",
+      "tokens": {
+        "user_token": false,
+        "community_token": false,
+        "service_token": true
+      }
+    },
+    {
+      "name": "market.add",
+      "url": "https://dev.vk.com/ru/method/market.add",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.addAlbum",
+      "url": "https://dev.vk.com/ru/method/market.addAlbum",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.addProperty",
+      "url": "https://dev.vk.com/ru/method/market.addProperty",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.addPropertyVariant",
+      "url": "https://dev.vk.com/ru/method/market.addPropertyVariant",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.addToAlbum",
+      "url": "https://dev.vk.com/ru/method/market.addToAlbum",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.createComment",
+      "url": "https://dev.vk.com/ru/method/market.createComment",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.delete",
+      "url": "https://dev.vk.com/ru/method/market.delete",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.deleteAlbum",
+      "url": "https://dev.vk.com/ru/method/market.deleteAlbum",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.deleteComment",
+      "url": "https://dev.vk.com/ru/method/market.deleteComment",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.deleteProperty",
+      "url": "https://dev.vk.com/ru/method/market.deleteProperty",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.deletePropertyVariant",
+      "url": "https://dev.vk.com/ru/method/market.deletePropertyVariant",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.edit",
+      "url": "https://dev.vk.com/ru/method/market.edit",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.editAlbum",
+      "url": "https://dev.vk.com/ru/method/market.editAlbum",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.editComment",
+      "url": "https://dev.vk.com/ru/method/market.editComment",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.editOrder",
+      "url": "https://dev.vk.com/ru/method/market.editOrder",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.editProperty",
+      "url": "https://dev.vk.com/ru/method/market.editProperty",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.editPropertyVariant",
+      "url": "https://dev.vk.com/ru/method/market.editPropertyVariant",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.get",
+      "url": "https://dev.vk.com/ru/method/market.get",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.getAlbumById",
+      "url": "https://dev.vk.com/ru/method/market.getAlbumById",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.getAlbums",
+      "url": "https://dev.vk.com/ru/method/market.getAlbums",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.getById",
+      "url": "https://dev.vk.com/ru/method/market.getById",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.getCategories",
+      "url": "https://dev.vk.com/ru/method/market.getCategories",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.getComments",
+      "url": "https://dev.vk.com/ru/method/market.getComments",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.getGroupOrders",
+      "url": "https://dev.vk.com/ru/method/market.getGroupOrders",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.getOrderById",
+      "url": "https://dev.vk.com/ru/method/market.getOrderById",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.getOrderItems",
+      "url": "https://dev.vk.com/ru/method/market.getOrderItems",
+      "tokens": {
+        "user_token": true,
+        "community_token": true,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.getOrders",
+      "url": "https://dev.vk.com/ru/method/market.getOrders",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.getProductPhotoUploadServer",
+      "url": "https://dev.vk.com/ru/method/market.getProductPhotoUploadServer",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.getProperties",
+      "url": "https://dev.vk.com/ru/method/market.getProperties",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.groupItems",
+      "url": "https://dev.vk.com/ru/method/market.groupItems",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.removeFromAlbum",
+      "url": "https://dev.vk.com/ru/method/market.removeFromAlbum",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.reorderAlbums",
+      "url": "https://dev.vk.com/ru/method/market.reorderAlbums",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.reorderItems",
+      "url": "https://dev.vk.com/ru/method/market.reorderItems",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.report",
+      "url": "https://dev.vk.com/ru/method/market.report",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.reportComment",
+      "url": "https://dev.vk.com/ru/method/market.reportComment",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.restore",
+      "url": "https://dev.vk.com/ru/method/market.restore",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.restoreComment",
+      "url": "https://dev.vk.com/ru/method/market.restoreComment",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    },
+    {
+      "name": "market.saveProductPhoto",
+      "url": "https://dev.vk.com/ru/method/market.saveProductPhoto",
+      "tokens": {
+        "user_token": true,
+        "community_token": false,
+        "service_token": false
+      }
+    }
+  ]
+}

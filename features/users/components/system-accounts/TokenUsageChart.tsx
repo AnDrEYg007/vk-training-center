@@ -59,8 +59,10 @@ export const TokenUsageChart: React.FC<{ data: ChartDataPoint[] }> = ({ data }) 
     // Состояние видимости методов
     const [visibleMethods, setVisibleMethods] = useState<Set<string>>(new Set());
 
+    // Фиксированная высота, адаптивная ширина с минимальным порогом
     const height = 240;
-    const width = 1000;
+    const minWidth = 600;
+    const width = 1000; // Базовое значение для viewBox
     const paddingX = 50;
     const paddingY = 40;
 
@@ -169,8 +171,8 @@ export const TokenUsageChart: React.FC<{ data: ChartDataPoint[] }> = ({ data }) 
 
     return (
         <div className="w-full bg-white rounded-lg border border-gray-200 shadow-sm p-2">
-            <div className="relative h-64 w-full select-none">
-                <svg viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none" className="w-full h-full overflow-visible">
+            <div className="relative w-full select-none" style={{ aspectRatio: `${width} / ${height}`, maxHeight: '280px' }}>
+                <svg viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="xMidYMid meet" className="w-full h-full overflow-visible">
                     {/* Сетка */}
                     <line x1={paddingX} y1={paddingY} x2={width - paddingX} y2={paddingY} stroke="#e5e7eb" strokeDasharray="4" />
                     <line x1={paddingX} y1={(height - paddingY + paddingY) / 2} x2={width - paddingX} y2={(height - paddingY + paddingY) / 2} stroke="#e5e7eb" strokeDasharray="4" />

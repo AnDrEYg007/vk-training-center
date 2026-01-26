@@ -1,6 +1,9 @@
 
 import { API_BASE_URL } from '../config';
 
+// Re-export for use in other modules
+export { API_BASE_URL };
+
 // The FastAPI backend might return validation errors in this format
 interface FastApiErrorDetail {
     loc: (string | number)[];

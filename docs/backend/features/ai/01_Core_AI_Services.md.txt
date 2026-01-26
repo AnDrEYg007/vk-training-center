@@ -1,0 +1,42 @@
+﻿# Основные AI-сервисы
+
+**Ключевой файл:** `backend_python/services/ai_service.py`
+
+Этот модуль является высокоуровневым сервисом, который инкапсулирует логику для конкретных AI-задач, формируя промпты и вызывая низкоуровневый `gemini_service`.
+
+---
+
+## 1. Основные функции
+
+### `generate_text_from_prompt(prompt, system_prompt)`
+-   **Назначение:** Сгенерировать текст на основе пользовательского и системного промптов.
+-   **Логика:**
+    1.  Проверяет, предоставлен ли `system_prompt`. Если нет, использует `DEFAULT_SYSTEM_PROMPT`.
+    2.  Вызывает `gemini_service.generate_text`, передавая ему оба промпта.
+    3.  Обрабатывает возможные исключения от `gemini_service` и преобразует их в `HTTPException`.
+-   **Связи:**
+    -   Вызывается из: `routers/ai.py`.
+    -   Вызывает: `gemini_service.generate_text`.
+
+### `correct_suggested_text(db, text, project_id, user_token)`
+-   **Назначение:** Исправить текст предложенного поста (отзыва), добавив хештег и благодарность.
+-   **Логика "Сбора контекста":**
+    1.  Получает данные проекта из БД (`crud.get_project_by_id`).
+    2.  Вызывает `vk_service.call_vk_api('groups.getById', ...)` для получения актуального `screen_name` и `site` сообщества.
+    3.  Получает переменную `DLVRY` из настроек проекта (`crud.get_project_variables`).
+    4.  **Формирует промпт:** Собирает все полученные данные (текст, `screen_name`, `DLVRY`) в одну большую инструкцию для Gemini.
+    5.  Вызывает `gemini_service.get_corrected_text` (который, в свою очередь, вызывает `generate_text`).
+-   **Связи:**
+    -   Вызывается из: `routers/ai.py`.
+    -   Вызывает: `gemini_service.get_corrected_text`, `vk_service.call_vk_api`, `crud.get_project_variables`.
+
+### `run_ai_variable_setup(db, payload, user_token)`
+-   **Назначение:** "Умная" настройка — автоматически заполнить пустые переменные проекта.
+-   **Логика:**
+    1.  Получает данные проекта из БД.
+    2.  Вызывает `vk_service.call_vk_api('groups.getById', ...)` с расширенным списком полей (`description, status, addresses, links, contacts, site`) для получения максимального контекста о сообществе.
+    3.  **Формирует промпт:** Передает в Gemini JSON с информацией о группе и JSON со списком пустых переменных, которые нужно заполнить.
+    4.  Вызывает `gemini_service.get_ai_variables`.
+-   **Связи:**
+    -   Вызывается из: `routers/ai.py`.
+    -   Вызывает: `gemini_service.get_ai_variables`, `vk_service.call_vk_api`.

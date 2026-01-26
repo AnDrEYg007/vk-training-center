@@ -73,6 +73,16 @@ def clear_logs(db: Session, token_id: str = None):
     query.delete(synchronize_session=False)
     db.commit()
 
+def delete_log(db: Session, log_id: str):
+    """Удаляет одну запись лога по ID."""
+    db.query(models.AiTokenLog).filter(models.AiTokenLog.id == log_id).delete(synchronize_session=False)
+    db.commit()
+
+def delete_logs_batch(db: Session, log_ids: List[str]):
+    """Удаляет несколько записей логов по списку ID."""
+    db.query(models.AiTokenLog).filter(models.AiTokenLog.id.in_(log_ids)).delete(synchronize_session=False)
+    db.commit()
+
 def get_all_stats_map(db: Session) -> Dict[str, Dict[str, int]]:
     """
     Возвращает карту статистики для ВСЕХ AI токенов.

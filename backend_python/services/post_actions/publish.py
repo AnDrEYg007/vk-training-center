@@ -36,9 +36,9 @@ def publish_now(db: Session, payload: schemas.PublishPostPayload, user_token: st
         'attachments': ",".join(attachments),
     }
     
-    # Используем новую функцию с ротацией
-    # При публикации "сейчас" используется wall.post
-    new_post_response = vk_service.publish_with_fallback(params, method='wall.post', preferred_token=project.communityToken)
+    # ВАЖНО: Используем user_token для wall.post
+    # communityToken не может использовать attachment'ы, загруженные пользовательским токеном
+    new_post_response = vk_service.publish_with_fallback(params, method='wall.post', preferred_token=user_token)
 
     if not payload.post.id.startswith('new-post-') and delete_original:
         try:
@@ -102,10 +102,9 @@ def publish_post_task(task_id: str, payload: schemas.SavePostPayload, user_token
 
         task_monitor.update_task(task_id, "processing", message="Отправка в VK (подбор токена)...")
 
-        # Пытаемся опубликовать, используя ротацию токенов
-        # В качестве приоритетного токена передаем токен сообщества (если есть)
-        # Метод по умолчанию wall.post
-        new_post_response = vk_service.publish_with_fallback(params, method='wall.post', preferred_token=project.communityToken)
+        # ВАЖНО: Используем user_token для wall.post
+        # communityToken не может использовать attachment'ы, загруженные пользовательским токеном
+        new_post_response = vk_service.publish_with_fallback(params, method='wall.post', preferred_token=user_token)
 
         new_post_id = new_post_response.get('post_id')
         if not new_post_id:

@@ -12,6 +12,13 @@ class AiToken(Base):
     
     # Зашифрованный API ключ Gemini
     token = Column(EncryptedString, nullable=False)
+    
+    # Статус проверки токена: 'active' | 'error' | 'unknown'
+    status = Column(String, default='unknown', nullable=False)
+    # Сообщение об ошибке (если status='error')
+    status_error = Column(Text, nullable=True)
+    # Время последней проверки
+    last_checked = Column(DateTime(timezone=True), nullable=True)
 
 class AiTokenLog(Base):
     __tablename__ = "ai_token_logs"

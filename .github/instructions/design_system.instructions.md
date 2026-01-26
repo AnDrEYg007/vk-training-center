@@ -81,4 +81,59 @@ Your goal is to implement UI strictly according to this Design System.
 
 ---
 
-## 4. COLORS & THEMING
+## 4. TABS / SECTION NAVIGATION (Strict)
+**Rule:** All internal section/tab navigation (main tabs, sub-tabs, nested navigation) MUST use the unified **underline tab style** with `border-b-2`. Do NOT create alternative tab styles (rounded tabs, pill buttons, etc.).
+
+**Standard Tab Class Function:**
+```tsx
+const tabClass = (tabName: string) => `py-2 px-2 text-sm font-medium border-b-2 transition-colors ${
+    activeTab === tabName 
+        ? 'border-indigo-600 text-indigo-600' 
+        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+}`;
+```
+
+**Container Structure:**
+```tsx
+<div className="px-4 pt-2 bg-white border-b border-gray-200">
+    <div className="flex gap-4">
+        <button onClick={() => setActiveTab('tab1')} className={tabClass('tab1')}>Tab 1</button>
+        <button onClick={() => setActiveTab('tab2')} className={tabClass('tab2')}>Tab 2</button>
+    </div>
+</div>
+```
+
+**Key Specs:**
+- **Active state:** `border-indigo-600 text-indigo-600` (indigo underline + text)
+- **Inactive state:** `border-transparent text-gray-500`
+- **Hover:** `hover:text-gray-700 hover:border-gray-300`
+- **Spacing:** `gap-4` between tabs, `px-2 py-2` padding on each tab
+- **Font:** `text-sm font-medium`
+
+**This applies to:**
+- Main page tabs (Settings, User Management, etc.)
+- Sub-section tabs (Logs -> Callback API / Tokens)
+- Any nested logical section switchers
+
+---
+
+## 5. COLORS & THEMING
+
+---
+
+## 5. NOTIFICATIONS & CONFIRMATIONS
+**Rule:** NEVER use native browser methods: `alert()`, `confirm()`, or `prompt()`. These are strictly prohibited for UX consistency.
+
+### Feedback Notifications (Toasts)
+- **Position:** Bottom-right corner.
+- **Behavior:** Automatically disappear after a few seconds or when clicked.
+- **Implementation:** Use the global `showAppToast(message, type)` bridge.
+- **Purpose:** Non-blocking feedback like "Saved", "Copied", or background errors.
+
+### Confirmation Modals
+- **Rule:** Use a modal window for actions requiring explicit user consent (e.g., deletions, destructive edits).
+- **Z-Index:** Must appear above all other elements with a darkened backdrop (`bg-black/50`).
+- **Interactive Elements:**
+    - **Confirm:** Primary button (Green) or Danger button (Red).
+    - **Cancel:** Secondary button (Gray).
+- **Dismissal:** Must be closeable via the "Cancel" button or clicking outside if safe.

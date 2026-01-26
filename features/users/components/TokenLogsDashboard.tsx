@@ -40,7 +40,7 @@ const MultiSelectDropdown: React.FC<{
         <div className="relative" ref={wrapperRef}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className={`flex items-center justify-between w-48 px-3 py-2 text-sm border rounded-md bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+                className={`flex items-center justify-between w-44 px-3 py-1.5 text-sm border rounded-md bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
                     selectedCount > 0 ? 'border-indigo-300 text-indigo-700 bg-indigo-50' : 'border-gray-300 text-gray-700'
                 }`}
             >
@@ -66,9 +66,13 @@ const MultiSelectDropdown: React.FC<{
     );
 };
 
-export const TokenLogsDashboard: React.FC = () => {
-    // --- Global State ---
-    const [activeTab, setActiveTab] = useState<'vk' | 'ai'>('vk');
+interface TokenLogsDashboardProps {
+    mode: 'vk' | 'ai';
+}
+
+export const TokenLogsDashboard: React.FC<TokenLogsDashboardProps> = ({ mode }) => {
+    // mode определяет какие логи показывать (vk или ai)
+    const activeTab = mode;
     
     // --- VK Logs State ---
     const [vkLogs, setVkLogs] = useState<TokenLog[]>([]);
@@ -81,17 +85,28 @@ export const TokenLogsDashboard: React.FC = () => {
     const [aiTokens, setAiTokens] = useState<AiToken[]>([]);
     const [aiSelectedTokenIds, setAiSelectedTokenIds] = useState<Set<string>>(new Set());
     
-    // --- Common State ---
+    // --- Infinite Scroll State ---
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingMore, setIsLoadingMore] = useState(false);
     const [page, setPage] = useState(1);
     const [pageSize] = useState(50);
     const [totalCount, setTotalCount] = useState(0);
+    const [hasMore, setHasMore] = useState(true);
     
     const [searchQuery, setSearchQuery] = useState('');
     const [statusFilter, setStatusFilter] = useState<'all' | 'success' | 'error'>('all');
     
-    const [isClearing, setIsClearing] = useState(false);
-    const [showClearConfirm, setShowClearConfirm] = useState(false);
+    // --- Состояние выбора записей для удаления ---
+    const [selectedLogIds, setSelectedLogIds] = useState<Set<string>>(new Set());
+    const [isDeleting, setIsDeleting] = useState(false);
+    
+    // Типы действий для модального окна подтверждения
+    type ConfirmAction = 'deleteOne' | 'deleteSelected' | 'deleteAll' | null;
+    const [confirmAction, setConfirmAction] = useState<ConfirmAction>(null);
+    const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
+    
+    // Ref для контейнера скролла
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     // Загрузка списков (один раз)
     useEffect(() => {
@@ -100,9 +115,10 @@ export const TokenLogsDashboard: React.FC = () => {
         api.getAllAiTokens().then(setAiTokens).catch(console.error);
     }, []);
 
-    // Функция загрузки логов
-    const fetchLogs = useCallback(async () => {
+    // Функция начальной загрузки логов (сброс и загрузка первой страницы)
+    const fetchLogsInitial = useCallback(async () => {
         setIsLoading(true);
+        setPage(1);
         try {
             if (activeTab === 'vk') {
                 const filters: GetLogsFilters = {
@@ -110,75 +126,201 @@ export const TokenLogsDashboard: React.FC = () => {
                     searchQuery: searchQuery || undefined,
                     status: statusFilter
                 };
-                const data = await api.getLogs(page, pageSize, filters);
+                const data = await api.getLogs(1, pageSize, filters);
                 setVkLogs(data.items);
                 setTotalCount(data.total_count);
+                setHasMore(data.items.length >= pageSize && data.items.length < data.total_count);
             } else {
                 const filters: GetAiLogsFilters = {
                     tokenIds: Array.from(aiSelectedTokenIds),
                     searchQuery: searchQuery || undefined,
                     status: statusFilter
                 };
-                const data = await api.getAiLogs(page, pageSize, filters);
+                const data = await api.getAiLogs(1, pageSize, filters);
                 setAiLogs(data.items);
                 setTotalCount(data.total_count);
+                setHasMore(data.items.length >= pageSize && data.items.length < data.total_count);
             }
         } catch (err) {
             console.error("Failed to fetch logs:", err);
         } finally {
             setIsLoading(false);
         }
-    }, [activeTab, page, pageSize, vkSelectedAccountIds, aiSelectedTokenIds, searchQuery, statusFilter]);
+    }, [activeTab, pageSize, vkSelectedAccountIds, aiSelectedTokenIds, searchQuery, statusFilter]);
 
-    // Дебаунс для поиска и фильтров
+    // Функция подгрузки следующей страницы (append)
+    const loadMore = useCallback(async () => {
+        if (isLoadingMore || !hasMore) return;
+        
+        setIsLoadingMore(true);
+        const nextPage = page + 1;
+        
+        try {
+            if (activeTab === 'vk') {
+                const filters: GetLogsFilters = {
+                    accountIds: Array.from(vkSelectedAccountIds),
+                    searchQuery: searchQuery || undefined,
+                    status: statusFilter
+                };
+                const data = await api.getLogs(nextPage, pageSize, filters);
+                setVkLogs(prev => [...prev, ...data.items]);
+                setHasMore(data.items.length >= pageSize && (vkLogs.length + data.items.length) < data.total_count);
+            } else {
+                const filters: GetAiLogsFilters = {
+                    tokenIds: Array.from(aiSelectedTokenIds),
+                    searchQuery: searchQuery || undefined,
+                    status: statusFilter
+                };
+                const data = await api.getAiLogs(nextPage, pageSize, filters);
+                setAiLogs(prev => [...prev, ...data.items]);
+                setHasMore(data.items.length >= pageSize && (aiLogs.length + data.items.length) < data.total_count);
+            }
+            setPage(nextPage);
+        } catch (err) {
+            console.error("Failed to load more logs:", err);
+        } finally {
+            setIsLoadingMore(false);
+        }
+    }, [activeTab, page, pageSize, vkSelectedAccountIds, aiSelectedTokenIds, searchQuery, statusFilter, isLoadingMore, hasMore, vkLogs.length, aiLogs.length]);
+
+    // Infinite scroll handler
+    const handleScroll = useCallback(() => {
+        const container = scrollContainerRef.current;
+        if (!container || isLoadingMore || !hasMore) return;
+        
+        const { scrollTop, scrollHeight, clientHeight } = container;
+        // Подгружаем когда до конца осталось менее 200px
+        if (scrollHeight - scrollTop - clientHeight < 200) {
+            loadMore();
+        }
+    }, [loadMore, isLoadingMore, hasMore]);
+
+    // Подписка на скролл
+    useEffect(() => {
+        const container = scrollContainerRef.current;
+        if (container) {
+            container.addEventListener('scroll', handleScroll);
+            return () => container.removeEventListener('scroll', handleScroll);
+        }
+    }, [handleScroll]);
+
+    // Дебаунс для поиска и фильтров - сбрасывает и загружает заново
     useEffect(() => {
         const timer = setTimeout(() => {
-            setPage(1);
-            fetchLogs();
+            fetchLogsInitial();
         }, 500);
         return () => clearTimeout(timer);
-    }, [activeTab, vkSelectedAccountIds, aiSelectedTokenIds, searchQuery, statusFilter]);
-
-    // Пагинация
-    useEffect(() => {
-        fetchLogs();
-    }, [page]);
+    }, [vkSelectedAccountIds, aiSelectedTokenIds, searchQuery, statusFilter]);
     
-    // Сброс фильтров при переключении табов
+    // Сброс и загрузка при смене режима (mode prop)
     useEffect(() => {
-        setPage(1);
         setSearchQuery('');
         setStatusFilter('all');
         setTotalCount(0);
-        // Не сбрасываем выбранные аккаунты/токены, пусть хранятся в своих стейтах
-    }, [activeTab]);
+        setHasMore(true);
+        setPage(1);
+        setSelectedLogIds(new Set());
+        if (mode === 'vk') {
+            setVkLogs([]);
+        } else {
+            setAiLogs([]);
+        }
+        fetchLogsInitial();
+    }, [mode]);
 
-
-    const handleClearLogs = async () => {
-        setIsClearing(true);
-        try {
-            if (activeTab === 'vk') {
-                let accountIdToClear: string | null = null;
-                if (vkSelectedAccountIds.size === 1) {
-                    accountIdToClear = vkSelectedAccountIds.values().next().value;
-                }
-                await api.clearLogs(accountIdToClear);
+    // --- Функции выбора записей ---
+    const toggleSelectLog = (id: string) => {
+        setSelectedLogIds(prev => {
+            const next = new Set(prev);
+            if (next.has(id)) {
+                next.delete(id);
             } else {
-                let tokenIdToClear: string | null = null;
-                if (aiSelectedTokenIds.size === 1) {
-                    tokenIdToClear = aiSelectedTokenIds.values().next().value;
-                }
-                await api.clearAiLogs(tokenIdToClear);
+                next.add(id);
             }
-            
-            setShowClearConfirm(false);
-            window.showAppToast?.("Логи очищены.", 'success');
-            fetchLogs();
+            return next;
+        });
+    };
+
+    const toggleSelectAll = () => {
+        const currentLogs = activeTab === 'vk' ? vkLogs : aiLogs;
+        if (selectedLogIds.size === currentLogs.length) {
+            setSelectedLogIds(new Set());
+        } else {
+            setSelectedLogIds(new Set(currentLogs.map(l => l.id)));
+        }
+    };
+
+    // --- Функции удаления ---
+    const handleDeleteOne = (id: string) => {
+        setDeleteTargetId(id);
+        setConfirmAction('deleteOne');
+    };
+
+    const handleDeleteSelected = () => {
+        if (selectedLogIds.size === 0) return;
+        setConfirmAction('deleteSelected');
+    };
+
+    const handleDeleteAll = () => {
+        setConfirmAction('deleteAll');
+    };
+
+    const executeDelete = async () => {
+        setIsDeleting(true);
+        try {
+            if (confirmAction === 'deleteOne' && deleteTargetId !== null) {
+                if (activeTab === 'vk') {
+                    await api.deleteVkLog(deleteTargetId);
+                } else {
+                    await api.deleteAiLog(deleteTargetId);
+                }
+                window.showAppToast?.('Запись удалена', 'success');
+            } else if (confirmAction === 'deleteSelected') {
+                const ids: string[] = Array.from(selectedLogIds);
+                if (activeTab === 'vk') {
+                    // VK логи используют Integer ID, нужно преобразовать
+                    await api.deleteVkLogsBatch(ids.map(id => parseInt(id)));
+                } else {
+                    // AI логи тоже используют Integer ID
+                    await api.deleteAiLogsBatch(ids.map(id => parseInt(id)));
+                }
+                window.showAppToast?.(`Удалено ${selectedLogIds.size} записей`, 'success');
+            } else if (confirmAction === 'deleteAll') {
+                // Используем существующую логику очистки всех
+                if (activeTab === 'vk') {
+                    await api.clearLogs(null);
+                } else {
+                    await api.clearAiLogs(null);
+                }
+                window.showAppToast?.('Все логи удалены', 'success');
+            }
+            setSelectedLogIds(new Set());
+            fetchLogsInitial();
         } catch (err) {
             console.error(err);
-            window.showAppToast?.("Не удалось очистить логи", 'error');
+            window.showAppToast?.('Не удалось удалить', 'error');
         } finally {
-            setIsClearing(false);
+            setIsDeleting(false);
+            setConfirmAction(null);
+            setDeleteTargetId(null);
+        }
+    };
+
+    const cancelDelete = () => {
+        setConfirmAction(null);
+        setDeleteTargetId(null);
+    };
+
+    const getConfirmMessage = () => {
+        switch (confirmAction) {
+            case 'deleteOne':
+                return 'Удалить эту запись?';
+            case 'deleteSelected':
+                return `Удалить выбранные записи (${selectedLogIds.size} шт.)?`;
+            case 'deleteAll':
+                return `Удалить ВСЕ логи ${activeTab === 'vk' ? 'VK' : 'AI'}? Это действие нельзя отменить.`;
+            default:
+                return '';
         }
     };
     
@@ -220,28 +362,66 @@ export const TokenLogsDashboard: React.FC = () => {
         ...aiTokens.map(t => ({ id: t.id, label: t.description || 'Без названия' }))
     ];
 
+    const currentLogs = activeTab === 'vk' ? vkLogs : aiLogs;
+    const currentLogsCount = currentLogs.length;
+
     return (
         <div className="flex flex-col h-full">
-            {/* Вкладки */}
-            <div className="px-4 pt-4 bg-white border-b border-gray-200">
-                <div className="flex gap-4">
+            {/* Заголовок секции с кнопками */}
+            <div className="p-4 border-b border-gray-200 bg-white flex justify-between items-center">
+                <div className="flex items-center gap-2">
+                    <h2 className="text-lg font-semibold text-gray-800">
+                        {activeTab === 'vk' ? 'VK Логи' : 'AI Логи'}
+                    </h2>
+                    <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
+                        Загружено: {currentLogsCount} из {totalCount}
+                    </span>
+                </div>
+                <div className="flex gap-2">
                     <button 
-                        onClick={() => setActiveTab('vk')}
-                        className={`pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'vk' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+                        type="button"
+                        onClick={handleDeleteAll}
+                        disabled={currentLogsCount === 0 || isDeleting}
+                        className="inline-flex items-center px-3 py-1.5 border border-red-300 text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 disabled:opacity-50"
+                        title="Удалить все логи"
                     >
-                        VK Логи
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                        Удалить все
                     </button>
                     <button 
-                        onClick={() => setActiveTab('ai')}
-                        className={`pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'ai' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+                        type="button"
+                        onClick={fetchLogsInitial}
+                        disabled={isLoading || isDeleting}
+                        className="inline-flex items-center px-3 py-1.5 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
+                        title="Обновить данные"
                     >
-                        AI Логи
+                        <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                        Обновить
                     </button>
                 </div>
             </div>
 
-            {/* Панель фильтров */}
-            <div className="p-4 bg-white border-b border-gray-200 flex flex-wrap gap-4 items-center justify-between">
+            {/* Панель выбранных записей + фильтры */}
+            <div className="px-4 py-2 bg-gray-50 border-b border-gray-200 flex flex-wrap items-center gap-4">
+                {/* Выбранные записи */}
+                <div className="flex items-center gap-3">
+                    <span className="text-sm text-gray-600">
+                        Выбрано: <span className="font-medium">{selectedLogIds.size}</span> из {currentLogsCount}
+                    </span>
+                    <button 
+                        onClick={handleDeleteSelected}
+                        disabled={selectedLogIds.size === 0 || isDeleting}
+                        className="inline-flex items-center px-3 py-1 border border-red-300 text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                        Удалить выбранные
+                    </button>
+                </div>
+
+                {/* Разделитель */}
+                <div className="w-px h-6 bg-gray-300"></div>
+
+                {/* Фильтры */}
                 <div className="flex flex-wrap items-center gap-3">
                     {activeTab === 'vk' ? (
                         <MultiSelectDropdown 
@@ -259,13 +439,13 @@ export const TokenLogsDashboard: React.FC = () => {
                         />
                     )}
                     
-                    <div className="relative w-64">
+                    <div className="relative w-56">
                          <input
                             type="text"
-                            placeholder={activeTab === 'vk' ? "Поиск (метод, ошибка, проект)..." : "Поиск (модель, ошибка)..."}
+                            placeholder={activeTab === 'vk' ? "Поиск (метод, ошибка)..." : "Поиск (модель, ошибка)..."}
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                            className="w-full pl-9 pr-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                         />
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
@@ -275,62 +455,78 @@ export const TokenLogsDashboard: React.FC = () => {
                     <div className="flex rounded-md shadow-sm">
                         <button
                             onClick={() => setStatusFilter('all')}
-                            className={`px-3 py-2 text-sm font-medium border rounded-l-md ${statusFilter === 'all' ? 'bg-indigo-50 text-indigo-700 border-indigo-300' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'}`}
+                            className={`px-3 py-1.5 text-sm font-medium border rounded-l-md ${statusFilter === 'all' ? 'bg-indigo-50 text-indigo-700 border-indigo-300' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'}`}
                         >
                             Все
                         </button>
                         <button
                             onClick={() => setStatusFilter('success')}
-                            className={`px-3 py-2 text-sm font-medium border-t border-b border-r ${statusFilter === 'success' ? 'bg-green-50 text-green-700 border-green-300' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'}`}
+                            className={`px-3 py-1.5 text-sm font-medium border-t border-b border-r ${statusFilter === 'success' ? 'bg-green-50 text-green-700 border-green-300' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'}`}
                         >
                             Успех
                         </button>
                         <button
                             onClick={() => setStatusFilter('error')}
-                            className={`px-3 py-2 text-sm font-medium border-t border-b border-r rounded-r-md ${statusFilter === 'error' ? 'bg-red-50 text-red-700 border-red-300' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'}`}
+                            className={`px-3 py-1.5 text-sm font-medium border-t border-b border-r rounded-r-md ${statusFilter === 'error' ? 'bg-red-50 text-red-700 border-red-300' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'}`}
                         >
                             Ошибки
                         </button>
                     </div>
                 </div>
-
-                <button 
-                    onClick={() => setShowClearConfirm(true)} 
-                    className="px-3 py-2 text-sm font-medium text-red-600 bg-white border border-red-200 rounded-md hover:bg-red-50 shadow-sm"
-                    disabled={isLoading || (activeTab === 'vk' ? vkLogs.length === 0 : aiLogs.length === 0)}
-                >
-                    Очистить
-                </button>
             </div>
 
-            {/* Таблица */}
-            <div className="flex-grow overflow-auto custom-scrollbar bg-gray-50 p-4">
-                {isLoading && (activeTab === 'vk' ? vkLogs.length === 0 : aiLogs.length === 0) ? (
+            {/* Таблица с infinite scroll */}
+            <div 
+                ref={scrollContainerRef}
+                className="flex-grow overflow-auto custom-scrollbar bg-gray-50 p-4"
+            >
+                {isLoading && currentLogsCount === 0 ? (
                     <div className="flex justify-center items-center h-40">
                         <div className="loader border-t-indigo-500 w-8 h-8"></div>
                     </div>
+                ) : currentLogsCount === 0 ? (
+                    <div className="text-center text-gray-500 py-10 border border-dashed border-gray-300 rounded-lg bg-white">
+                        Логи не найдены
+                    </div>
                 ) : (
-                    <div className="bg-white rounded-lg shadow border border-gray-200 overflow-hidden">
-                        <table className="w-full text-sm text-left">
-                            <thead className="text-xs text-gray-500 uppercase bg-gray-50 border-b">
+                    <div className="overflow-x-auto custom-scrollbar bg-white rounded-lg shadow border border-gray-200">
+                        <table className="min-w-[1100px] w-full text-sm text-left">
+                            <thead className="text-xs text-gray-500 uppercase bg-gray-50 border-b sticky top-0 z-10">
                                 <tr>
+                                    <th className="w-10 px-4 py-3">
+                                        <input
+                                            type="checkbox"
+                                            checked={currentLogsCount > 0 && selectedLogIds.size === currentLogsCount}
+                                            onChange={toggleSelectAll}
+                                            className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                                        />
+                                    </th>
                                     <th className="px-6 py-3 w-40">Дата</th>
                                     <th className="px-6 py-3 w-48">{activeTab === 'vk' ? 'Аккаунт' : 'Токен'}</th>
                                     <th className="px-6 py-3 w-32">{activeTab === 'vk' ? 'Метод' : 'Модель'}</th>
                                     <th className="px-6 py-3 w-24">Статус</th>
                                     {activeTab === 'vk' && <th className="px-6 py-3 w-64">Проект</th>}
                                     <th className="px-6 py-3">Детали</th>
+                                    <th className="w-12 px-4 py-3"></th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
                                 {activeTab === 'vk' ? (
                                     vkLogs.map((log) => (
-                                        <tr key={log.id} className="hover:bg-gray-50 transition-colors">
-                                            <td className="px-6 py-4 whitespace-nowrap text-gray-600">{new Date(log.timestamp).toLocaleString('ru-RU')}</td>
-                                            <td className="px-6 py-4">
-                                                <div className="font-medium text-gray-900">{getVkAccountName(log)}</div>
+                                        <tr key={log.id} className={`hover:bg-gray-50 transition-colors ${selectedLogIds.has(log.id) ? 'bg-indigo-50' : ''}`}>
+                                            <td className="w-10 px-4 py-4">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectedLogIds.has(log.id)}
+                                                    onChange={() => toggleSelectLog(log.id)}
+                                                    className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                                                />
                                             </td>
-                                            <td className="px-6 py-4 font-mono text-xs text-indigo-600 font-semibold">{log.method}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-gray-600">{new Date(log.timestamp).toLocaleString('ru-RU')}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <div className="font-medium text-gray-900 truncate max-w-[180px]" title={getVkAccountName(log)}>{getVkAccountName(log)}</div>
+                                            </td>
+                                            <td className="px-6 py-4 font-mono text-xs text-indigo-600 font-semibold whitespace-nowrap">{log.method}</td>
                                             <td className="px-6 py-4">{getStatusBadge(log.status)}</td>
                                             <td className="px-6 py-4 text-gray-500 text-xs">
                                                 {log.project_id ? (
@@ -342,73 +538,96 @@ export const TokenLogsDashboard: React.FC = () => {
                                                     </div>
                                                 ) : '-'}
                                             </td>
-                                            <td className="px-6 py-4 text-gray-600 break-all max-w-md">{log.error_details || '-'}</td>
+                                            <td className="px-6 py-4 text-gray-600 whitespace-nowrap truncate max-w-xs" title={log.error_details || '-'}>{log.error_details || '-'}</td>
+                                            <td className="w-12 px-4 py-4 text-right">
+                                                <button
+                                                    onClick={() => handleDeleteOne(log.id)}
+                                                    disabled={isDeleting}
+                                                    className="text-red-500 hover:text-red-700 disabled:opacity-50"
+                                                    title="Удалить"
+                                                >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                </button>
+                                            </td>
                                         </tr>
                                     ))
                                 ) : (
                                     aiLogs.map((log) => (
-                                        <tr key={log.id} className="hover:bg-gray-50 transition-colors">
-                                            <td className="px-6 py-4 whitespace-nowrap text-gray-600">{new Date(log.timestamp).toLocaleString('ru-RU')}</td>
-                                            <td className="px-6 py-4">
-                                                <div className="font-medium text-gray-900">{getAiTokenName(log)}</div>
+                                        <tr key={log.id} className={`hover:bg-gray-50 transition-colors ${selectedLogIds.has(log.id) ? 'bg-indigo-50' : ''}`}>
+                                            <td className="w-10 px-4 py-4">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectedLogIds.has(log.id)}
+                                                    onChange={() => toggleSelectLog(log.id)}
+                                                    className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                                                />
                                             </td>
-                                            <td className="px-6 py-4 font-mono text-xs text-indigo-600 font-semibold">{log.model_name}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-gray-600">{new Date(log.timestamp).toLocaleString('ru-RU')}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <div className="font-medium text-gray-900 truncate max-w-[180px]" title={getAiTokenName(log)}>{getAiTokenName(log)}</div>
+                                            </td>
+                                            <td className="px-6 py-4 font-mono text-xs text-indigo-600 font-semibold whitespace-nowrap">{log.model_name}</td>
                                             <td className="px-6 py-4">{getStatusBadge(log.status)}</td>
-                                            <td className="px-6 py-4 text-gray-600 break-all max-w-md">{log.error_details || '-'}</td>
+                                            <td className="px-6 py-4 text-gray-600 whitespace-nowrap truncate max-w-xs" title={log.error_details || '-'}>{log.error_details || '-'}</td>
+                                            <td className="w-12 px-4 py-4 text-right">
+                                                <button
+                                                    onClick={() => handleDeleteOne(log.id)}
+                                                    disabled={isDeleting}
+                                                    className="text-red-500 hover:text-red-700 disabled:opacity-50"
+                                                    title="Удалить"
+                                                >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                </button>
+                                            </td>
                                         </tr>
                                     ))
                                 )}
-                                {((activeTab === 'vk' && vkLogs.length === 0) || (activeTab === 'ai' && aiLogs.length === 0)) && (
-                                     <tr>
-                                         <td colSpan={6} className="text-center py-10 text-gray-500">Логи не найдены</td>
-                                     </tr>
-                                )}
                             </tbody>
                         </table>
+                        
+                        {/* Кнопка "Загрузить ещё" и индикатор загрузки */}
+                        {hasMore && (
+                            <div className="p-4 border-t border-gray-200 bg-gray-50 flex justify-center">
+                                {isLoadingMore ? (
+                                    <div className="flex items-center gap-2 text-gray-500">
+                                        <div className="loader border-t-indigo-500 w-5 h-5"></div>
+                                        <span className="text-sm">Загрузка...</span>
+                                    </div>
+                                ) : (
+                                    <button
+                                        onClick={loadMore}
+                                        className="px-4 py-2 text-sm font-medium text-indigo-600 bg-white border border-indigo-300 rounded-md hover:bg-indigo-50 transition-colors"
+                                    >
+                                        Загрузить ещё
+                                    </button>
+                                )}
+                            </div>
+                        )}
+                        
+                        {/* Сообщение что всё загружено */}
+                        {!hasMore && currentLogsCount > 0 && (
+                            <div className="p-3 border-t border-gray-200 bg-gray-50 text-center text-xs text-gray-400">
+                                Все записи загружены ({currentLogsCount})
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
 
-            {/* Пагинация */}
-            <div className="p-4 bg-white border-t border-gray-200 flex justify-between items-center flex-shrink-0">
-                <div className="text-sm text-gray-700">
-                    Всего записей: <span className="font-medium">{totalCount}</span>
-                </div>
-                <div className="flex gap-2">
-                    <button 
-                        onClick={() => setPage(p => Math.max(1, p - 1))} 
-                        disabled={page === 1 || isLoading}
-                        className="px-3 py-1 border rounded hover:bg-gray-100 disabled:opacity-50 text-sm"
-                    >
-                        Назад
-                    </button>
-                    <span className="px-3 py-1 text-sm font-medium bg-gray-100 rounded">
-                        Стр. {page}
-                    </span>
-                    <button 
-                        onClick={() => setPage(p => p + 1)} 
-                        disabled={(activeTab === 'vk' ? vkLogs.length : aiLogs.length) < pageSize || isLoading}
-                        className="px-3 py-1 border rounded hover:bg-gray-100 disabled:opacity-50 text-sm"
-                    >
-                        Вперед
-                    </button>
-                </div>
-            </div>
-
-            {showClearConfirm && (
+            {/* Модальное окно подтверждения удаления */}
+            {confirmAction && (
                  <ConfirmationModal
-                    title="Очистить логи?"
-                    message={
-                        (activeTab === 'vk' 
-                            ? (vkSelectedAccountIds.size === 1 ? "Вы уверены, что хотите удалить логи выбранного аккаунта?" : "ВНИМАНИЕ: Вы собираетесь удалить ВСЕ логи VK.")
-                            : (aiSelectedTokenIds.size === 1 ? "Вы уверены, что хотите удалить логи выбранного AI токена?" : "ВНИМАНИЕ: Вы собираетесь удалить ВСЕ логи AI.")) + 
-                        "\nЭто действие необратимо."
-                    }
-                    onConfirm={handleClearLogs}
-                    onCancel={() => setShowClearConfirm(false)}
-                    confirmText="Очистить"
+                    title="Подтверждение удаления"
+                    message={getConfirmMessage()}
+                    onConfirm={executeDelete}
+                    onCancel={cancelDelete}
+                    confirmText="Удалить"
                     confirmButtonVariant="danger"
-                    isConfirming={isClearing}
+                    isConfirming={isDeleting}
                 />
             )}
         </div>

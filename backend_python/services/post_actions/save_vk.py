@@ -13,7 +13,9 @@ from services.post_helpers import find_conflict_free_time, assign_tags_to_post
 
 def save_to_vk_schedule(db: Session, payload: schemas.SavePostPayload, user_token: str) -> schemas.ScheduledPost:
     """Внутренняя функция для сохранения поста в отложенную очередь VK."""
-    print(f"SERVICE: Saving post to VK schedule for project {payload.projectId}...")
+    print(f"SERVICE: Saving post to VK schedule for project {payload.projectId}...", flush=True)
+    print(f"SERVICE: Payload post.images = {[img.model_dump() for img in payload.post.images]}", flush=True)
+    print(f"SERVICE: Payload post.attachments = {[att.model_dump() for att in (payload.post.attachments or [])]}", flush=True)
     project = crud.get_project_by_id(db, payload.projectId)
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
@@ -22,13 +24,15 @@ def save_to_vk_schedule(db: Session, payload: schemas.SavePostPayload, user_toke
     numeric_id = vk_service.resolve_vk_group_id(project.vkProjectId, user_token)
     owner_id = vk_service.vk_owner_id_string(numeric_id)
     
-    # Используем communityToken как предпочтительный для новых постов, но разрешаем фоллбэк
-    preferred_token = project.communityToken if is_new else user_token
+    # ВАЖНО: Всегда используем user_token для wall.post/wall.edit
+    # communityToken не может использовать attachment'ы, загруженные другим токеном
+    preferred_token = user_token
 
     # Подстановка глобальных переменных
     substituted_text = global_variable_service.substitute_global_variables(db, payload.post.text or '', project.id)
     
     attachments = [img.id for img in payload.post.images] + [att.id for att in payload.post.attachments or []]
+    print(f"SERVICE: Attachments string for VK API = {attachments}", flush=True)
     
     # Базовые параметры для wall.post / wall.edit
     params = {
@@ -36,6 +40,7 @@ def save_to_vk_schedule(db: Session, payload: schemas.SavePostPayload, user_toke
         'message': substituted_text,
         'attachments': ",".join(attachments)
     }
+    print(f"SERVICE: VK API params = {params}", flush=True)
 
     # Логика даты публикации
     publish_date_ts = 0
@@ -92,10 +97,13 @@ def save_to_vk_schedule(db: Session, payload: schemas.SavePostPayload, user_toke
         response = vk_service.publish_with_fallback(fetch_params, method='wall.getById', preferred_token=preferred_token)
         
         fresh_posts = response.get('posts', response.get('items', []))
+        print(f"SERVICE: wall.getById returned {len(fresh_posts)} posts", flush=True)
         if fresh_posts:
             fresh_post = fresh_posts[0]
+            print(f"SERVICE: Fresh post attachments: {json.dumps(fresh_post.get('attachments', []), ensure_ascii=False)}", flush=True)
             is_published = int(fresh_post.get('date', 0)) <= time.time()
             formatted_post = vk_service.format_vk_post(fresh_post, is_published)
+            print(f"SERVICE: Formatted post images: {json.dumps(formatted_post.get('images', []), ensure_ascii=False)}", flush=True)
             
             assign_tags_to_post(db, formatted_post, payload.projectId)
             
@@ -109,7 +117,9 @@ def save_to_vk_schedule(db: Session, payload: schemas.SavePostPayload, user_toke
             if saved_full_post:
                 return schemas.ScheduledPost.model_validate(saved_full_post, from_attributes=True)
     except Exception as e:
-        print(f"SERVICE: Warning - Failed to fetch/cache saved post {saved_post_id}: {e}. Using fallback data.")
+        import traceback
+        print(f"SERVICE: Warning - Failed to fetch/cache saved post {saved_post_id}: {e}", flush=True)
+        print(f"SERVICE: Traceback: {traceback.format_exc()}", flush=True)
 
     # Fallback: возвращаем объект на основе входных данных
     # Это предотвращает падение задачи (Error 500), если сохранение в VK прошло успешно, но не удалось обновить кеш.

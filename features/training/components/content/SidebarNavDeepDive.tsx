@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { MockSidebarList, InteractiveSidebarHeader, InteractiveFilterPanel } from './SidebarMocks';
+import { NavigationButtons } from './shared';
 
 export const Sandbox: React.FC<{ title: string; description: string; children: React.ReactNode; }> = ({ title, description, children }) => (
     <div className="relative not-prose p-6 border-2 border-dashed border-indigo-300 rounded-xl bg-indigo-50/50 mt-12">
@@ -161,7 +162,8 @@ export const SidebarNavDeepDive: React.FC<{ title: string }> = ({ title }) => {
                     </dl>
                 </div>
             </div>
-            
+
+            <NavigationButtons currentPath="2-1-1-sidebar-nav" />
         </article>
     );
 };

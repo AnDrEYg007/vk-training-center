@@ -1,0 +1,53 @@
+﻿
+# Модели данных (System Lists)
+
+**Файл:** `backend_python/models_library/lists.py`
+
+База данных нормализована для хранения информации о пользователях и их действиях.
+
+## 1. Метаданные (`ProjectListMeta`)
+Таблица `project_list_meta` хранит сводную информацию по проекту:
+*   Время последнего обновления каждого списка.
+*   **Счетчики:**
+    *   `subscribers_count`, `history_join_count`, `history_leave_count`.
+    *   `mailing_count`: Количество пользователей, с которыми есть диалог.
+    *   `posts_count` (в VK) / `stored_posts_count` (в БД).
+    *   `likes_count`, `comments_count`, `reposts_count`.
+    *   `authors_count`: **(NEW)** Количество уникальных авторов постов.
+
+## 2. Пользователи
+
+### Основные списки
+*   `SystemListSubscriber`: Текущие подписчики.
+*   `SystemListMailing`: Пользователи, у которых есть диалог с сообществом.
+    *   `last_message_date`: Дата последнего сообщения.
+    *   `can_access_closed`: Разрешено ли писать (из `can_write.allowed`).
+    *   `first_message_date` / `first_message_from_id`: **(Аналитика)** Дата начала диалога и ID инициатора.
+*   `SystemListHistoryJoin` / `SystemListHistoryLeave`: История входов и выходов.
+*   **`SystemListAuthor` (NEW):** Список уникальных пользователей, чьи посты или подписи (signer_id) были найдены на стене.
+    *   `event_date`: Дата, когда пользователь был впервые обнаружен системой как автор.
+
+Все эти таблицы (кроме Mailing) имеют идентичную структуру полей профиля:
+*   `vk_user_id`: ID ВКонтакте.
+*   `first_name`, `last_name`, `photo_url`, `sex`.
+*   **Статус:** `deactivated` (banned/deleted), `is_closed`.
+*   **Детали:** `city`, `country`, `bdate`, `has_mobile`, `last_seen`.
+*   **Platform:** ID платформы (устройства) последнего входа.
+
+## 3. Автоматизации как Списки (Virtual Mapping)
+Списки участников конкурсов (`reviews_participants`, `reviews_winners`) **не имеют** собственных таблиц в схеме `lists`.
+*   **Источник:** Таблица `review_contest_entries` (модуль `automations`).
+*   **Маппинг:** В `crud/lists/retrieval.py` происходит динамическое преобразование (mapping) объектов `ReviewContestEntry` в формат, совместимый с `SystemListSubscriber` (для участников) или `SystemListPost` (для постов с отзывами). Это позволяет отображать их в тех же таблицах интерфейса.
+
+## 4. Посты (`SystemListPost`)
+Хранит историю постов для аналитики.
+*   `date`, `text`, `image_url`, `vk_link`.
+*   `signer_id`: ID автора (если предложенный пост).
+*   `post_author_id`: **(NEW)** ID автора из поля `post_author_data` (для админов/редакторов).
+*   Статистика: лайки, комменты, репосты, просмотры.
+
+## 5. Взаимодействия
+Таблицы `system_list_likes`, `system_list_comments`, `system_list_reposts`.
+*   `interaction_count`: Количество действий.
+*   `post_ids`: JSON-список ID постов, с которыми взаимодействовал пользователь.
+*   `last_interaction_date`: Дата последнего действия.

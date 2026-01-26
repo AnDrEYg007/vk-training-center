@@ -8,6 +8,7 @@ import { ConfirmationModal } from '../../../shared/components/modals/Confirmatio
 import * as api from '../../../services/api';
 import { pollTask } from '../../../services/api/lists.api';
 import { useProjects } from '../../../contexts/ProjectsContext'; // Import context
+import { useAuth } from '../../../features/auth/contexts/AuthContext';
 
 export const Sidebar: React.FC<{
     projects: Project[];
@@ -41,6 +42,20 @@ export const Sidebar: React.FC<{
     // Получаем статусы конкурсов из контекста
     const { reviewsContestStatuses } = useProjects();
     
+    // Получаем данные текущего пользователя
+    const { user, logout } = useAuth();
+    
+    // Данные VK пользователя из БД
+    const [vkUserData, setVkUserData] = useState<{
+        vk_user_id: string;
+        first_name: string;
+        last_name: string;
+        photo_url: string | null;
+    } | null>(null);
+    
+    // Версия бэкенда
+    const [backendVersion, setBackendVersion] = useState<string>('...');
+    
     const [searchQuery, setSearchQuery] = useState('');
     const [teamFilter, setTeamFilter] = useState<TeamFilter>('All');
     const [contentFilter, setContentFilter] = useState<ContentFilter>('all');
@@ -57,6 +72,28 @@ export const Sidebar: React.FC<{
     // State to track which project is currently being processed by the backend task
     const [processingProjectId, setProcessingProjectId] = useState<string | null>(null);
     const lastProcessedIdRef = useRef<string | null>(null);
+
+    // Загружаем версию бэкенда и VK пользователя при монтировании
+    useEffect(() => {
+        api.getBackendVersion().then(setBackendVersion);
+    }, []);
+    
+    // Загружаем данные VK пользователя из БД только если авторизован через VK
+    useEffect(() => {
+        // Сбрасываем сразу при любом изменении user
+        setVkUserData(null);
+        
+        if (user?.vk_user_id) {
+            fetch('http://127.0.0.1:8000/api/vk-test/users/current')
+                .then(res => res.ok ? res.json() : null)
+                .then(data => {
+                    if (data && user?.vk_user_id) {
+                        setVkUserData(data);
+                    }
+                })
+                .catch(err => console.error('Failed to load VK user:', err));
+        }
+    }, [user]); // Зависимость от всего user, а не только vk_user_id
 
     const uniqueTeams = useMemo(() => {
         const teams = new Set<string>();
@@ -343,6 +380,67 @@ export const Sidebar: React.FC<{
                     confirmText="Да, запустить"
                     cancelText="Отмена"
                 />
+            )}
+            
+            {/* Блок текущего пользователя */}
+            {user && (
+                <div className="border-t border-gray-200 p-3 bg-gray-50">
+                    <div className="flex items-center gap-3">
+                        {/* Аватар */}
+                        {(vkUserData?.photo_url || user.photo_url) ? (
+                            <img 
+                                src={vkUserData?.photo_url || user.photo_url} 
+                                alt={user.username}
+                                className="w-8 h-8 rounded-full object-cover flex-shrink-0"
+                            />
+                        ) : (
+                            <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0">
+                                <span className="text-indigo-600 text-sm font-medium">
+                                    {user.username.charAt(0).toUpperCase()}
+                                </span>
+                            </div>
+                        )}
+                        
+                        {/* Имя и роль */}
+                        <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-gray-900 truncate">
+                                {user.vk_user_id && vkUserData 
+                                    ? `${vkUserData.first_name} ${vkUserData.last_name}` 
+                                    : user.username}
+                            </p>
+                            <p className="text-xs text-gray-500 flex items-center gap-1">
+                                {user.vk_user_id ? (
+                                    <>
+                                        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0z" fill="#0077FF"/>
+                                            <path d="M12.766 16.489h.858s.259-.028.391-.169c.121-.129.117-.372.117-.372s-.017-1.136.51-1.303c.52-.164 1.188 1.093 1.897 1.577.536.366.943.286.943.286l1.896-.026s.991-.061.521-.84c-.038-.063-.274-.573-1.411-1.619-1.19-1.095-1.031-.918.403-2.812.873-1.155 1.222-1.86 1.113-2.163-.104-.288-.743-.212-.743-.212l-2.135.013s-.158-.022-.275.048c-.114.069-.188.23-.188.23s-.337.899-.787 1.664c-.949 1.614-1.328 1.699-1.483 1.599-.36-.234-.27-1.059-.27-1.624 0-1.765.268-2.501-.521-2.692-.262-.063-.455-.105-1.124-.112-.858-.009-1.585.003-1.996.204-.273.134-.484.432-.355.449.158.021.517.097.707.356.245.335.236 1.087.236 1.087s.141 2.076-.328 2.334c-.322.177-.764-.184-1.713-1.636-.486-.743-.853-1.565-.853-1.565s-.071-.173-.197-.266c-.153-.112-.366-.148-.366-.148l-2.028.013s-.304.009-.416.141c-.1.117-.008.36-.008.36s1.585 3.71 3.379 5.578c1.645 1.714 3.513 1.601 3.513 1.601z" fill="#fff"/>
+                                        </svg>
+                                        VK Пользователь
+                                    </>
+                                ) : (
+                                    user.role === 'admin' ? 'Администратор' : 'Пользователь'
+                                )}
+                            </p>
+                        </div>
+                        
+                        {/* Кнопка выхода */}
+                        <button
+                            onClick={logout}
+                            title="Выйти"
+                            className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-200 rounded transition-colors"
+                        >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                        </button>
+                    </div>
+                    {/* Версия бэкенда */}
+                    <div className="mt-2 pt-2 border-t border-gray-200">
+                        <p className="text-[10px] text-gray-400 font-mono truncate" title={`Backend: ${backendVersion}`}>
+                            Backend: {backendVersion}
+                        </p>
+                    </div>
+                </div>
             )}
         </aside>
     );

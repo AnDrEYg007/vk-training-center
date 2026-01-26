@@ -1,5 +1,6 @@
 import React, { useState, DragEvent } from 'react';
 import { MockPostCard, ActionIcon, StatusTable } from './PostCardMocks';
+import { NavigationButtons } from './shared';
 
 // =====================================================================
 // Интерактивная песочница (компонент-демо)
@@ -333,6 +334,8 @@ export const PostCardDeepDive: React.FC<{ title: string }> = ({ title }) => {
                 <li><strong>Нельзя изменить дату опубликованного поста:</strong> У поста, который уже на стене, можно изменить только контент, но не дату.</li>
                 <li><strong>Нельзя опубликовать пустой пост:</strong> Кнопка "Опубликовать сейчас" неактивна, если в посте нет ни текста, ни медиафайлов.</li>
             </ul>
+
+            <NavigationButtons currentPath="2-1-4-6-postcard-deep-dive" />
         </article>
     );
 };

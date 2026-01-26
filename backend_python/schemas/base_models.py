@@ -22,7 +22,7 @@ from .models.lists import (
     ProjectListMeta
 )
 from .models.system import SystemAccount, TokenLog
-from .models.ai_tokens import AiToken, AiTokenLog
+from .models.ai_tokens import AiToken, AiTokenLog, AiTokenVerifyResult, VerifyAiTokensResponse
 
 # Новые схемы
 from pydantic import BaseModel, ConfigDict

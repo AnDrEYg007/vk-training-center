@@ -32,6 +32,7 @@ from models_library.lists import (
 )
 # Обновленный импорт: SystemAccount и TokenLog теперь тоже живут в system.py вместе с SystemTask
 from models_library.system import SystemAccount, TokenLog, SystemTask
+from models_library.logs import VkCallbackLog
 # Новая модель AI токенов
 from models_library.ai_tokens import AiToken, AiTokenLog
 # Новая модель автоматизаций (Добавлен ReviewContestEntry и ReviewContestDeliveryLog и StoriesAutomation)
@@ -46,3 +47,5 @@ from models_library.automations import (
 )
 # NEW: Администрируемые группы
 from models_library.admin_tools import AdministeredGroup
+# NEW: VK Пользователи (авторизованные через OAuth)
+from models_library.vk_users import VkUser

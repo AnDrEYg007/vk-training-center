@@ -74,6 +74,18 @@ def clear_logs(payload: schemas.ClearLogsPayload, db: Session = Depends(get_db))
     log_service.clear_logs(db, payload.accountId)
     return {"success": True}
 
+@router.post("/logs/delete", response_model=schemas.GenericSuccess)
+def delete_log(payload: schemas.DeleteLogPayload, db: Session = Depends(get_db)):
+    """Удаляет одну запись лога по ID."""
+    log_service.delete_log(db, payload.logId)
+    return {"success": True}
+
+@router.post("/logs/delete-batch", response_model=schemas.GenericSuccess)
+def delete_logs_batch(payload: schemas.DeleteLogsBatchPayload, db: Session = Depends(get_db)):
+    """Удаляет несколько записей логов по списку ID."""
+    log_service.delete_logs_batch(db, payload.logIds)
+    return {"success": True}
+
 @router.post("/stats", response_model=schemas.AccountStatsResponse)
 def get_account_stats(payload: AccountIdPayload, db: Session = Depends(get_db)):
     """Получает агрегированную статистику по аккаунту."""

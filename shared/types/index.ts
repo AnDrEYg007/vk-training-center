@@ -34,6 +34,9 @@ export interface User {
 export interface AuthUser {
     username: string;
     role: 'admin' | 'user';
+    // VK авторизация (опционально)
+    vk_user_id?: string;
+    photo_url?: string;
 }
 
 export interface Attachment {
@@ -338,6 +341,10 @@ export interface AiToken {
     id: string;
     token: string;
     description?: string;
+    // Статус проверки токена
+    status?: 'active' | 'error' | 'unknown';
+    status_error?: string | null;
+    last_checked?: string | null;
     stats?: {
         success: number;
         error: number;

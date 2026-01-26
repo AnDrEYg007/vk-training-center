@@ -1,6 +1,22 @@
 
 import { Project, User, AdministeredGroup, SyncGroupsResult } from '../../shared/types';
-import { callApi } from '../../shared/utils/apiClient';
+import { callApi, API_BASE_URL } from '../../shared/utils/apiClient';
+
+// --- SYSTEM INFO API ---
+
+/**
+ * Получает текущую версию бэкенда.
+ */
+export const getBackendVersion = async (): Promise<string> => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/version`);
+        if (!response.ok) return 'unknown';
+        const data = await response.json();
+        return data.version || 'unknown';
+    } catch {
+        return 'offline';
+    }
+};
 
 // --- DATABASE MANAGEMENT API ---
 

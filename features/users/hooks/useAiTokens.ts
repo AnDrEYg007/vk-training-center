@@ -2,6 +2,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { AiToken } from '../../../shared/types';
 import * as api from '../../../services/api';
+import { AiTokenVerifyResult } from '../../../services/api/ai_token.api';
 import { v4 as uuidv4 } from 'uuid';
 
 export const useAiTokens = () => {
@@ -9,12 +10,16 @@ export const useAiTokens = () => {
     const [tokens, setTokens] = useState<AiToken[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
+    const [isVerifying, setIsVerifying] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [deleteConfirmation, setDeleteConfirmation] = useState<{ token: AiToken; onConfirm: () => void; } | null>(null);
     const [tokenToShowLogs, setTokenToShowLogs] = useState<AiToken | 'env' | null>(null);
     
     // Состояние для развернутой строки
     const [expandedTokenId, setExpandedTokenId] = useState<string | null>(null);
+    
+    // Состояние результатов проверки токенов
+    const [verifyResults, setVerifyResults] = useState<Map<string, AiTokenVerifyResult>>(new Map());
     
     // Получаем статистику для ENV токена
     const [envStats, setEnvStats] = useState({ success: 0, error: 0 });
@@ -110,22 +115,63 @@ export const useAiTokens = () => {
         setExpandedTokenId(prev => prev === id ? null : id);
     };
 
+    // Проверка всех токенов через Google API
+    const handleVerifyTokens = async () => {
+        if (tokens.length === 0) {
+            window.showAppToast?.('Нет токенов для проверки', 'warning');
+            return;
+        }
+        
+        setIsVerifying(true);
+        setVerifyResults(new Map()); // Сбрасываем предыдущие результаты
+        
+        try {
+            const response = await api.verifyAiTokens();
+            
+            // Преобразуем массив в Map для быстрого доступа
+            const resultsMap = new Map<string, AiTokenVerifyResult>();
+            response.results.forEach(r => resultsMap.set(r.token_id, r));
+            setVerifyResults(resultsMap);
+            
+            // Считаем статистику
+            const valid = response.results.filter(r => r.is_valid).length;
+            const invalid = response.results.filter(r => !r.is_valid).length;
+            
+            if (invalid === 0) {
+                window.showAppToast?.(`✅ Все ${valid} токенов валидны!`, 'success');
+            } else if (valid === 0) {
+                window.showAppToast?.(`❌ Все ${invalid} токенов невалидны!`, 'error');
+            } else {
+                window.showAppToast?.(`Проверено: ✅ ${valid} валидных, ❌ ${invalid} невалидных`, 'warning');
+            }
+            
+        } catch (err) {
+            const msg = err instanceof Error ? err.message : 'Ошибка проверки токенов';
+            window.showAppToast?.(`Не удалось проверить токены: ${msg}`, 'error');
+        } finally {
+            setIsVerifying(false);
+        }
+    };
+
     return {
         state: {
             tokens,
             isLoading,
             isSaving,
+            isVerifying,
             error,
             deleteConfirmation,
             tokenToShowLogs,
             envStats,
-            expandedTokenId
+            expandedTokenId,
+            verifyResults
         },
         actions: {
             handleTokenChange,
             handleRemoveToken,
             handleAddToken,
             handleSaveChanges,
+            handleVerifyTokens,
             setDeleteConfirmation,
             setTokenToShowLogs,
             toggleRowExpand

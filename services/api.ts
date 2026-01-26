@@ -25,3 +25,4 @@ export * from './api/project_context.api';
 export * from './api/ai_token.api';
 export * from './api/automations.api';
 export * from './api/automations_ai.api';
+export * from './api/vk.api';
