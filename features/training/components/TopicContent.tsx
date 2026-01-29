@@ -30,6 +30,18 @@ import { WelcomeScreenComponent } from './content/section1/WelcomeScreen';
 import { ProjectsFirstStep } from './content/section1/ProjectsFirstStep';
 // Раздел 2: Контент-менеджмент
 import { SidebarProjectsContent } from './content/section2/SidebarProjectsContent';
+import { StatusIndicators } from './content/section2/StatusIndicators';
+import { ProjectListItems } from './content/section2/ProjectListItems';
+import { PostCounters } from './content/section2/PostCounters';
+import { FiltersAndSearch } from './content/section2/FiltersAndSearch';
+import { SidebarNavOverview } from './content/section2/SidebarNavOverview';
+import { DateNavigation } from './content/section2/DateNavigation';
+import { ViewModes } from './content/section2/ViewModes';
+import { VisibilityControls } from './content/section2/VisibilityControls';
+import { RefreshButton } from './content/section2/RefreshButton';
+import { BulkActions } from './content/section2/BulkActions';
+import { CreateNoteButton } from './content/section2/CreateNoteButton';
+import { CalendarHeaderOverview } from './content/section2/CalendarHeaderOverview';
 
 interface TopicContentProps {
     selectedTopic: Topic | null;
@@ -65,7 +77,18 @@ const componentMap: Record<string, React.FC<{ title: string }>> = {
     '1-4-welcome-screen': WelcomeScreenComponent,
     '1-5-projects-first-step': ProjectsFirstStep,
     // Раздел 2: Контент-менеджмент
-    '2-1-1-sidebar-nav': SidebarProjectsContent,
+    '2-1-1-sidebar-nav': SidebarNavOverview,
+    '2-1-1-1-project-list-items': ProjectListItems,
+    '2-1-1-2-status-indicators': StatusIndicators,
+    '2-1-1-3-post-counters': PostCounters,
+    '2-1-1-4-filters-search': FiltersAndSearch,
+    '2-1-2-calendar-header': CalendarHeaderOverview,
+    '2-1-2-1-date-navigation': DateNavigation,
+    '2-1-2-2-view-modes': ViewModes,
+    '2-1-2-3-visibility-controls': VisibilityControls,
+    '2-1-2-4-refresh-button': RefreshButton,
+    '2-1-2-5-bulk-actions': BulkActions,
+    '2-1-2-6-create-note-button': CreateNoteButton,
     '2-4-3-postcard-deep-dive': PostCardDeepDive,
     '2-1-sidebar-nav': SidebarNavDeepDive,
 };

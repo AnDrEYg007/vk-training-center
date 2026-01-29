@@ -107,9 +107,9 @@ export const toc: TocItem[] = [
                             { title: 'Навигация по датам', path: '2-1-2-1-date-navigation' },
                             { title: 'Режимы отображения (Неделя/Сегодня)', path: '2-1-2-2-view-modes' },
                             { title: 'Управление видимостью заметок и тегов', path: '2-1-2-3-visibility-controls' },
-                            { title: 'Кнопка обновления', path: '2-1-2-4-refresh-button' },
-                            { title: 'Поиск по календарю', path: '2-1-2-5-search' },
-                            { title: 'Массовые действия', path: '2-1-2-6-bulk-actions' },
+                            { title: 'Кнопка "Обновить"', path: '2-1-2-4-refresh-button' },
+                            { title: 'Массовые действия', path: '2-1-2-5-bulk-actions' },
+                            { title: 'Создание заметки (✏️)', path: '2-1-2-6-create-note-button' },
                         ]
                     },
                     {
