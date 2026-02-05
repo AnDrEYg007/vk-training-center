@@ -10,13 +10,18 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
     const [contentFilter, setContentFilter] = useState('all');
 
     const mockProjects = [
-        { name: '🍕 Доставка пиццы', team: 'Команда А', count: 0 },
-        { name: '🎨 Дизайн студия', team: 'Команда Б', count: 3 },
-        { name: '📚 Образование', team: 'Команда А', count: 7 },
-        { name: '💪 Фитнес клуб', team: 'Команда Б', count: 15 },
-        { name: '🌿 Природа', team: 'Команда А', count: 0 },
+        { name: 'Фиолето Суши | Доставка роллов', team: 'Команда А', count: 0 },
+        { name: 'Тестовое сообщество', team: 'Команда Б', count: 3 },
+        { name: 'Изготовление автоключей | Ключи', team: 'Команда А', count: 7 },
+        { name: 'ООО Строй Кровля | Кровельные работы', team: 'Команда Б', count: 15 },
+        { name: 'Природа и экология', team: 'Команда А', count: 0 },
     ];
-
+    const getCounterColorClasses = (count: number): string => {
+        if (count === 0) return 'bg-gradient-to-t from-gray-300 to-red-200 text-red-900 font-medium';
+        if (count > 0 && count < 5) return 'bg-gradient-to-t from-gray-300 to-orange-200 text-orange-900 font-medium';
+        if (count > 10) return 'bg-gradient-to-t from-gray-300 to-green-200 text-green-900 font-medium';
+        return 'bg-gray-300 text-gray-700';
+    };
     const filteredProjects = mockProjects.filter(p => {
         const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase());
         const matchesTeam = teamFilter === 'All' || p.team === teamFilter;
@@ -26,6 +31,7 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
             case 'empty': matchesContent = p.count === 0; break;
             case 'not_empty': matchesContent = p.count > 0; break;
             case 'lt5': matchesContent = p.count > 0 && p.count < 5; break;
+            case '5-10': matchesContent = p.count >= 5 && p.count <= 10; break;
             case 'gt10': matchesContent = p.count > 10; break;
         }
         
@@ -43,7 +49,20 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
                 Поэтому есть <strong>фильтры и поиск</strong> — быстрые инструменты для поиска.
             </p>
 
-            <div className="not-pros bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-6">
+            <div className="not-prose bg-amber-50 border border-amber-300 rounded-lg p-4 my-6">
+                <div className="flex items-start gap-3">
+                    <svg className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                    <p className="text-sm text-amber-900">
+                        <strong>Учебные примеры:</strong> В интерактивных примерах ниже используются вымышленные проекты 
+                        для демонстрации работы фильтров. В реальном приложении фильтры работают с 
+                        <strong> твоими настоящими сообществами</strong> из базы данных.
+                    </p>
+                </div>
+            </div>
+
+            <div className="not-prose bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-6">
                 <p className="text-sm text-indigo-800">
                     <strong>Смысл:</strong> Вместо того, чтобы листать список вниз-вверх, 
                     просто пишешь название или выбираешь фильтр — нужный проект находится мгновенно!
@@ -59,7 +78,11 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
                 {/* Инструмент 1: Поиск по названию */}
                 <div className="border-l-4 border-blue-400 pl-4 py-3 bg-blue-50">
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">🔍</div>
+                        <div className="flex-shrink-0">
+                            <svg className="w-10 h-10 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
                         <div>
                             <h3 className="font-bold text-blue-900 mb-2">1. Поиск по названию</h3>
                             <p className="text-sm text-gray-700 mb-3">
@@ -69,14 +92,14 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
                             <div className="bg-white rounded p-3 border border-blue-200 text-sm text-gray-700 space-y-2">
                                 <p><strong>Как это работает:</strong></p>
                                 <ul className="list-disc list-inside space-y-1">
-                                    <li>Напиши "пиц" → увидишь только "Доставка пиццы"</li>
-                                    <li>Напиши "кл" → увидишь только "Фитнес клуб"</li>
-                                    <li>Напиши "обр" → увидишь только "Образование"</li>
-                                    <li>Поиск <strong>не чувствителен к регистру</strong> (ДОСТАВКА = доставка)</li>
+                                    <li>Напиши "суш" → увидишь только "Фиолето Суши"</li>
+                                    <li>Напиши "ключ" → увидишь только "Изготовление автоключей"</li>
+                                    <li>Напиши "кров" → увидишь только "ООО Строй Кровля"</li>
+                                    <li>Поиск <strong>не чувствителен к регистру</strong> (СУШИ = суши)</li>
                                 </ul>
                             </div>
                             <div className="bg-blue-100 rounded p-3 border border-blue-300 text-sm text-blue-900 mt-3">
-                                <p><strong>💡 Совет:</strong> Напиши первые буквы названия или любое слово из названия 
+                                <p><strong>Совет:</strong> Напиши первые буквы названия или любое слово из названия 
                                 — приложение найдёт проект.</p>
                             </div>
                         </div>
@@ -86,7 +109,11 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
                 {/* Инструмент 2: Фильтр по командам */}
                 <div className="border-l-4 border-green-400 pl-4 py-3 bg-green-50">
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">👥</div>
+                        <div className="flex-shrink-0">
+                            <svg className="w-10 h-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                        </div>
                         <div>
                             <h3 className="font-bold text-green-900 mb-2">2. Фильтр по командам</h3>
                             <p className="text-sm text-gray-700 mb-3">
@@ -98,12 +125,12 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
                                 <ul className="list-disc list-inside space-y-1">
                                     <li>Кнопки с названиями команд (например, "Команда А", "Команда Б")</li>
                                     <li>Клик на кнопку команды → видишь только её проекты</li>
-                                    <li>Клик на "All" → видишь все проекты (без фильтра)</li>
+                                    <li>Клик на "Все" → видишь все проекты (без фильтра)</li>
                                     <li>Активная команда выделена синим кольцом</li>
                                 </ul>
                             </div>
                             <div className="bg-green-100 rounded p-3 border border-green-300 text-sm text-green-900 mt-3">
-                                <p><strong>💡 Для кого это полезно:</strong> Если ты работаешь только с одной командой, 
+                                <p><strong>Для кого это полезно:</strong> Если ты работаешь только с одной командой, 
                                 можешь выбрать её фильтр и видеть только нужные проекты.</p>
                             </div>
                         </div>
@@ -113,7 +140,11 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
                 {/* Инструмент 3: Фильтр по количеству постов */}
                 <div className="border-l-4 border-purple-400 pl-4 py-3 bg-purple-50">
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">📊</div>
+                        <div className="flex-shrink-0">
+                            <svg className="w-10 h-10 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                        </div>
                         <div>
                             <h3 className="font-bold text-purple-900 mb-2">3. Фильтр по количеству постов</h3>
                             <p className="text-sm text-gray-700 mb-3">
@@ -124,26 +155,34 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
                                 <p><strong>Варианты фильтра:</strong></p>
                                 <div className="space-y-2">
                                     <div className="flex items-center gap-2">
-                                        <span className="inline-block px-2 py-1 rounded-full text-xs font-bold bg-red-100 text-red-800">0</span>
-                                        <span>= Пусто (0 постов)</span>
+                                        <span className="inline-block px-2 py-1 rounded text-xs bg-gray-300 text-gray-800">Все</span>
+                                        <span>= Показать все проекты</span>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <span className="inline-block px-2 py-1 rounded-full text-xs font-bold bg-orange-100 text-orange-800">1-4</span>
-                                        <span>= Мало (1-4 поста)</span>
+                                        <span className="inline-block px-2 py-1 rounded text-xs bg-gradient-to-t from-gray-300 to-red-200 text-red-900 font-medium">Нет постов</span>
+                                        <span>= Проекты с 0 постами</span>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <span className="inline-block px-2 py-1 rounded-full text-xs font-bold bg-gray-300 text-gray-700">5-10</span>
-                                        <span>= Не пусто (5-10 постов)</span>
+                                        <span className="inline-block px-2 py-1 rounded text-xs bg-gradient-to-t from-gray-300 to-blue-200 text-blue-900 font-medium">Есть посты</span>
+                                        <span>= Проекты с любым количеством &gt; 0</span>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <span className="inline-block px-2 py-1 rounded-full text-xs font-bold bg-green-100 text-green-800">10+</span>
-                                        <span>= Много (10+ постов)</span>
+                                        <span className="inline-block px-2 py-1 rounded text-xs bg-gradient-to-t from-gray-300 to-orange-200 text-orange-900 font-medium">&lt; 5</span>
+                                        <span>= От 1 до 4 постов</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <span className="inline-block px-2 py-1 rounded text-xs bg-gray-300 text-gray-800">5-10</span>
+                                        <span>= От 5 до 10 постов</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <span className="inline-block px-2 py-1 rounded text-xs bg-gradient-to-t from-gray-300 to-green-200 text-green-900 font-medium">&gt; 10</span>
+                                        <span>= Больше 10 постов</span>
                                     </div>
                                 </div>
                             </div>
                             <div className="bg-purple-100 rounded p-3 border border-purple-300 text-sm text-purple-900 mt-3">
-                                <p><strong>💡 Пример:</strong> Хочешь срочно понять, в каких проектах закончился контент? 
-                                Выбери фильтр "0 постов" — и сразу увидишь все критичные проекты!</p>
+                                <p><strong>Пример:</strong> Хочешь срочно понять, в каких проектах закончился контент? 
+                                Выбери фильтр "Нет постов" — и сразу увидишь все критичные проекты!</p>
                             </div>
                         </div>
                     </div>
@@ -167,48 +206,55 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
                         placeholder="Поиск по названию..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                     />
                 </div>
 
                 {/* Фильтры по командам */}
-                <div className="mb-4 flex flex-wrap gap-2">
-                    {['All', 'Команда А', 'Команда Б'].map(team => (
-                        <button
-                            key={team}
-                            onClick={() => setTeamFilter(team)}
-                            className={`px-2.5 py-1 text-xs font-medium rounded-full transition-colors ${
-                                teamFilter === team
-                                    ? 'bg-indigo-600 text-white ring-2 ring-indigo-400'
-                                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                            }`}
-                        >
-                            {team}
-                        </button>
-                    ))}
+                <div className="mb-4">
+                    <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Команды</h4>
+                    <div className="flex flex-wrap gap-1.5">
+                        {[{ value: 'All', label: 'Все' }, { value: 'Команда А', label: 'Команда А' }, { value: 'Команда Б', label: 'Команда Б' }, { value: 'NoTeam', label: 'Без команды' }].map(team => (
+                            <button
+                                key={team.value}
+                                onClick={() => setTeamFilter(team.value)}
+                                className={`px-2.5 py-1 text-xs font-medium rounded-full transition-colors ${
+                                    teamFilter === team.value
+                                        ? 'bg-indigo-600 text-white ring-2 ring-indigo-500'
+                                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                }`}
+                            >
+                                {team.label}
+                            </button>
+                        ))}
+                    </div>
                 </div>
 
                 {/* Фильтры по постам */}
-                <div className="mb-4 flex flex-wrap gap-2">
+                <div className="mb-4">
+                    <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Посты</h4>
+                    <div className="flex flex-wrap gap-1.5">
                     {[
-                        { value: 'all', label: 'Все', color: 'bg-gray-300' },
-                        { value: 'empty', label: 'Пусто (0)', color: 'bg-red-100 text-red-800' },
-                        { value: 'not_empty', label: 'Не пусто', color: 'bg-blue-100 text-blue-800' },
-                        { value: 'lt5', label: 'Мало (1-4)', color: 'bg-orange-100 text-orange-800' },
-                        { value: 'gt10', label: 'Много (10+)', color: 'bg-green-100 text-green-800' },
+                        { value: 'all', label: 'Все', color: 'bg-gray-300 text-gray-800', hoverColor: 'hover:bg-gray-400' },
+                        { value: 'empty', label: 'Нет постов', color: 'bg-gradient-to-t from-gray-300 to-red-200 text-red-900', hoverColor: 'hover:to-red-300' },
+                        { value: 'not_empty', label: 'Есть посты', color: 'bg-gradient-to-t from-gray-300 to-blue-200 text-blue-900', hoverColor: 'hover:to-blue-300' },
+                        { value: 'lt5', label: '< 5', color: 'bg-gradient-to-t from-gray-300 to-orange-200 text-orange-900', hoverColor: 'hover:to-orange-300' },
+                        { value: '5-10', label: '5-10', color: 'bg-gray-300 text-gray-800', hoverColor: 'hover:bg-gray-400' },
+                        { value: 'gt10', label: '> 10', color: 'bg-gradient-to-t from-gray-300 to-green-200 text-green-900', hoverColor: 'hover:to-green-300' },
                     ].map(option => (
                         <button
                             key={option.value}
                             onClick={() => setContentFilter(option.value)}
                             className={`px-2.5 py-1 text-xs font-medium rounded-full transition-colors ${
                                 contentFilter === option.value
-                                    ? `${option.color} ring-2 ring-indigo-400`
-                                    : `${option.color} hover:opacity-75`
+                                    ? `${option.color} ring-2 ring-indigo-500`
+                                    : `${option.color} ${option.hoverColor}`
                             }`}
                         >
                             {option.label}
                         </button>
                     ))}
+                    </div>
                 </div>
 
                 {/* Результаты */}
@@ -224,7 +270,7 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
                                         <p className="text-sm font-medium text-gray-800">{project.name}</p>
                                         <p className="text-xs text-gray-500">{project.team}</p>
                                     </div>
-                                    <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800">
+                                    <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${getCounterColorClasses(project.count)}`}>
                                         {project.count}
                                     </span>
                                 </div>
@@ -238,8 +284,8 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
                 </div>
 
                 <p className="text-xs text-gray-600 mt-4">
-                    💡 <strong>Попробуй:</strong> Напиши "пиц", выбери "Команда А" и "Пусто (0)" 
-                    — должна остаться только "Доставка пиццы"!
+                    <strong>Попробуй:</strong> Напиши "суши", выбери "Команда А" и "Нет постов" 
+                    — должен остаться только проект "Фиолето Суши"!
                 </p>
             </div>
 
@@ -252,18 +298,18 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                     <p className="text-sm text-gray-700">
                         <strong>Важно:</strong> Все три фильтра работают <strong>одновременно</strong>. 
-                        Это значит, что если ты выбрал "Команда А" и фильтр "Пусто (0)", 
-                        ты увидишь только пусто проекты из Команды А.
+                        Это значит, что если ты выбрал &quot;Команда А&quot; и фильтр &quot;Нет постов&quot;, 
+                        ты увидишь только пустые проекты из Команды А.
                     </p>
                 </div>
 
                 <div className="bg-white border border-gray-200 rounded-lg p-4 space-y-3">
                     <p className="text-sm font-semibold text-gray-800">Примеры поиска:</p>
                     <ul className="text-sm text-gray-700 space-y-2">
-                        <li><strong>Ищешь:</strong> Все пустые проекты → Выбери фильтр "Пусто (0)"</li>
-                        <li><strong>Ищешь:</strong> Проекты Команды Б с малым контентом → Выбери "Команда Б" + "Мало (1-4)"</li>
-                        <li><strong>Ищешь:</strong> Конкретный проект "Доставка" → Пиши "доставка" в поиск</li>
-                        <li><strong>Ищешь:</strong> Все проекты Команды А → Выбери "Команда А" + фильтр "Все"</li>
+                        <li><strong>Ищешь:</strong> Все пустые проекты → Выбери фильтр &quot;Нет постов&quot;</li>
+                        <li><strong>Ищешь:</strong> Проекты Команды Б с малым контентом → Выбери &quot;Команда Б&quot; + &quot;&lt; 5&quot;</li>
+                        <li><strong>Ищешь:</strong> Конкретный проект с суши → Пиши &quot;суш&quot; в поиск</li>
+                        <li><strong>Ищешь:</strong> Все проекты Команды А → Выбери &quot;Команда А&quot; + фильтр &quot;Все&quot;</li>
                     </ul>
                 </div>
             </div>
@@ -281,7 +327,7 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
                     <div>
                         <p className="font-medium text-green-900">Быстрый способ найти критичные проекты</p>
                         <p className="text-sm text-gray-700 mt-1">
-                            Каждый день открывай сайдбар и выбери фильтр "Пусто (0)" 
+                            Каждый день открывай сайдбар и выбери фильтр "Нет постов" 
                             — сразу увидишь, где нужно создавать контент.
                         </p>
                     </div>
@@ -313,12 +359,12 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
                     </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                    <svg className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <div className="flex items-start gap-3 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                    <svg className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                     </svg>
                     <div>
-                        <p className="font-medium text-yellow-900">Фильтр по командам не всегда есть</p>
+                        <p className="font-medium text-amber-900">Фильтр по командам не всегда есть</p>
                         <p className="text-sm text-gray-700 mt-1">
                             Если в приложении только твои проекты (ты работаешь один), 
                             этот фильтр может быть недоступен или скрыт.
@@ -344,7 +390,7 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
             </ul>
 
             <p className="!text-base !leading-relaxed !text-gray-700 mt-6">
-                Теперь ты полностью понял сайдбар проектов! 🎉
+                Теперь ты полностью понял сайдбар проектов!
             </p>
         </article>
     );

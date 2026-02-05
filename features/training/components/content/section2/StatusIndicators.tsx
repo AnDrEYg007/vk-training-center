@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ContentProps, NavigationButtons } from '../shared';
 
 // =====================================================================
 // Основной компонент: Индикаторы состояния проектов
 // =====================================================================
 export const StatusIndicators: React.FC<ContentProps> = ({ title }) => {
+    const [hoveredProject, setHoveredProject] = useState<number | null>(null);
+    
     return (
         <article className="prose prose-indigo max-w-none">
             {/* Заголовок */}
@@ -33,16 +35,20 @@ export const StatusIndicators: React.FC<ContentProps> = ({ title }) => {
 
             <div className="not-prose space-y-4 my-6">
                 {/* Индикатор 1: Ошибка доступа */}
-                <div className="border-l-4 border-yellow-400 pl-4 py-3 bg-yellow-50">
+                <div className="border-l-4 border-amber-400 pl-4 py-3 bg-amber-50">
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">⚠️</div>
+                        <div className="flex-shrink-0">
+                            <svg className="w-8 h-8 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 3.001-1.742 3.001H4.42c-1.53 0-2.493-1.667-1.743-3.001l5.58-9.92zM10 13a1 1 0 100-2 1 1 0 000 2zm-1-4a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" />
+                            </svg>
+                        </div>
                         <div>
-                            <h3 className="font-bold text-yellow-900 mb-2">⚠️ Жёлтый треугольник = Ошибка доступа</h3>
+                            <h3 className="font-bold text-amber-900 mb-2">Янтарный треугольник = Ошибка доступа</h3>
                             <p className="text-sm text-gray-700 mb-3">
                                 Этот значок появляется, когда приложение не может получить доступ к проекту 
                                 (сообществу в ВКонтакте).
                             </p>
-                            <div className="bg-white rounded p-3 border border-yellow-200 text-sm text-gray-700 space-y-2">
+                            <div className="bg-white rounded p-3 border border-amber-200 text-sm text-gray-700 space-y-2">
                                 <p><strong>Когда это случается:</strong></p>
                                 <ul className="list-disc list-inside space-y-1">
                                     <li>Токен VK API был удален или заблокирован</li>
@@ -54,7 +60,7 @@ export const StatusIndicators: React.FC<ContentProps> = ({ title }) => {
                             <div className="bg-red-50 rounded p-3 border border-red-200 text-sm text-red-900 mt-3">
                                 <p><strong>Что делать:</strong></p>
                                 <p>
-                                    Нажми на кнопку настроек (⚙️) рядом с проектом и 
+                                    Нажми на кнопку настроек рядом с проектом и 
                                     <strong> обнови токен VK API</strong>. После этого иконка должна исчезнуть.
                                 </p>
                             </div>
@@ -65,9 +71,11 @@ export const StatusIndicators: React.FC<ContentProps> = ({ title }) => {
                 {/* Индикатор 2: Обновления на сервере */}
                 <div className="border-l-4 border-blue-400 pl-4 py-3 bg-blue-50">
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">🔵</div>
+                        <div className="flex-shrink-0 flex items-center justify-center w-8 h-8">
+                            <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+                        </div>
                         <div>
-                            <h3 className="font-bold text-blue-900 mb-2">🔵 Синяя точка = Есть обновления</h3>
+                            <h3 className="font-bold text-blue-900 mb-2">Синяя точка = Есть обновления</h3>
                             <p className="text-sm text-gray-700 mb-3">
                                 Этот значок появляется, когда на сервере произошли <strong>изменения для этого проекта</strong>.
                             </p>
@@ -102,32 +110,120 @@ export const StatusIndicators: React.FC<ContentProps> = ({ title }) => {
                 
                 <div className="space-y-2 bg-white rounded border border-gray-300 p-4">
                     {/* Проект 1: Нормальный */}
-                    <div className="flex items-center justify-between p-3 hover:bg-gray-50 rounded cursor-pointer">
-                        <span className="text-sm text-gray-800">📱 Проект "Природа"</span>
-                        <span className="text-xs font-semibold bg-green-100 text-green-800 px-2 py-1 rounded-full">15</span>
+                    <div 
+                        className="relative overflow-hidden"
+                        onMouseEnter={() => setHoveredProject(1)}
+                        onMouseLeave={() => setHoveredProject(null)}
+                    >
+                        {/* Контейнер для кнопок, который выдвигается */}
+                        <div className={`absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-gray-200 transition-transform duration-300 ease-in-out ${hoveredProject === 1 ? 'translate-x-0' : '-translate-x-full'}`}>
+                            <div className="absolute top-1/2 left-0 -translate-y-1/2 flex items-center pl-2 space-x-1">
+                                <button
+                                    title="Обновить данные"
+                                    className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h5m11 2a9 9 0 11-2.064-5.364M20 4v5h-5" />
+                                    </svg>
+                                </button>
+                                <button
+                                    title="Настройки"
+                                    className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <button className={`w-full text-left pr-4 py-3 text-sm flex justify-between items-center transition-[padding-left] duration-300 ease-in-out hover:bg-gray-100 ${hoveredProject === 1 ? 'pl-24' : 'pl-4'}`}>
+                            <span className="truncate pr-1">Изготовление автоключей | К...</span>
+                            <span className="text-xs font-medium bg-gradient-to-t from-gray-300 to-green-200 text-green-900 px-2 py-0.5 rounded-full flex-shrink-0">15</span>
+                        </button>
                     </div>
 
                     {/* Проект 2: С ошибкой */}
-                    <div className="flex items-center justify-between p-3 hover:bg-gray-50 rounded cursor-pointer">
-                        <div className="flex items-center gap-2">
-                            <span className="text-sm text-gray-800">🍕 Проект "Доставка"</span>
-                            <span title="Ошибка доступа" className="text-lg">⚠️</span>
+                    <div 
+                        className="relative overflow-hidden"
+                        onMouseEnter={() => setHoveredProject(2)}
+                        onMouseLeave={() => setHoveredProject(null)}
+                    >
+                        {/* Контейнер для кнопок */}
+                        <div className={`absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-gray-200 transition-transform duration-300 ease-in-out ${hoveredProject === 2 ? 'translate-x-0' : '-translate-x-full'}`}>
+                            <div className="absolute top-1/2 left-0 -translate-y-1/2 flex items-center pl-2 space-x-1">
+                                <button
+                                    title="Обновить данные"
+                                    className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h5m11 2a9 9 0 11-2.064-5.364M20 4v5h-5" />
+                                    </svg>
+                                </button>
+                                <button
+                                    title="Настройки"
+                                    className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
-                        <span className="text-xs font-semibold bg-red-100 text-red-800 px-2 py-1 rounded-full">0</span>
+                        <button className={`w-full text-left pr-4 py-3 text-sm flex justify-between items-center transition-[padding-left] duration-300 ease-in-out hover:bg-gray-100 ${hoveredProject === 2 ? 'pl-24' : 'pl-4'}`}>
+                            <div className="flex items-center min-w-0">
+                                <span className="truncate pr-1">Тестовое сообщество</span>
+                                <div title="Проблема с доступом. Проверьте права токена." className="text-amber-500 flex-shrink-0">
+                                    <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 3.001-1.742 3.001H4.42c-1.53 0-2.493-1.667-1.743-3.001l5.58-9.92zM10 13a1 1 0 100-2 1 1 0 000 2zm-1-4a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <span className="text-xs font-medium bg-gradient-to-t from-gray-300 to-red-200 text-red-900 px-2 py-0.5 rounded-full flex-shrink-0">0</span>
+                        </button>
                     </div>
 
                     {/* Проект 3: С обновлениями */}
-                    <div className="flex items-center justify-between p-3 hover:bg-gray-50 rounded cursor-pointer">
-                        <div className="flex items-center gap-2">
-                            <span className="text-sm text-gray-800">🎨 Проект "Дизайн"</span>
-                            <span title="Есть обновления" className="text-lg">🔵</span>
+                    <div 
+                        className="relative overflow-hidden"
+                        onMouseEnter={() => setHoveredProject(3)}
+                        onMouseLeave={() => setHoveredProject(null)}
+                    >
+                        {/* Контейнер для кнопок */}
+                        <div className={`absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-gray-200 transition-transform duration-300 ease-in-out ${hoveredProject === 3 ? 'translate-x-0' : '-translate-x-full'}`}>
+                            <div className="absolute top-1/2 left-0 -translate-y-1/2 flex items-center pl-2 space-x-1">
+                                <button
+                                    title="Обновить данные"
+                                    className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h5m11 2a9 9 0 11-2.064-5.364M20 4v5h-5" />
+                                    </svg>
+                                </button>
+                                <button
+                                    title="Настройки"
+                                    className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
-                        <span className="text-xs font-semibold bg-blue-100 text-blue-800 px-2 py-1 rounded-full">8</span>
+                        <button className={`w-full text-left pr-4 py-3 text-sm flex justify-between items-center transition-[padding-left] duration-300 ease-in-out hover:bg-gray-100 ${hoveredProject === 3 ? 'pl-24' : 'pl-4'}`}>
+                            <span className="truncate pr-1">Фиолето Суши | Доставка ро...</span>
+                            <div className="flex-shrink-0 flex items-center gap-1.5">
+                                <div className="w-2.5 h-2.5 bg-blue-500 rounded-full animate-pulse" title="Доступны обновления"></div>
+                                <span className="text-xs font-medium bg-gray-300 text-gray-700 px-2 py-0.5 rounded-full">8</span>
+                            </div>
+                        </button>
                     </div>
                 </div>
 
                 <p className="text-xs text-gray-600 mt-4">
-                    ℹ️ Наводи курсор на проект — для действий (обновить, настройки) появятся дополнительные кнопки.
+                    <strong>Подсказка:</strong> Наводи курсор на проект — для действий (обновить, настройки) появятся дополнительные кнопки.
                 </p>
             </div>
 
@@ -144,8 +240,8 @@ export const StatusIndicators: React.FC<ContentProps> = ({ title }) => {
                     <div>
                         <p className="font-medium text-purple-900">Как долго висит индикатор?</p>
                         <p className="text-sm text-gray-700 mt-1">
-                            ⚠️ Жёлтый треугольник <strong>останется</strong>, пока не исправишь проблему с доступом.
-                            🔵 Синяя точка <strong>исчезнет автоматически</strong> при загрузке данных.
+                            <strong>Янтарный треугольник</strong> останется, пока не исправишь проблему с доступом.<br/>
+                            <strong>Синяя точка</strong> исчезнет автоматически при загрузке данных.
                         </p>
                     </div>
                 </div>
@@ -158,7 +254,7 @@ export const StatusIndicators: React.FC<ContentProps> = ({ title }) => {
                         <p className="font-medium text-green-900">Нет индикатора?</p>
                         <p className="text-sm text-gray-700 mt-1">
                             Если иконки нет — это означает, что <strong>всё работает нормально</strong> 
-                            и с этим проектом нет никаких проблем. 👍
+                            и с этим проектом нет никаких проблем.
                         </p>
                     </div>
                 </div>

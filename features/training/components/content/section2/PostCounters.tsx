@@ -6,6 +6,7 @@ import { ContentProps } from '../shared';
 // =====================================================================
 export const PostCounters: React.FC<ContentProps> = ({ title }) => {
     const [selectedCounter, setSelectedCounter] = useState<'0' | 'lt5' | '5-10' | 'gt10'>('0');
+    const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
     return (
         <article className="prose prose-indigo max-w-none">
@@ -18,9 +19,9 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
                 Но это не просто число — <strong>цвет этого числа очень важен!</strong>
             </p>
 
-            <div className="not-prose bg-yellow-50 border border-yellow-200 rounded-lg p-4 my-6">
-                <p className="text-sm text-yellow-900">
-                    <strong>⚡ Главное правило:</strong> Цвет счётчика — это сигнал от приложения. 
+            <div className="not-prose bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-6">
+                <p className="text-sm text-indigo-800">
+                    <strong>Главное правило:</strong> Цвет счётчика — это сигнал от приложения. 
                     Красный = "Срочно!", Зелёный = "Всё OK".
                 </p>
             </div>
@@ -41,11 +42,13 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
                     onClick={() => setSelectedCounter('0')}
                 >
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">🔴</div>
+                        <div className="flex-shrink-0">
+                            <span className="text-xs font-medium bg-gradient-to-t from-gray-300 to-red-200 text-red-900 px-2 py-0.5 rounded-full">0</span>
+                        </div>
                         <div>
                             <div className="flex items-center gap-2 mb-2">
                                 <h3 className="font-bold text-red-900">Красный счётчик: 0 постов</h3>
-                                <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-800">0</span>
+                                <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-t from-gray-300 to-red-200 text-red-900">0</span>
                             </div>
                             <p className="text-sm text-gray-700 mb-3">
                                 <strong>Что это значит:</strong> В проекте <strong>вообще нет черновиков</strong> (отложенных постов). 
@@ -73,11 +76,13 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
                     onClick={() => setSelectedCounter('lt5')}
                 >
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">🟠</div>
+                        <div className="flex-shrink-0">
+                            <span className="text-xs font-medium bg-gradient-to-t from-gray-300 to-orange-200 text-orange-900 px-2 py-0.5 rounded-full">3</span>
+                        </div>
                         <div>
                             <div className="flex items-center gap-2 mb-2">
                                 <h3 className="font-bold text-orange-900">Оранжевый счётчик: 1-4 поста</h3>
-                                <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-orange-100 text-orange-800">3</span>
+                                <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-t from-gray-300 to-orange-200 text-orange-900">3</span>
                             </div>
                             <p className="text-sm text-gray-700 mb-3">
                                 <strong>Что это значит:</strong> Постов <strong>очень мало</strong> 
@@ -105,11 +110,13 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
                     onClick={() => setSelectedCounter('5-10')}
                 >
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">⚪</div>
+                        <div className="flex-shrink-0">
+                            <span className="text-xs bg-gray-300 text-gray-700 px-2 py-0.5 rounded-full">7</span>
+                        </div>
                         <div>
                             <div className="flex items-center gap-2 mb-2">
                                 <h3 className="font-bold text-gray-900">Серый счётчик: 5-10 постов</h3>
-                                <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-gray-300 text-gray-700">7</span>
+                                <span className="px-2 py-0.5 rounded-full text-xs bg-gray-300 text-gray-700">7</span>
                             </div>
                             <p className="text-sm text-gray-700 mb-3">
                                 <strong>Что это значит:</strong> Контента <strong>нормальное количество</strong>. 
@@ -137,11 +144,13 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
                     onClick={() => setSelectedCounter('gt10')}
                 >
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">🟢</div>
+                        <div className="flex-shrink-0">
+                            <span className="text-xs font-medium bg-gradient-to-t from-gray-300 to-green-200 text-green-900 px-2 py-0.5 rounded-full">15</span>
+                        </div>
                         <div>
                             <div className="flex items-center gap-2 mb-2">
                                 <h3 className="font-bold text-green-900">Зелёный счётчик: больше 10 постов</h3>
-                                <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-800">15</span>
+                                <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-t from-gray-300 to-green-200 text-green-900">15</span>
                             </div>
                             <p className="text-sm text-gray-700 mb-3">
                                 <strong>Что это значит:</strong> <strong>Отличная работа!</strong> 
@@ -156,7 +165,7 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
                                 </ul>
                             </div>
                             <div className="bg-green-100 rounded p-3 border border-green-300 text-sm text-green-900 mt-3">
-                                <p><strong>👏 Поздравляем:</strong> Это означает, что контент-план хорошо подготовлен. 
+                                <p><strong>Поздравляем:</strong> Это означает, что контент-план хорошо подготовлен. 
                                 Ты в добром здравии!</p>
                             </div>
                         </div>
@@ -182,7 +191,7 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
                     <tbody>
                         <tr className="hover:bg-red-50">
                             <td className="border border-gray-300 px-4 py-2">
-                                <span className="inline-block px-2 py-1 rounded-full text-xs font-bold bg-red-100 text-red-800">Красный</span>
+                                <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-t from-gray-300 to-red-200 text-red-900">Красный</span>
                             </td>
                             <td className="border border-gray-300 px-4 py-2 text-sm">0 постов</td>
                             <td className="border border-gray-300 px-4 py-2 text-sm">Срочно! Контент закончился</td>
@@ -190,7 +199,7 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
                         </tr>
                         <tr className="hover:bg-orange-50">
                             <td className="border border-gray-300 px-4 py-2">
-                                <span className="inline-block px-2 py-1 rounded-full text-xs font-bold bg-orange-100 text-orange-800">Оранжевый</span>
+                                <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-t from-gray-300 to-orange-200 text-orange-900">Оранжевый</span>
                             </td>
                             <td className="border border-gray-300 px-4 py-2 text-sm">1-4 поста</td>
                             <td className="border border-gray-300 px-4 py-2 text-sm">Предупреждение: мало контента</td>
@@ -198,7 +207,7 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
                         </tr>
                         <tr className="hover:bg-gray-50">
                             <td className="border border-gray-300 px-4 py-2">
-                                <span className="inline-block px-2 py-1 rounded-full text-xs font-bold bg-gray-300 text-gray-700">Серый</span>
+                                <span className="inline-block px-2 py-0.5 rounded-full text-xs bg-gray-300 text-gray-700">Серый</span>
                             </td>
                             <td className="border border-gray-300 px-4 py-2 text-sm">5-10 постов</td>
                             <td className="border border-gray-300 px-4 py-2 text-sm">ОК: нормальный уровень</td>
@@ -206,7 +215,7 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
                         </tr>
                         <tr className="hover:bg-green-50">
                             <td className="border border-gray-300 px-4 py-2">
-                                <span className="inline-block px-2 py-1 rounded-full text-xs font-bold bg-green-100 text-green-800">Зелёный</span>
+                                <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-t from-gray-300 to-green-200 text-green-900">Зелёный</span>
                             </td>
                             <td className="border border-gray-300 px-4 py-2 text-sm">10+ постов</td>
                             <td className="border border-gray-300 px-4 py-2 text-sm">Отлично! Много контента</td>
@@ -284,34 +293,143 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
                 <p className="text-sm text-gray-600 mb-4 font-semibold">Список проектов с разными счётчиками:</p>
                 
                 <div className="space-y-2 bg-white rounded border border-gray-300 p-4">
-                    <div className="flex items-center justify-between p-3 hover:bg-gray-50 rounded">
-                        <span className="text-sm font-medium text-gray-800">🍕 Доставка</span>
-                        <span className="text-xs font-bold bg-red-100 text-red-800 px-2 py-1 rounded-full">0</span>
+                    {/* Проект 1: Красный счетчик */}
+                    <div 
+                        className="relative overflow-hidden"
+                        onMouseEnter={() => setHoveredProject(1)}
+                        onMouseLeave={() => setHoveredProject(null)}
+                    >
+                        {/* Контейнер для кнопок, который выдвигается */}
+                        <div className={`absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-gray-200 transition-transform duration-300 ease-in-out ${hoveredProject === 1 ? 'translate-x-0' : '-translate-x-full'}`}>
+                            <div className="absolute top-1/2 left-0 -translate-y-1/2 flex items-center pl-2 space-x-1">
+                                <button
+                                    title="Обновить данные"
+                                    className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h5m11 2a9 9 0 11-2.064-5.364M20 4v5h-5" />
+                                    </svg>
+                                </button>
+                                <button
+                                    title="Настройки"
+                                    className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <button className={`w-full text-left pr-4 py-3 text-sm flex justify-between items-center transition-[padding-left] duration-300 ease-in-out hover:bg-gray-100 ${hoveredProject === 1 ? 'pl-24' : 'pl-4'}`}>
+                            <span className="truncate pr-1">Фиолето Суши | Доставка ро...</span>
+                            <span className="text-xs font-medium bg-gradient-to-t from-gray-300 to-red-200 text-red-900 px-2 py-0.5 rounded-full flex-shrink-0">0</span>
+                        </button>
                     </div>
-                    <p className="text-xs text-red-700 px-3 mb-2">⚠️ Критично! Нужны новые посты</p>
 
-                    <div className="flex items-center justify-between p-3 hover:bg-gray-50 rounded mt-3">
-                        <span className="text-sm font-medium text-gray-800">🎨 Дизайн</span>
-                        <span className="text-xs font-bold bg-orange-100 text-orange-800 px-2 py-1 rounded-full">3</span>
+                    {/* Проект 2: Оранжевый счетчик */}
+                    <div 
+                        className="relative overflow-hidden mt-3"
+                        onMouseEnter={() => setHoveredProject(2)}
+                        onMouseLeave={() => setHoveredProject(null)}
+                    >
+                        <div className={`absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-gray-200 transition-transform duration-300 ease-in-out ${hoveredProject === 2 ? 'translate-x-0' : '-translate-x-full'}`}>
+                            <div className="absolute top-1/2 left-0 -translate-y-1/2 flex items-center pl-2 space-x-1">
+                                <button
+                                    title="Обновить данные"
+                                    className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h5m11 2a9 9 0 11-2.064-5.364M20 4v5h-5" />
+                                    </svg>
+                                </button>
+                                <button
+                                    title="Настройки"
+                                    className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <button className={`w-full text-left pr-4 py-3 text-sm flex justify-between items-center transition-[padding-left] duration-300 ease-in-out hover:bg-gray-100 ${hoveredProject === 2 ? 'pl-24' : 'pl-4'}`}>
+                            <span className="truncate pr-1">Тестовое сообщество</span>
+                            <span className="text-xs font-medium bg-gradient-to-t from-gray-300 to-orange-200 text-orange-900 px-2 py-0.5 rounded-full flex-shrink-0">3</span>
+                        </button>
                     </div>
-                    <p className="text-xs text-orange-700 px-3 mb-2">⏳ Предупреждение: мало контента</p>
 
-                    <div className="flex items-center justify-between p-3 hover:bg-gray-50 rounded mt-3">
-                        <span className="text-sm font-medium text-gray-800">📚 Образование</span>
-                        <span className="text-xs font-bold bg-gray-300 text-gray-700 px-2 py-1 rounded-full">7</span>
+                    {/* Проект 3: Серый счетчик */}
+                    <div 
+                        className="relative overflow-hidden mt-3"
+                        onMouseEnter={() => setHoveredProject(3)}
+                        onMouseLeave={() => setHoveredProject(null)}
+                    >
+                        <div className={`absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-gray-200 transition-transform duration-300 ease-in-out ${hoveredProject === 3 ? 'translate-x-0' : '-translate-x-full'}`}>
+                            <div className="absolute top-1/2 left-0 -translate-y-1/2 flex items-center pl-2 space-x-1">
+                                <button
+                                    title="Обновить данные"
+                                    className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h5m11 2a9 9 0 11-2.064-5.364M20 4v5h-5" />
+                                    </svg>
+                                </button>
+                                <button
+                                    title="Настройки"
+                                    className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <button className={`w-full text-left pr-4 py-3 text-sm flex justify-between items-center transition-[padding-left] duration-300 ease-in-out hover:bg-gray-100 ${hoveredProject === 3 ? 'pl-24' : 'pl-4'}`}>
+                            <span className="truncate pr-1">Изготовление автоключей | К...</span>
+                            <span className="text-xs bg-gray-300 text-gray-700 px-2 py-0.5 rounded-full flex-shrink-0">7</span>
+                        </button>
                     </div>
-                    <p className="text-xs text-gray-700 px-3 mb-2">✓ Нормально: хватит на неделю</p>
 
-                    <div className="flex items-center justify-between p-3 hover:bg-gray-50 rounded mt-3">
-                        <span className="text-sm font-medium text-gray-800">💪 Фитнес</span>
-                        <span className="text-xs font-bold bg-green-100 text-green-800 px-2 py-1 rounded-full">18</span>
+                    {/* Проект 4: Зеленый счетчик */}
+                    <div 
+                        className="relative overflow-hidden mt-3"
+                        onMouseEnter={() => setHoveredProject(4)}
+                        onMouseLeave={() => setHoveredProject(null)}
+                    >
+                        <div className={`absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-gray-200 transition-transform duration-300 ease-in-out ${hoveredProject === 4 ? 'translate-x-0' : '-translate-x-full'}`}>
+                            <div className="absolute top-1/2 left-0 -translate-y-1/2 flex items-center pl-2 space-x-1">
+                                <button
+                                    title="Обновить данные"
+                                    className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h5m11 2a9 9 0 11-2.064-5.364M20 4v5h-5" />
+                                    </svg>
+                                </button>
+                                <button
+                                    title="Настройки"
+                                    className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <button className={`w-full text-left pr-4 py-3 text-sm flex justify-between items-center transition-[padding-left] duration-300 ease-in-out hover:bg-gray-100 ${hoveredProject === 4 ? 'pl-24' : 'pl-4'}`}>
+                            <span className="truncate pr-1">ООО Строй Кровля | Кровел...</span>
+                            <span className="text-xs font-medium bg-gradient-to-t from-gray-300 to-green-200 text-green-900 px-2 py-0.5 rounded-full flex-shrink-0">18</span>
+                        </button>
                     </div>
-                    <p className="text-xs text-green-700 px-3">✓ Отлично: контента на 3+ недели</p>
                 </div>
 
                 <p className="text-xs text-gray-600 mt-4">
-                    💡 <strong>Смотрим на список и сразу видим:</strong> 
-                    "Доставку срочно нужно наполнить, Дизайн чуть отстаёт, остальное в норме."
+                    <strong>Смотрим на список и сразу видим:</strong> 
+                    первый проект срочно нужно наполнить, второй чуть отстаёт, остальное в норме.
                 </p>
             </div>
 

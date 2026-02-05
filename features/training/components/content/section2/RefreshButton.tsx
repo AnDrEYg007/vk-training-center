@@ -6,11 +6,13 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
     const [lastRefreshed, setLastRefreshed] = useState<string | null>(null);
 
     const refreshOptions = [
-        { id: 'published', label: 'Опубликованные', icon: '✅', description: 'Загрузить посты, которые уже на стене' },
-        { id: 'scheduled', label: 'Отложенные VK', icon: '📅', description: 'Обновить стандартные отложенные посты' },
-        { id: 'system', label: 'Системные', icon: '⚙️', description: 'Обновить посты из нашей системы' },
-        { id: 'suggested', label: 'Предложенные', icon: '💡', description: 'Обновить предложенные сообществом посты' },
-        { id: 'all', label: 'Все сразу', icon: '🔄', description: 'Полное обновление всех типов данных' }
+        { id: 'published', label: 'Опубликованные', description: 'Загрузить посты, которые уже на стене' },
+        { id: 'scheduled', label: 'Отложенные VK', description: 'Обновить стандартные отложенные посты' },
+        { id: 'system', label: 'Системные', description: 'Обновить посты из нашей системы' },
+        { id: 'stories', label: 'Истории', description: 'Обновить истории сообщества' },
+        { id: 'tags', label: 'Теги', description: 'Пересчитать теги для всех постов' },
+        { id: 'notes', label: 'Заметки', description: 'Обновить заметки проекта' },
+        { id: 'all', label: 'Все сразу', description: 'Полное обновление всех типов данных' }
     ];
 
     const handleRefresh = (optionId: string) => {
@@ -26,7 +28,7 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
             <p className="!text-base !leading-relaxed !text-gray-700">
                 Кнопка <strong>"Обновить"</strong> в шапке календаря позволяет 
                 <strong> загрузить свежие данные из ВКонтакте</strong>. Это не просто одна кнопка — 
-                это целое выпадающее меню с разными вариантами обновления.
+                это целое раздвижное меню с разными вариантами обновления.
             </p>
 
             <div className="not-prose bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-6">
@@ -43,8 +45,8 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
 
             <p className="!text-base !leading-relaxed !text-gray-700">
                 Кнопка "Обновить" расположена в <strong>правой части шапки календаря</strong>, 
-                обычно после кнопок управления видимостью. Она имеет иконку <strong>🔄</strong> и 
-                стрелку вниз (▼), указывающую на выпадающее меню.
+                обычно после кнопок управления видимостью. Она имеет иконку стрелок обновления (SVG) и текст "Обновить". 
+                При нажатии справа раздвигается меню с вариантами обновления.
             </p>
 
             <hr className="!my-10" />
@@ -55,7 +57,6 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
             <div className="not-prose space-y-4 my-8">
                 <div className="border-l-4 border-blue-400 pl-4 py-3 bg-blue-50 rounded-r-lg">
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">⏰</div>
                         <div>
                             <h3 className="font-bold text-blue-900 mb-2">Синхронизация с ВКонтакте</h3>
                             <p className="text-sm text-gray-700">
@@ -69,7 +70,6 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
 
                 <div className="border-l-4 border-green-400 pl-4 py-3 bg-green-50 rounded-r-lg">
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">👥</div>
                         <div>
                             <h3 className="font-bold text-green-900 mb-2">Работа в команде</h3>
                             <p className="text-sm text-gray-700">
@@ -82,7 +82,6 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
 
                 <div className="border-l-4 border-purple-400 pl-4 py-3 bg-purple-50 rounded-r-lg">
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">🔍</div>
                         <div>
                             <h3 className="font-bold text-purple-900 mb-2">Проверка статуса публикации</h3>
                             <p className="text-sm text-gray-700">
@@ -100,15 +99,14 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
             <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Варианты обновления (меню)</h2>
 
             <p className="!text-base !leading-relaxed !text-gray-700 mb-6">
-                Когда ты нажимаешь на кнопку "Обновить", открывается <strong>выпадающее меню</strong> с вариантами. 
+                Когда ты нажимаешь на кнопку "Обновить", открывается <strong>раздвижное меню</strong> с вариантами. 
                 Каждый вариант обновляет только определённый тип данных:
             </p>
 
             <div className="not-prose space-y-4 my-8">
                 {/* Опция 1: Опубликованные */}
-                <div className="bg-white border-2 border-green-300 rounded-lg p-4 hover:shadow-md transition-shadow">
+                <div className="bg-white border-2 border-green-300 rounded-lg p-4">
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">✅</div>
                         <div className="flex-1">
                             <h3 className="font-bold text-green-900 mb-2">Опубликованные</h3>
                             <p className="text-sm text-gray-700 mb-3">
@@ -127,9 +125,8 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
                 </div>
 
                 {/* Опция 2: Отложенные VK */}
-                <div className="bg-white border-2 border-blue-300 rounded-lg p-4 hover:shadow-md transition-shadow">
+                <div className="bg-white border-2 border-blue-300 rounded-lg p-4">
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">📅</div>
                         <div className="flex-1">
                             <h3 className="font-bold text-blue-900 mb-2">Отложенные VK</h3>
                             <p className="text-sm text-gray-700 mb-3">
@@ -149,9 +146,8 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
                 </div>
 
                 {/* Опция 3: Системные */}
-                <div className="bg-white border-2 border-indigo-300 rounded-lg p-4 hover:shadow-md transition-shadow">
+                <div className="bg-white border-2 border-indigo-300 rounded-lg p-4">
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">⚙️</div>
                         <div className="flex-1">
                             <h3 className="font-bold text-indigo-900 mb-2">Системные</h3>
                             <p className="text-sm text-gray-700 mb-3">
@@ -170,37 +166,75 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
                     </div>
                 </div>
 
-                {/* Опция 4: Предложенные */}
-                <div className="bg-white border-2 border-amber-300 rounded-lg p-4 hover:shadow-md transition-shadow">
+                {/* Опция 4: Истории */}
+                <div className="bg-white border-2 border-purple-300 rounded-lg p-4">
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">💡</div>
                         <div className="flex-1">
-                            <h3 className="font-bold text-amber-900 mb-2">Предложенные</h3>
+                            <h3 className="font-bold text-purple-900 mb-2">Истории</h3>
                             <p className="text-sm text-gray-700 mb-3">
-                                Обновляет <strong>предложенные посты</strong> — те, которые пользователи 
-                                предложили в сообщество, но ещё не опубликованы.
+                                Обновляет <strong>истории сообщества</strong> — короткие публикации, которые 
+                                отображаются в специальном блоке календаря.
                             </p>
-                            <div className="bg-amber-50 rounded p-3 text-sm text-gray-700">
+                            <div className="bg-purple-50 rounded p-3 text-sm text-gray-700">
                                 <p className="font-bold mb-2">Когда использовать:</p>
                                 <ul className="list-disc list-inside space-y-1">
-                                    <li>Кто-то предложил новый пост в сообщество</li>
-                                    <li>Нужно проверить очередь предложенных постов</li>
-                                    <li>Модератор принял или отклонил предложенный пост</li>
+                                    <li>Опубликовали новую историю в VK</li>
+                                    <li>Нужно проверить актуальные истории</li>
+                                    <li>История истекла и нужно обновить список</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Опция 5: Все сразу */}
-                <div className="bg-white border-2 border-purple-400 rounded-lg p-4 hover:shadow-md transition-shadow">
+                {/* Опция 5: Теги */}
+                <div className="bg-white border-2 border-pink-300 rounded-lg p-4">
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">🔄</div>
                         <div className="flex-1">
-                            <h3 className="font-bold text-purple-900 mb-2">Все сразу (Полное обновление)</h3>
+                            <h3 className="font-bold text-pink-900 mb-2">Теги</h3>
+                            <p className="text-sm text-gray-700 mb-3">
+                                Запускает <strong>пересчёт тегов</strong> для всех постов проекта по актуальным правилам тегирования.
+                            </p>
+                            <div className="bg-pink-50 rounded p-3 text-sm text-gray-700">
+                                <p className="font-bold mb-2">Когда использовать:</p>
+                                <ul className="list-disc list-inside space-y-1">
+                                    <li>Изменил правила автоматического тегирования</li>
+                                    <li>Добавил новые теги и хочешь применить к старым постам</li>
+                                    <li>Теги отображаются неправильно</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Опция 6: Заметки */}
+                <div className="bg-white border-2 border-cyan-300 rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                        <div className="flex-1">
+                            <h3 className="font-bold text-cyan-900 mb-2">Заметки</h3>
+                            <p className="text-sm text-gray-700 mb-3">
+                                Обновляет <strong>заметки текущего проекта</strong> из базы данных.
+                            </p>
+                            <div className="bg-cyan-50 rounded p-3 text-sm text-gray-700">
+                                <p className="font-bold mb-2">Когда использовать:</p>
+                                <ul className="list-disc list-inside space-y-1">
+                                    <li>Коллега создал заметку в другой вкладке</li>
+                                    <li>Изменения заметок не отобразились автоматически</li>
+                                    <li>Нужно убедиться что все заметки актуальны</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Опция 7: Все сразу */}
+                <div className="bg-white border-2 border-gray-400 rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                        <div className="flex-1">
+                            <h3 className="font-bold text-gray-900 mb-2">Все сразу (Полное обновление)</h3>
                             <p className="text-sm text-gray-700 mb-3">
                                 Загружает <strong>все типы данных одновременно</strong>: 
-                                опубликованные, отложенные, системные и предложенные.
+                                опубликованные, отложенные, системные, истории, теги, заметки.
                             </p>
                             <div className="bg-purple-50 rounded p-3 text-sm text-gray-700">
                                 <p className="font-bold mb-2">Когда использовать:</p>
@@ -210,7 +244,7 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
                                     <li>Не уверен, что именно изменилось</li>
                                 </ul>
                                 <p className="text-xs text-gray-600 mt-2">
-                                    ⚠️ <strong>Внимание:</strong> Это самый медленный вариант, 
+                                    <strong>Внимание:</strong> Это самый медленный вариант, 
                                     потому что загружает все данные сразу. Используй точечное обновление, 
                                     если знаешь, что нужно.
                                 </p>
@@ -226,7 +260,7 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
             <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Интерактивная демонстрация</h2>
 
             <p className="!text-base !leading-relaxed !text-gray-700 mb-6">
-                Ниже находится <strong>макет кнопки "Обновить"</strong> с работающим выпадающим меню. 
+                Ниже находится <strong>макет кнопки "Обновить"</strong> с работающим раздвижным меню. 
                 Попробуй нажать на кнопку и выбрать один из вариантов:
             </p>
 
@@ -241,33 +275,33 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
                         <div className="relative">
                             <button
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                className="flex items-center gap-2 px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg font-bold transition-colors shadow-md"
+                                className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors shadow-sm"
                             >
-                                <span>🔄</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h5m11 2a9 9 0 11-2.064-5.364M20 4v5h-5" />
+                                </svg>
                                 <span>Обновить</span>
-                                <span className="text-xs">{isDropdownOpen ? '▲' : '▼'}</span>
                             </button>
 
-                            {/* Выпадающее меню */}
-                            {isDropdownOpen && (
-                                <div className="absolute right-0 mt-2 w-72 bg-white border border-gray-300 rounded-lg shadow-xl z-10">
-                                    {refreshOptions.map((option) => (
-                                        <button
-                                            key={option.id}
-                                            onClick={() => handleRefresh(option.id)}
-                                            className="w-full text-left px-4 py-3 hover:bg-gray-100 transition-colors border-b border-gray-200 last:border-b-0 first:rounded-t-lg last:rounded-b-lg"
-                                        >
-                                            <div className="flex items-center gap-3">
-                                                <span className="text-2xl">{option.icon}</span>
-                                                <div className="flex-1">
-                                                    <p className="font-bold text-gray-900 text-sm">{option.label}</p>
-                                                    <p className="text-xs text-gray-600">{option.description}</p>
-                                                </div>
-                                            </div>
-                                        </button>
+                            {/* Раздвижное меню */}
+                            <div className={`transition-all duration-300 ease-in-out overflow-hidden flex items-center ${
+                                isDropdownOpen ? 'max-w-4xl opacity-100 ml-2' : 'max-w-0 opacity-0'
+                            }`}>
+                                <div className="flex items-center gap-1 p-1 bg-white border border-gray-300 rounded-md shadow-sm whitespace-nowrap">
+                                    {refreshOptions.map((option, index) => (
+                                        <React.Fragment key={option.id}>
+                                            {index > 0 && <div className="h-5 w-px bg-gray-200"></div>}
+                                            <button
+                                                onClick={() => handleRefresh(option.id)}
+                                                className="px-3 py-1 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
+                                                title={option.description}
+                                            >
+                                                {option.label}
+                                            </button>
+                                        </React.Fragment>
                                     ))}
                                 </div>
-                            )}
+                            </div>
                         </div>
                     </div>
 
@@ -275,7 +309,7 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
                     {lastRefreshed && (
                         <div className="bg-green-50 border border-green-200 rounded-lg p-4">
                             <p className="text-sm text-green-900">
-                                <strong>✅ Обновлено:</strong> {lastRefreshed}
+                                <strong>Обновлено:</strong> {lastRefreshed}
                             </p>
                             <p className="text-xs text-gray-600 mt-1">
                                 (Данные успешно загружены с сервера)
@@ -314,33 +348,45 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
                     </thead>
                     <tbody>
                         <tr className="hover:bg-gray-50">
-                            <td className="border border-gray-300 px-4 py-2 font-bold text-gray-900">✅ Опубликованные</td>
+                            <td className="border border-gray-300 px-4 py-2 font-bold text-gray-900">Опубликованные</td>
                             <td className="border border-gray-300 px-4 py-2 text-gray-700">Посты на стене</td>
-                            <td className="border border-gray-300 px-4 py-2 text-green-600">⚡ Быстро</td>
+                            <td className="border border-gray-300 px-4 py-2 text-green-600">Быстро</td>
                             <td className="border border-gray-300 px-4 py-2 text-gray-700">Проверка публикации</td>
                         </tr>
                         <tr className="hover:bg-gray-50">
-                            <td className="border border-gray-300 px-4 py-2 font-bold text-gray-900">📅 Отложенные VK</td>
+                            <td className="border border-gray-300 px-4 py-2 font-bold text-gray-900">Отложенные VK</td>
                             <td className="border border-gray-300 px-4 py-2 text-gray-700">Отложенные VK</td>
-                            <td className="border border-gray-300 px-4 py-2 text-green-600">⚡ Быстро</td>
+                            <td className="border border-gray-300 px-4 py-2 text-green-600">Быстро</td>
                             <td className="border border-gray-300 px-4 py-2 text-gray-700">Синхронизация с VK</td>
                         </tr>
                         <tr className="hover:bg-gray-50">
-                            <td className="border border-gray-300 px-4 py-2 font-bold text-gray-900">⚙️ Системные</td>
+                            <td className="border border-gray-300 px-4 py-2 font-bold text-gray-900">Системные</td>
                             <td className="border border-gray-300 px-4 py-2 text-gray-700">Системные посты</td>
-                            <td className="border border-gray-300 px-4 py-2 text-green-600">⚡ Быстро</td>
+                            <td className="border border-gray-300 px-4 py-2 text-green-600">Быстро</td>
                             <td className="border border-gray-300 px-4 py-2 text-gray-700">После изменений</td>
                         </tr>
                         <tr className="hover:bg-gray-50">
-                            <td className="border border-gray-300 px-4 py-2 font-bold text-gray-900">💡 Предложенные</td>
-                            <td className="border border-gray-300 px-4 py-2 text-gray-700">Предложка</td>
-                            <td className="border border-gray-300 px-4 py-2 text-green-600">⚡ Быстро</td>
-                            <td className="border border-gray-300 px-4 py-2 text-gray-700">Модерация предложки</td>
+                            <td className="border border-gray-300 px-4 py-2 font-bold text-gray-900">Истории</td>
+                            <td className="border border-gray-300 px-4 py-2 text-gray-700">Истории сообщества</td>
+                            <td className="border border-gray-300 px-4 py-2 text-green-600">Быстро</td>
+                            <td className="border border-gray-300 px-4 py-2 text-gray-700">Обновление блока историй</td>
                         </tr>
                         <tr className="hover:bg-gray-50">
-                            <td className="border border-gray-300 px-4 py-2 font-bold text-gray-900">🔄 Все сразу</td>
+                            <td className="border border-gray-300 px-4 py-2 font-bold text-gray-900">Теги</td>
+                            <td className="border border-gray-300 px-4 py-2 text-gray-700">Пересчёт тегов</td>
+                            <td className="border border-gray-300 px-4 py-2 text-orange-600">Средне</td>
+                            <td className="border border-gray-300 px-4 py-2 text-gray-700">После изменения правил</td>
+                        </tr>
+                        <tr className="hover:bg-gray-50">
+                            <td className="border border-gray-300 px-4 py-2 font-bold text-gray-900">Заметки</td>
+                            <td className="border border-gray-300 px-4 py-2 text-gray-700">Заметки проекта</td>
+                            <td className="border border-gray-300 px-4 py-2 text-green-600">Быстро</td>
+                            <td className="border border-gray-300 px-4 py-2 text-gray-700">Ручное обновление</td>
+                        </tr>
+                        <tr className="hover:bg-gray-50">
+                            <td className="border border-gray-300 px-4 py-2 font-bold text-gray-900">Все сразу</td>
                             <td className="border border-gray-300 px-4 py-2 text-gray-700">Всё одновременно</td>
-                            <td className="border border-gray-300 px-4 py-2 text-orange-600">🐢 Медленно</td>
+                            <td className="border border-gray-300 px-4 py-2 text-orange-600">Медленно</td>
                             <td className="border border-gray-300 px-4 py-2 text-gray-700">Полная синхронизация</td>
                         </tr>
                     </tbody>
@@ -354,7 +400,7 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
 
             <div className="not-prose space-y-4 my-6">
                 <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">❓ Почему я не вижу только что созданный пост?</p>
+                    <p className="font-bold text-amber-900 mb-2">Почему я не вижу только что созданный пост?</p>
                     <p className="text-sm text-gray-700">
                         Скорее всего, ты создал его через VK или другой интерфейс. 
                         Нажми <strong>"Обновить → Опубликованные"</strong> (если пост уже на стене) 
@@ -363,16 +409,16 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
                 </div>
 
                 <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">❓ Как часто нужно нажимать "Обновить"?</p>
+                    <p className="font-bold text-amber-900 mb-2">Как часто нужно нажимать "Обновить"?</p>
                     <p className="text-sm text-gray-700">
-                        Приложение <strong>автоматически обновляет данные</strong> раз в несколько минут. 
+                        Приложение <strong>автоматически проверяет наличие обновлений</strong> каждые 5 секунд. 
                         Но если работаешь в команде или что-то изменил вручную в VK, 
-                        лучше нажать "Обновить" сразу.
+                        лучше нажать "Обновить" сразу для мгновенной синхронизации.
                     </p>
                 </div>
 
                 <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">❓ Что быстрее: "Все сразу" или несколько раз точечно?</p>
+                    <p className="font-bold text-amber-900 mb-2">Что быстрее: "Все сразу" или несколько раз точечно?</p>
                     <p className="text-sm text-gray-700">
                         <strong>Точечное обновление быстрее!</strong> Если тебе нужно обновить только системные посты, 
                         нажми "Обновить → Системные". Не нужно загружать всё подряд.
@@ -380,15 +426,15 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
                 </div>
 
                 <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">❓ Можно ли обновить данные для конкретного проекта?</p>
+                    <p className="font-bold text-amber-900 mb-2">Можно ли обновить данные для конкретного проекта?</p>
                     <p className="text-sm text-gray-700">
-                        Да! В сайдбаре проектов (слева) наведи на проект и нажми <strong>иконку 🔄</strong>. 
+                        Да! В сайдбаре проектов (слева) наведи на проект и нажми <strong>иконку обновления (стрелки)</strong>. 
                         Это обновит данные только для этого сообщества, не затрагивая остальные.
                     </p>
                 </div>
 
                 <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">❓ Что делать, если обновление "зависло"?</p>
+                    <p className="font-bold text-amber-900 mb-2">Что делать, если обновление "зависло"?</p>
                     <p className="text-sm text-gray-700">
                         Обычно обновление занимает 2-5 секунд. Если прошло больше 10 секунд, 
                         попробуй <strong>обновить страницу браузера</strong> (F5) и попробуй снова.
@@ -396,15 +442,7 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
                 </div>
 
                 <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">❓ Почему нет варианта "Обновить заметки"?</p>
-                    <p className="text-sm text-gray-700">
-                        Заметки хранятся <strong>только в нашей системе</strong>, а не в VK. 
-                        Они обновляются автоматически в реальном времени, поэтому отдельная кнопка не нужна.
-                    </p>
-                </div>
-
-                <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">❓ Отличается ли обновление для разных типов постов?</p>
+                    <p className="font-bold text-amber-900 mb-2">Отличается ли обновление для разных типов постов?</p>
                     <p className="text-sm text-gray-700">
                         Да! <strong>"Опубликованные"</strong> загружаются с VK API (wall.get), 
                         <strong>"Отложенные VK"</strong> — через wall.getScheduled, 
@@ -417,7 +455,7 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
 
             {/* Совет */}
             <div className="not-prose bg-green-50 border-l-4 border-green-400 pl-4 py-3 rounded-lg">
-                <p className="text-green-900 font-bold mb-2">💚 Совет для опытных пользователей</p>
+                <p className="text-green-900 font-bold mb-2">Совет для опытных пользователей</p>
                 <p className="text-sm text-gray-700 mb-3">
                     <strong>Оптимальная стратегия обновления:</strong>
                 </p>
@@ -425,7 +463,8 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
                     <li><strong>Утром / При открытии:</strong> "Все сразу" (полная синхронизация)</li>
                     <li><strong>После публикации системного поста:</strong> "Опубликованные" (проверить, что появился)</li>
                     <li><strong>После редактирования:</strong> "Системные" (увидеть изменения)</li>
-                    <li><strong>При работе с предложкой:</strong> "Предложенные" (обновить очередь)</li>
+                    <li><strong>Изменил правила тегов:</strong> "Теги" (пересчитать для всех постов)</li>
+                    <li><strong>Опубликовали историю:</strong> "Истории" (обновить блок историй)</li>
                 </ul>
             </div>
         </article>

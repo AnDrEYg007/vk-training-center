@@ -37,7 +37,9 @@ export const ProjectListItems: React.FC<ContentProps> = ({ title }) => {
                 {/* Часть 1: Название */}
                 <div className="border-l-4 border-blue-400 pl-4 py-3 bg-blue-50">
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">1️⃣</div>
+                        <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span className="text-lg font-bold text-blue-700">1</span>
+                        </div>
                         <div>
                             <h3 className="font-bold text-blue-900 mb-2">Название проекта (Кликабельное)</h3>
                             <p className="text-sm text-gray-700 mb-3">
@@ -47,8 +49,7 @@ export const ProjectListItems: React.FC<ContentProps> = ({ title }) => {
                             <div className="bg-white rounded p-3 border border-blue-200">
                                 <p className="text-xs text-gray-600 mb-2">Пример:</p>
                                 <div className="flex items-center gap-2 p-2 hover:bg-gray-50 rounded cursor-pointer">
-                                    <span className="text-xl">🍕</span>
-                                    <span className="text-sm font-medium text-gray-800">Доставка пиццы</span>
+                                    <span className="text-sm truncate pr-1">Изготовление автоключей | К...</span>
                                 </div>
                             </div>
                             <p className="text-xs text-gray-600 mt-3">
@@ -62,7 +63,9 @@ export const ProjectListItems: React.FC<ContentProps> = ({ title }) => {
                 {/* Часть 2: Счётчик */}
                 <div className="border-l-4 border-green-400 pl-4 py-3 bg-green-50">
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">2️⃣</div>
+                        <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span className="text-lg font-bold text-green-700">2</span>
+                        </div>
                         <div>
                             <h3 className="font-bold text-green-900 mb-2">Счётчик постов (Справа)</h3>
                             <p className="text-sm text-gray-700 mb-3">
@@ -71,31 +74,31 @@ export const ProjectListItems: React.FC<ContentProps> = ({ title }) => {
                             </p>
 
                             <div className="bg-white rounded p-4 border border-green-200 space-y-3">
-                                <p className="text-xs text-gray-600 font-bold">Цвета счётчика:</p>
+                                <p className="text-xs text-gray-600 font-bold">Цвета счётчика (для неактивных проектов):</p>
                                 
                                 <div className="flex items-center gap-3">
-                                    <span className="px-2 py-1 rounded-full text-xs font-bold bg-red-100 text-red-800">0</span>
-                                    <span className="text-sm text-gray-700">Красный = <strong>0 постов</strong> (пора создавать!)</span>
+                                    <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-t from-gray-300 to-red-200 text-red-900">0</span>
+                                    <span className="text-sm text-gray-700">Красный градиент = <strong>0 постов</strong> (пора создавать!)</span>
                                 </div>
 
                                 <div className="flex items-center gap-3">
-                                    <span className="px-2 py-1 rounded-full text-xs font-bold bg-orange-100 text-orange-800">3</span>
-                                    <span className="text-sm text-gray-700">Оранжевый = <strong>1-4 поста</strong> (мало, нужно больше)</span>
+                                    <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-t from-gray-300 to-orange-200 text-orange-900">3</span>
+                                    <span className="text-sm text-gray-700">Оранжевый градиент = <strong>1-4 поста</strong> (мало, нужно больше)</span>
                                 </div>
 
                                 <div className="flex items-center gap-3">
-                                    <span className="px-2 py-1 rounded-full text-xs font-bold bg-gray-300 text-gray-700">7</span>
+                                    <span className="px-2 py-0.5 rounded-full text-xs bg-gray-300 text-gray-700">7</span>
                                     <span className="text-sm text-gray-700">Серый = <strong>5-10 постов</strong> (нормально)</span>
                                 </div>
 
                                 <div className="flex items-center gap-3">
-                                    <span className="px-2 py-1 rounded-full text-xs font-bold bg-green-100 text-green-800">15</span>
-                                    <span className="text-sm text-gray-700">Зелёный = <strong>больше 10 постов</strong> (отлично!)</span>
+                                    <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-t from-gray-300 to-green-200 text-green-900">15</span>
+                                    <span className="text-sm text-gray-700">Зелёный градиент = <strong>больше 10 постов</strong> (отлично!)</span>
                                 </div>
                             </div>
 
                             <p className="text-xs text-gray-600 mt-3">
-                                💡 <strong>Смысл:</strong> Красный счётчик — это сигнал "Внимание! В проекте нет постов, 
+                                <strong>Смысл:</strong> Красный счётчик — это сигнал "Внимание! В проекте нет постов, 
                                 нужно планировать контент". Зелёный — "Всё хорошо, контента достаточно".
                             </p>
                         </div>
@@ -105,7 +108,9 @@ export const ProjectListItems: React.FC<ContentProps> = ({ title }) => {
                 {/* Часть 3: Кнопки при наведении */}
                 <div className="border-l-4 border-purple-400 pl-4 py-3 bg-purple-50">
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">3️⃣</div>
+                        <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span className="text-lg font-bold text-purple-700">3</span>
+                        </div>
                         <div>
                             <h3 className="font-bold text-purple-900 mb-2">Кнопки при наведении (Скрытые)</h3>
                             <p className="text-sm text-gray-700 mb-3">
@@ -116,7 +121,11 @@ export const ProjectListItems: React.FC<ContentProps> = ({ title }) => {
                             <div className="bg-white rounded p-4 border border-purple-200 space-y-4">
                                 <div className="space-y-3">
                                     <div className="flex items-start gap-3 pb-3 border-b border-purple-200">
-                                        <div className="text-2xl flex-shrink-0">🔄</div>
+                                        <div className="flex-shrink-0">
+                                            <svg className="w-5 h-5 text-purple-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h5m11 2a9 9 0 11-2.064-5.364M20 4v5h-5" />
+                                            </svg>
+                                        </div>
                                         <div>
                                             <p className="font-semibold text-purple-900 text-sm">Кнопка "Обновить"</p>
                                             <p className="text-xs text-gray-700 mt-1">
@@ -128,7 +137,12 @@ export const ProjectListItems: React.FC<ContentProps> = ({ title }) => {
                                     </div>
 
                                     <div className="flex items-start gap-3">
-                                        <div className="text-2xl flex-shrink-0">⚙️</div>
+                                        <div className="flex-shrink-0">
+                                            <svg className="w-5 h-5 text-purple-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924 1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            </svg>
+                                        </div>
                                         <div>
                                             <p className="font-semibold text-purple-900 text-sm">Кнопка "Настройки"</p>
                                             <p className="text-xs text-gray-700 mt-1">
@@ -142,6 +156,113 @@ export const ProjectListItems: React.FC<ContentProps> = ({ title }) => {
                                 <p className="text-xs text-gray-600 bg-purple-50 p-2 rounded border border-purple-200">
                                     ℹ️ <strong>Важно:</strong> Эти кнопки видны только когда наводишь курсор на элемент. 
                                     Без наведения они скрыты.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Часть 4: Индикатор ошибки */}
+                <div className="border-l-4 border-amber-500 pl-4 py-3 bg-amber-50">
+                    <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span className="text-lg font-bold text-amber-700">4</span>
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-amber-900 mb-2">Индикатор ошибки</h3>
+                            <p className="text-sm text-gray-700 mb-3">
+                                Если в проекте есть <strong>проблемы с токеном VK API или другие ошибки</strong>, 
+                                справа от названия появляется янтарный треугольник.
+                            </p>
+
+                            <div className="bg-white rounded p-4 border border-amber-200 space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <svg className="w-4 h-4 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 3.001-1.742 3.001H4.42c-1.53 0-2.493-1.667-1.743-3.001l5.58-9.92zM10 13a1 1 0 100-2 1 1 0 000 2zm-1-4a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" />
+                                    </svg>
+                                    <span className="text-sm font-medium text-amber-900">Значок ошибки</span>
+                                </div>
+                                <p className="text-xs text-gray-700">
+                                    При наведении на треугольник показывается <strong>tooltip с описанием ошибки</strong>.
+                                    Это помогает быстро понять, что не так с проектом.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Часть 5: Индикатор обновлений */}
+                <div className="border-l-4 border-blue-500 pl-4 py-3 bg-blue-50">
+                    <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 bg-pink-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span className="text-lg font-bold text-pink-700">5</span>
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-blue-900 mb-2">Индикатор обновлений</h3>
+                            <p className="text-sm text-gray-700 mb-3">
+                                Если в проекте есть <strong>непрочитанные обновления</strong> (новые посты, изменения), 
+                                возле счётчика постов появляется синяя пульсирующая точка.
+                            </p>
+
+                            <div className="bg-white rounded p-4 border border-blue-200 space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="w-2.5 h-2.5 bg-blue-500 rounded-full animate-pulse"></div>
+                                    <span className="text-sm font-medium text-blue-900">Синяя точка</span>
+                                </div>
+                                <p className="text-xs text-gray-700">
+                                    Точка исчезает, когда ты <strong>открываешь проект</strong> и просматриваешь обновления.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Часть 6: Disabled проекты */}
+                <div className="border-l-4 border-gray-500 pl-4 py-3 bg-gray-50">
+                    <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span className="text-lg font-bold text-orange-700">4</span>
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-gray-900 mb-2">Отключенные проекты</h3>
+                            <p className="text-sm text-gray-700 mb-3">
+                                Проекты можно <strong>временно отключить</strong>. Они становятся неактивными и не показываются в общем списке 
+                                (если не включен фильтр "Показывать отключенные").
+                            </p>
+
+                            <div className="bg-white rounded p-4 border border-gray-300 space-y-3">
+                                <div className="flex items-center gap-2 p-2 bg-gray-100 rounded opacity-70">
+                                    <span className="text-sm text-gray-600 truncate">Отключенный проект</span>
+                                    <span className="text-xs px-2 py-0.5 rounded-full bg-gray-300 text-gray-700">0</span>
+                                </div>
+                                <p className="text-xs text-gray-700">
+                                    Отключенные проекты <strong>отображаются серым цветом с прозрачностью</strong> и видны только 
+                                    при активном переключателе "Показывать отключенные проекты".
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Часть 7: Анимация появления */}
+                <div className="border-l-4 border-pink-500 pl-4 py-3 bg-pink-50">
+                    <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 bg-pink-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span className="text-lg font-bold text-pink-700">7</span>
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-pink-900 mb-2">Анимация появления</h3>
+                            <p className="text-sm text-gray-700 mb-3">
+                                Когда загружается список проектов, элементы <strong>плавно появляются по очереди</strong> — 
+                                каждый следующий с небольшой задержкой.
+                            </p>
+
+                            <div className="bg-white rounded p-4 border border-pink-200 space-y-3">
+                                <p className="text-xs text-gray-700">
+                                    Используется класс animate-fade-in-up с задержкой animationDelay: 30ms * index.
+                                </p>
+                                <p className="text-xs text-gray-700">
+                                    Это создаёт эффект <strong>"волны"</strong> при загрузке, делая интерфейс более живым и приятным.
                                 </p>
                             </div>
                         </div>
@@ -161,15 +282,15 @@ export const ProjectListItems: React.FC<ContentProps> = ({ title }) => {
             <div className="not-prose bg-gray-50 border border-gray-200 rounded-lg p-6 my-6">
                 <div className="space-y-2 bg-white rounded border border-gray-300 p-4">
                     {[
-                        { name: '🍕 Доставка пиццы', count: 12, status: 'good' },
-                        { name: '🎨 Дизайн студия', count: 3, status: 'warning' },
-                        { name: '📚 Образование', count: 0, status: 'danger' },
+                        { name: 'Изготовление автоключей | К...', count: 0, status: 'danger' },
+                        { name: 'Тестовое сообщество', count: 0, status: 'danger' },
+                        { name: 'Фиолето Суши | Доставка ро...', count: 0, status: 'danger' },
                     ].map((project, idx) => {
                         const isHovered = hoveredProject === project.name;
                         const countColors = {
-                            good: 'bg-green-100 text-green-800',
-                            warning: 'bg-orange-100 text-orange-800',
-                            danger: 'bg-red-100 text-red-800',
+                            good: 'bg-gradient-to-t from-gray-300 to-green-200 text-green-900 font-medium',
+                            warning: 'bg-gradient-to-t from-gray-300 to-orange-200 text-orange-900 font-medium',
+                            danger: 'bg-gradient-to-t from-gray-300 to-red-200 text-red-900 font-medium',
                         };
 
                         return (
@@ -181,40 +302,43 @@ export const ProjectListItems: React.FC<ContentProps> = ({ title }) => {
                             >
                                 {/* Скрытые кнопки при наведении */}
                                 {isHovered && (
-                                    <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-gray-200 flex items-center justify-center gap-1 pl-2">
-                                        <button className="p-2 text-gray-600 rounded hover:bg-gray-300 transition-colors" title="Обновить">
+                                    <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-gray-200 transition-transform duration-300 ease-in-out translate-x-0">
+                                        <div className="absolute top-1/2 left-0 -translate-y-1/2 flex items-center pl-2 space-x-1">
+                                        <button className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800" title="Обновить">
                                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h5m11 2a9 9 0 11-2.064-5.364M20 4v5h-5" />
                                             </svg>
                                         </button>
-                                        <button className="p-2 text-gray-600 rounded hover:bg-gray-300 transition-colors" title="Настройки">
+                                        <button className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800" title="Настройки">
                                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924 1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                             </svg>
                                         </button>
+                                        </div>
                                     </div>
                                 )}
 
                                 {/* Основной элемент проекта */}
                                 <button
-                                    className={`w-full text-left pr-4 py-3 text-sm flex justify-between items-center transition-all duration-200 ${
-                                        isHovered ? 'pl-20 bg-gray-100' : 'pl-4 hover:bg-gray-50'
+                                    className={`w-full text-left pr-4 py-3 text-sm flex justify-between items-center transition-[padding-left] duration-300 ease-in-out ${
+                                        isHovered ? 'pl-24 bg-gray-100' : 'pl-4 hover:bg-gray-50'
                                     }`}
                                 >
                                     <div className="flex items-center min-w-0">
-                                        <span className="truncate font-medium text-gray-800">{project.name}</span>
+                                        <span className="truncate pr-1">{project.name}</span>
                                     </div>
-                                    <span className={`text-xs px-2 py-1 rounded-full font-bold flex-shrink-0 ${countColors[project.status]}`}>
+                                    <div className="flex-shrink-0 w-8 h-4 flex items-center justify-center">
+                                    <span className={`text-xs px-2 py-0.5 rounded-full flex-shrink-0 ${countColors[project.status]}`}>
                                         {project.count}
-                                    </span>
-                                </button>
+                                    </span>                                    </div>                                </button>
                             </div>
                         );
                     })}
                 </div>
 
                 <p className="text-xs text-gray-600 mt-4">
-                    💡 <strong>Попробуй:</strong> Наведи мышку на проект слева — увидишь скрытые кнопки!
+                    <strong>Попробуй:</strong> Наведи мышку на проект слева — увидишь скрытые кнопки!
                 </p>
             </div>
 

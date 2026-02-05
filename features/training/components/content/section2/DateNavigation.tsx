@@ -71,8 +71,8 @@ export const DateNavigation: React.FC<ContentProps> = ({ title }) => {
             <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Где это находится?</h2>
 
             <p className="!text-base !leading-relaxed !text-gray-700">
-                Навигация по датам располагается в <strong>верхнем левом углу шапки календаря</strong>, 
-                прямо над колонками дней. Это первая часть управления календарем.
+                Навигация по датам располагается в <strong>левой части шапки календаря</strong>. 
+                Порядок элементов слева направо: отображение месяца → переключатель режимов → <strong>навигация (3 кнопки)</strong> → поиск.
             </p>
 
             <hr className="!my-10" />
@@ -80,53 +80,56 @@ export const DateNavigation: React.FC<ContentProps> = ({ title }) => {
             {/* Что здесь есть */}
             <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Из чего состоит навигация?</h2>
 
+            <p className="!text-base !leading-relaxed !text-gray-700">
+                Навигация представляет собой <strong>единый блок с тремя кнопками</strong>, разделёнными 
+                вертикальными линиями. Все кнопки находятся в одной рамке и работают как единый инструмент.
+            </p>
+
             <div className="not-prose space-y-6 my-8">
                 {/* Элемент 1: Кнопка "Назад" */}
                 <div className="border-l-4 border-blue-400 pl-4 py-3 bg-blue-50">
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">⬅️</div>
+                        <div className="text-3xl flex-shrink-0">1️⃣</div>
                         <div>
-                            <h3 className="font-bold text-blue-900 mb-2">Кнопка "Назад" (⬅️)</h3>
+                            <h3 className="font-bold text-blue-900 mb-2">Стрелка влево (Назад)</h3>
                             <p className="text-sm text-gray-700 mb-3">
-                                Стрелка влево, которая перемещает календарь на <strong>одну неделю назад</strong>.
+                                Первая кнопка в блоке. Перемещает календарь на <strong>одну неделю назад</strong>.
                             </p>
                             <div className="bg-white rounded p-3 border border-blue-200 text-sm text-gray-700 space-y-2">
                                 <p><strong>Когда использовать:</strong></p>
                                 <ul className="list-disc list-inside space-y-1">
-                                    <li>Хочешь просмотреть прошедшие недели</li>
-                                    <li>Нужно проверить уже опубликованные посты</li>
-                                    <li>Нужно найти старые черновики</li>
+                                    <li>Просмотр прошедших недель</li>
+                                    <li>Проверка уже опубликованных постов</li>
+                                    <li>Поиск старых заметок</li>
                                 </ul>
                             </div>
                             <p className="text-xs text-gray-600 mt-3">
-                                💡 <strong>Совет:</strong> Кнопка не имеет ограничений — 
-                                ты можешь нажимать её столько раз, сколько нужно, даже на несколько лет назад.
+                                💡 <strong>Совет:</strong> Ограничений нет — можешь листать хоть на несколько лет назад.
                             </p>
                         </div>
                     </div>
                 </div>
 
-                {/* Элемент 2: Диапазон дат */}
-                <div className="border-l-4 border-green-400 pl-4 py-3 bg-green-50">
+                {/* Элемент 2: Кнопка "Сегодня" */}
+                <div className="border-l-4 border-orange-400 pl-4 py-3 bg-orange-50">
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">📅</div>
+                        <div className="text-3xl flex-shrink-0">2️⃣</div>
                         <div>
-                            <h3 className="font-bold text-green-900 mb-2">Диапазон дат (Посередине)</h3>
+                            <h3 className="font-bold text-orange-900 mb-2">Кнопка "Сегодня" (в центре)</h3>
                             <p className="text-sm text-gray-700 mb-3">
-                                В центре между стрелками отображается <strong>дата начала и конца текущей недели</strong>.
+                                Средняя кнопка в блоке. <strong>Мгновенно возвращает календарь на текущую неделю</strong>.
                             </p>
-                            <div className="bg-white rounded p-4 border border-green-200 text-sm text-gray-700 space-y-3">
-                                <p><strong>Пример отображения:</strong></p>
-                                <div className="bg-gray-50 rounded p-3 text-center text-sm font-medium text-gray-800">
-                                    Янв 15 — Янв 21
-                                </div>
-                                <p className="text-xs text-gray-600">
-                                    (Это означает, что сейчас показана неделя с 15 по 21 января)
-                                </p>
+                            <div className="bg-white rounded p-3 border border-orange-200 text-sm text-gray-700 space-y-2">
+                                <p><strong>Когда использовать:</strong></p>
+                                <ul className="list-disc list-inside space-y-1">
+                                    <li>Ушёл далеко в прошлое или будущее</li>
+                                    <li>Нужно быстро вернуться к текущей дате</li>
+                                    <li>Потерял ориентир во времени</li>
+                                </ul>
                             </div>
                             <p className="text-xs text-gray-600 mt-3">
-                                ℹ️ <strong>Важно:</strong> Это просто информация — клик на текст дат 
-                                <strong> ничего не делает</strong>. Для навигации используй стрелки.
+                                💡 <strong>Важно:</strong> Если ты уже на текущей неделе, кнопка становится 
+                                блеклой и заблокирована для нажатия — это нормально, она показывает что ты уже "дома".
                             </p>
                         </div>
                     </div>
@@ -135,48 +138,22 @@ export const DateNavigation: React.FC<ContentProps> = ({ title }) => {
                 {/* Элемент 3: Кнопка "Вперед" */}
                 <div className="border-l-4 border-purple-400 pl-4 py-3 bg-purple-50">
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">➡️</div>
+                        <div className="text-3xl flex-shrink-0">3️⃣</div>
                         <div>
-                            <h3 className="font-bold text-purple-900 mb-2">Кнопка "Вперед" (➡️)</h3>
+                            <h3 className="font-bold text-purple-900 mb-2">Стрелка вправо (Вперёд)</h3>
                             <p className="text-sm text-gray-700 mb-3">
-                                Стрелка вправо, которая перемещает календарь на <strong>одну неделю вперед</strong>.
+                                Третья кнопка в блоке. Перемещает календарь на <strong>одну неделю вперёд</strong>.
                             </p>
                             <div className="bg-white rounded p-3 border border-purple-200 text-sm text-gray-700 space-y-2">
                                 <p><strong>Когда использовать:</strong></p>
                                 <ul className="list-disc list-inside space-y-1">
-                                    <li>Хочешь спланировать посты на будущие недели</li>
-                                    <li>Нужно посмотреть пустые дни вперед</li>
-                                    <li>Нужно распределить контент на месяц вперед</li>
+                                    <li>Планирование постов на будущие недели</li>
+                                    <li>Просмотр свободных дней вперёд</li>
+                                    <li>Распределение контента на месяц вперёд</li>
                                 </ul>
                             </div>
                             <p className="text-xs text-gray-600 mt-3">
-                                💡 <strong>Совет:</strong> Ты можешь переходить на неограниченное 
-                                количество недель в будущее (например, планировать на полгода вперед).
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Элемент 4: Кнопка "Сегодня" */}
-                <div className="border-l-4 border-orange-400 pl-4 py-3 bg-orange-50">
-                    <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">🎯</div>
-                        <div>
-                            <h3 className="font-bold text-orange-900 mb-2">Кнопка "Сегодня" (🎯)</h3>
-                            <p className="text-sm text-gray-700 mb-3">
-                                Специальная кнопка, которая <strong>мгновенно возвращает календарь на текущую неделю</strong>.
-                            </p>
-                            <div className="bg-white rounded p-3 border border-orange-200 text-sm text-gray-700 space-y-2">
-                                <p><strong>Когда использовать:</strong></p>
-                                <ul className="list-disc list-inside space-y-1">
-                                    <li>Ты уехал в прошлое/будущее на много недель</li>
-                                    <li>Нужно быстро вернуться к текущей дате</li>
-                                    <li>Сбился с ориентира во времени</li>
-                                </ul>
-                            </div>
-                            <p className="text-xs text-gray-600 mt-3">
-                                💡 <strong>Полезно знать:</strong> Если ты уже на текущей неделе, 
-                                кнопка "Сегодня" будет немного бледнее (неактивной), но ты все равно можешь её нажать.
+                                💡 <strong>Совет:</strong> Можешь планировать хоть на полгода вперёд — ограничений нет.
                             </p>
                         </div>
                     </div>
@@ -185,50 +162,59 @@ export const DateNavigation: React.FC<ContentProps> = ({ title }) => {
 
             <hr className="!my-10" />
 
-            {/* Интерактивный демо */}
+            {/* Интерактивная демонстрация */}
             <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Попробуй сам</h2>
 
             <p className="!text-base !leading-relaxed !text-gray-700 mb-6">
-                Ниже находится <strong>интерактивный макет</strong> навигации. 
-                Попробуй нажать стрелки и кнопку "Сегодня", чтобы понять, как это работает:
+                Ниже находится <strong>интерактивная демонстрация</strong> навигации. 
+                Попробуй нажать на кнопки, чтобы понять, как это работает:
             </p>
 
             <div className="not-prose bg-gray-50 border border-gray-300 rounded-lg p-6 my-8">
-                {/* Макет шапки */}
+                {/* Демонстрация шапки */}
                 <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
-                    {/* Навигация */}
+                    {/* Навигация - единый блок */}
                     <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
                         <div className="flex items-center gap-4">
-                            <button
-                                onClick={goToPreviousWeek}
-                                className="p-2 rounded-lg bg-indigo-100 hover:bg-indigo-200 text-indigo-700 font-bold transition-colors"
-                            >
-                                ⬅️ Назад
-                            </button>
-
-                            <div className="text-center min-w-[150px]">
-                                <p className="text-sm text-gray-600">Текущая неделя</p>
-                                <p className="text-lg font-bold text-gray-900">{weekStart} — {weekEnd}</p>
+                            {/* Единый блок навигации как в реальном коде */}
+                            <div className="flex items-center rounded-md border border-gray-300 bg-white shadow-sm">
+                                <button
+                                    onClick={goToPreviousWeek}
+                                    className="p-2 text-gray-600 hover:bg-gray-100 rounded-l-md"
+                                    title="Предыдущая неделя"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                                    </svg>
+                                </button>
+                                <div className="h-5 w-px bg-gray-200"></div>
+                                <button
+                                    onClick={goToToday}
+                                    disabled={isCurrentWeek()}
+                                    className={`px-4 py-1.5 text-sm font-medium ${
+                                        isCurrentWeek()
+                                            ? 'text-gray-400 bg-gray-50'
+                                            : 'text-gray-700 hover:bg-gray-100'
+                                    }`}
+                                >
+                                    Сегодня
+                                </button>
+                                <div className="h-5 w-px bg-gray-200"></div>
+                                <button
+                                    onClick={goToNextWeek}
+                                    className="p-2 text-gray-600 hover:bg-gray-100 rounded-r-md"
+                                    title="Следующая неделя"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </button>
                             </div>
 
-                            <button
-                                onClick={goToNextWeek}
-                                className="p-2 rounded-lg bg-indigo-100 hover:bg-indigo-200 text-indigo-700 font-bold transition-colors"
-                            >
-                                Вперед ➡️
-                            </button>
-
-                            <button
-                                onClick={goToToday}
-                                disabled={isCurrentWeek()}
-                                className={`p-2 rounded-lg font-bold transition-colors ${
-                                    isCurrentWeek()
-                                        ? 'bg-gray-100 text-gray-500 cursor-not-allowed opacity-50'
-                                        : 'bg-orange-100 hover:bg-orange-200 text-orange-700'
-                                }`}
-                            >
-                                🎯 Сегодня
-                            </button>
+                            <div className="text-left">
+                                <p className="text-xs text-gray-500">Показана неделя:</p>
+                                <p className="text-sm font-medium text-gray-900">{weekStart} — {weekEnd}</p>
+                            </div>
                         </div>
                     </div>
 
@@ -240,7 +226,7 @@ export const DateNavigation: React.FC<ContentProps> = ({ title }) => {
                             return (
                                 <div
                                     key={idx}
-                                    className={`p-4 rounded-lg text-center border-2 transition-all ${
+                                    className={`p-4 rounded-lg text-center border-2 ${
                                         isToday
                                             ? 'bg-indigo-50 border-indigo-400 shadow-md'
                                             : 'bg-gray-50 border-gray-200 hover:border-gray-300'
@@ -258,6 +244,9 @@ export const DateNavigation: React.FC<ContentProps> = ({ title }) => {
                 <p className="text-sm text-gray-600 mt-4 text-center">
                     Нажимай стрелки, чтобы переходить между неделями. Нажми "Сегодня", чтобы вернуться.
                 </p>
+                <p className="text-xs text-gray-500 mt-2 text-center">
+                    ℹ️ Демонстрация показывает режим "Неделя" (Пн-Вс). О режиме "Сегодня" читай в следующем разделе.
+                </p>
             </div>
 
             <hr className="!my-10" />
@@ -267,19 +256,11 @@ export const DateNavigation: React.FC<ContentProps> = ({ title }) => {
 
             <div className="not-prose space-y-4 my-6">
                 <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3">
-                    <p className="font-bold text-amber-900 mb-2">❓ Я нажимаю стрелку, но неделя не меняется!</p>
-                    <p className="text-sm text-gray-700">
-                        Скорее всего, ты нажал на текст дат посередине (📅). Это просто информация. 
-                        Нажимай именно на <strong>кнопки со стрелками</strong> слева и справа.
-                    </p>
-                </div>
-
-                <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3">
                     <p className="font-bold text-amber-900 mb-2">❓ Кнопка "Сегодня" не реагирует</p>
                     <p className="text-sm text-gray-700">
-                        Это нормально! Если ты уже смотришь на текущую неделю, кнопка может быть 
-                        <strong> немного бледнее</strong>, но это не значит, что она сломана. 
-                        Это просто показывает, что ты уже дома (в текущей неделе).
+                        Это нормально! Если ты уже на текущей неделе, кнопка <strong>заблокирована</strong> 
+                        и становится блеклой. Это специально сделано, чтобы показать что ты уже "дома" — 
+                        на текущей неделе. Нажать её нельзя, пока не уйдёшь в другую неделю.
                     </p>
                 </div>
 
@@ -299,6 +280,37 @@ export const DateNavigation: React.FC<ContentProps> = ({ title }) => {
                         Об этом подробнее в следующем разделе.
                     </p>
                 </div>
+            </div>
+
+            <hr className="!my-10" />
+
+            {/* Взаимодействие с режимами */}
+            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">
+                Как навигация работает с режимами отображения?
+            </h2>
+
+            <p className="!text-base !leading-relaxed !text-gray-700">
+                Навигация работает <strong>одинаково в обоих режимах</strong> — "Неделя" и "Сегодня". 
+                Стрелки всегда перемещают на неделю вперёд/назад, а кнопка "Сегодня" возвращает на текущую неделю.
+            </p>
+
+            <div className="not-prose bg-blue-50 border border-blue-200 rounded-lg p-4 my-6">
+                <p className="text-sm text-blue-900 mb-2">
+                    <strong>Разница режимов:</strong>
+                </p>
+                <ul className="text-sm text-blue-800 space-y-2">
+                    <li>
+                        • <strong>Режим "Неделя"</strong> — показывает 7 дней с понедельника по воскресенье. 
+                        Стрелки двигают на ровно одну календарную неделю.
+                    </li>
+                    <li>
+                        • <strong>Режим "Сегодня"</strong> — показывает 7 дней начиная с сегодняшнего дня. 
+                        Стрелки тоже двигают на 7 дней, но отсчёт идёт от сегодня.
+                    </li>
+                </ul>
+                <p className="text-xs text-blue-700 mt-3">
+                    💡 Подробнее о режимах читай в разделе "Режимы отображения".
+                </p>
             </div>
 
             <hr className="!my-10" />

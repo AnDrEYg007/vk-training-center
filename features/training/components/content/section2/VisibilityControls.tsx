@@ -3,25 +3,25 @@ import { ContentProps } from '../shared';
 
 export const VisibilityControls: React.FC<ContentProps> = ({ title }) => {
     const [notesState, setNotesState] = useState<'show' | 'collapse' | 'hide'>('show');
-    const [tagsState, setTagsState] = useState<'show' | 'collapse' | 'hide'>('show');
+    const [tagsState, setTagsState] = useState<'show' | 'hide'>('show');
 
     const mockCalendarDay = [
         {
             id: 1,
             type: 'post',
-            text: '🍕 Новое меню на весну!',
+            text: 'Новое меню на весну!',
             tag: { name: 'Продажи', color: 'blue' }
         },
         {
             id: 2,
             type: 'note',
-            text: '⏰ Позвонить Ивану (14:00)',
+            text: 'Позвонить Ивану (14:00)',
             color: 'yellow'
         },
         {
             id: 3,
             type: 'post',
-            text: '🎉 Спецпредложение выходного дня',
+            text: 'Спецпредложение выходного дня',
             tag: { name: 'Акции', color: 'red' }
         }
     ];
@@ -50,25 +50,24 @@ export const VisibilityControls: React.FC<ContentProps> = ({ title }) => {
             <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Где находятся кнопки?</h2>
 
             <p className="!text-base !leading-relaxed !text-gray-700">
-                Кнопки управления видимостью расположены в <strong>шапке календаря, справа от кнопок режимов</strong>. 
-                Это набор из 2-3 кнопок, которые обычно выглядят как <strong>иконки глаза (👁️) или переключатели</strong>.
+                Кнопки управления видимостью расположены в <strong>правой части шапки календаря</strong>. 
+                Это набор из 2 небольших серых кнопок с иконками. Иконки меняются в зависимости от текущего состояния.
             </p>
 
             <hr className="!my-10" />
 
-            {/* Три состояния видимости */}
-            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Три состояния видимости</h2>
+            {/* Состояния видимости */}
+            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Состояния видимости</h2>
 
             <p className="!text-base !leading-relaxed !text-gray-700 mb-6">
-                Каждая кнопка управления видимостью имеет <strong>три режима работы</strong>. 
-                Ты можешь циклически переключаться между ними одного нажатия на кнопку:
+                Кнопки управления видимостью работают по-разному: <strong>заметки имеют три режима</strong>, 
+                а <strong>теги — только два</strong>. Ты можешь циклически переключаться между ними нажимая на кнопку:
             </p>
 
             <div className="not-prose space-y-4 my-8">
                 {/* Состояние 1: Показать */}
                 <div className="border-l-4 border-green-400 pl-4 py-3 bg-green-50 rounded-r-lg">
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">👁️</div>
                         <div>
                             <h3 className="font-bold text-green-900 mb-2">Состояние 1: Показать (Полный вид)</h3>
                             <p className="text-sm text-gray-700">
@@ -81,12 +80,11 @@ export const VisibilityControls: React.FC<ContentProps> = ({ title }) => {
                 {/* Состояние 2: Свернуть */}
                 <div className="border-l-4 border-orange-400 pl-4 py-3 bg-orange-50 rounded-r-lg">
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">📦</div>
                         <div>
                             <h3 className="font-bold text-orange-900 mb-2">Состояние 2: Свернуть (Компактный вид)</h3>
                             <p className="text-sm text-gray-700">
-                                Элементы остаются видны, но занимают меньше места. Например, заметка показывает только название, 
-                                а тег отображается как маленький ярлычок без текста.
+                                Заметки остаются видны, но занимают меньше места — показывается время и название. 
+                                Это состояние доступно только для заметок.
                             </p>
                         </div>
                     </div>
@@ -95,7 +93,6 @@ export const VisibilityControls: React.FC<ContentProps> = ({ title }) => {
                 {/* Состояние 3: Скрыть */}
                 <div className="border-l-4 border-red-400 pl-4 py-3 bg-red-50 rounded-r-lg">
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">🚫</div>
                         <div>
                             <h3 className="font-bold text-red-900 mb-2">Состояние 3: Скрыть (Полностью скрыто)</h3>
                             <p className="text-sm text-gray-700">
@@ -116,11 +113,10 @@ export const VisibilityControls: React.FC<ContentProps> = ({ title }) => {
                 {/* Элемент 1: Заметки */}
                 <div className="border-l-4 border-yellow-400 pl-4 py-3 bg-yellow-50 rounded-r-lg">
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">📝</div>
                         <div>
                             <h3 className="font-bold text-yellow-900 mb-2">Заметки (Notes)</h3>
                             <p className="text-sm text-gray-700 mb-3">
-                                <strong>Кнопка имеет три состояния</strong>: Показать (полный текст) → Свернуть (только название) → Скрыть (полностью).
+                                <strong>Кнопка имеет три состояния</strong>: Показать (полный текст) → Свернуть (время и название) → Скрыть (полностью).
                             </p>
 
                             <div className="bg-white rounded p-4 border border-yellow-200 text-sm text-gray-700 space-y-3 mb-4">
@@ -132,7 +128,7 @@ export const VisibilityControls: React.FC<ContentProps> = ({ title }) => {
                             </div>
 
                             <div className="bg-green-50 rounded p-4 border border-green-200">
-                                <p className="font-bold text-green-900 mb-2">👁️ Показать (полный вид):</p>
+                                <p className="font-bold text-green-900 mb-2">Показать (полный вид):</p>
                                 <ul className="list-disc list-inside space-y-1 text-sm text-gray-700">
                                     <li>Видна полная информация о заметке (название, время, текст)</li>
                                     <li>Можно сразу понять, что нужно сделать</li>
@@ -140,16 +136,15 @@ export const VisibilityControls: React.FC<ContentProps> = ({ title }) => {
                             </div>
 
                             <div className="bg-orange-50 rounded p-4 border border-orange-200 mt-3">
-                                <p className="font-bold text-orange-900 mb-2">📦 Свернуть (компактный вид):</p>
+                                <p className="font-bold text-orange-900 mb-2">Свернуть (компактный вид):</p>
                                 <ul className="list-disc list-inside space-y-1 text-sm text-gray-700">
-                                    <li>Заметка видна, но в сокращённом виде (только название)</li>
+                                    <li>Заметка видна, но в сокращённом виде (время и название)</li>
                                     <li>Занимает меньше места на экране</li>
-                                    <li>При наведении можно увидеть полный текст</li>
                                 </ul>
                             </div>
 
                             <div className="bg-red-50 rounded p-4 border border-red-200 mt-3">
-                                <p className="font-bold text-red-900 mb-2">🚫 Скрыть (полностью):</p>
+                                <p className="font-bold text-red-900 mb-2">Скрыть (полностью):</p>
                                 <ul className="list-disc list-inside space-y-1 text-sm text-gray-700">
                                     <li>Заметка полностью исчезает с экрана</li>
                                     <li>Нужно сосредоточиться только на постах</li>
@@ -163,11 +158,10 @@ export const VisibilityControls: React.FC<ContentProps> = ({ title }) => {
                 {/* Элемент 2: Теги */}
                 <div className="border-l-4 border-purple-400 pl-4 py-3 bg-purple-50 rounded-r-lg">
                     <div className="flex items-start gap-3">
-                        <div className="text-3xl flex-shrink-0">🏷️</div>
                         <div>
                             <h3 className="font-bold text-purple-900 mb-2">Теги (Tags)</h3>
                             <p className="text-sm text-gray-700 mb-3">
-                                <strong>Кнопка имеет три состояния</strong>: Показать (полные теги) → Свернуть (только иконки) → Скрыть (полностью).
+                                <strong>Кнопка имеет два состояния</strong>: Показать (полные теги) → Скрыть (полностью).
                             </p>
 
                             <div className="bg-white rounded p-4 border border-purple-200 text-sm text-gray-700 space-y-3 mb-4">
@@ -180,7 +174,7 @@ export const VisibilityControls: React.FC<ContentProps> = ({ title }) => {
                             </div>
 
                             <div className="bg-green-50 rounded p-4 border border-green-200">
-                                <p className="font-bold text-green-900 mb-2">👁️ Показать (полный вид):</p>
+                                <p className="font-bold text-green-900 mb-2">Показать (полный вид):</p>
                                 <ul className="list-disc list-inside space-y-1 text-sm text-gray-700">
                                     <li>Видны полные теги с названиями и цветами</li>
                                     <li>Легко найти посты по категориям</li>
@@ -188,17 +182,8 @@ export const VisibilityControls: React.FC<ContentProps> = ({ title }) => {
                                 </ul>
                             </div>
 
-                            <div className="bg-orange-50 rounded p-4 border border-orange-200 mt-3">
-                                <p className="font-bold text-orange-900 mb-2">📦 Свернуть (компактный вид):</p>
-                                <ul className="list-disc list-inside space-y-1 text-sm text-gray-700">
-                                    <li>Теги остаются видны, но показывают только цветные иконки/точки</li>
-                                    <li>Займет намного меньше места</li>
-                                    <li>При наведении можно увидеть название тега</li>
-                                </ul>
-                            </div>
-
                             <div className="bg-red-50 rounded p-4 border border-red-200 mt-3">
-                                <p className="font-bold text-red-900 mb-2">🚫 Скрыть (полностью):</p>
+                                <p className="font-bold text-red-900 mb-2">Скрыть (полностью):</p>
                                 <ul className="list-disc list-inside space-y-1 text-sm text-gray-700">
                                     <li>Теги полностью исчезают с экрана</li>
                                     <li>Максимально чистый вид (видны только посты)</li>
@@ -226,9 +211,17 @@ export const VisibilityControls: React.FC<ContentProps> = ({ title }) => {
                     <div className="flex items-center justify-between">
                         {/* Левая часть (навигация) */}
                         <div className="flex items-center gap-2">
-                            <button className="p-2 rounded bg-gray-100 text-gray-700 font-bold hover:bg-gray-200">⬅️</button>
+                            <button className="p-2 rounded bg-gray-100 text-gray-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </button>
                             <span className="text-sm font-bold text-gray-800 min-w-[100px]">Янв 15 — 21</span>
-                            <button className="p-2 rounded bg-gray-100 text-gray-700 font-bold hover:bg-gray-200">➡️</button>
+                            <button className="p-2 rounded bg-gray-100 text-gray-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
                         </div>
 
                         {/* Правая часть (видимость) */}
@@ -239,37 +232,47 @@ export const VisibilityControls: React.FC<ContentProps> = ({ title }) => {
                                     const currentIndex = states.indexOf(notesState);
                                     setNotesState(states[(currentIndex + 1) % 3]);
                                 }}
-                                className={`flex items-center gap-2 px-3 py-2 rounded-lg font-bold transition-all ${
-                                    notesState === 'show'
-                                        ? 'bg-green-100 border-2 border-green-400 text-green-900'
-                                        : notesState === 'collapse'
-                                        ? 'bg-orange-100 border-2 border-orange-400 text-orange-900'
-                                        : 'bg-red-100 border-2 border-red-400 text-red-900'
-                                }`}
+                                title={notesState === 'show' ? 'Свернуть заметки' : notesState === 'collapse' ? 'Скрыть заметки' : 'Показать заметки'}
+                                className="p-2 text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-100 transition-colors shadow-sm"
                             >
-                                📝 Заметки {notesState === 'show' ? '👁️' : notesState === 'collapse' ? '📦' : '🚫'}
+                                {notesState === 'show' ? (
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h7" />
+                                    </svg>
+                                ) : notesState === 'collapse' ? (
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.97 9.97 0 01-2.572 4.293m-5.466-4.293a3 3 0 01-4.242-4.242" />
+                                    </svg>
+                                ) : (
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.522 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542 7z" />
+                                    </svg>
+                                )}
                             </button>
                             <button
                                 onClick={() => {
-                                    const states: ('show' | 'collapse' | 'hide')[] = ['show', 'collapse', 'hide'];
-                                    const currentIndex = states.indexOf(tagsState);
-                                    setTagsState(states[(currentIndex + 1) % 3]);
+                                    setTagsState(tagsState === 'show' ? 'hide' : 'show');
                                 }}
-                                className={`flex items-center gap-2 px-3 py-2 rounded-lg font-bold transition-all ${
-                                    tagsState === 'show'
-                                        ? 'bg-green-100 border-2 border-green-400 text-green-900'
-                                        : tagsState === 'collapse'
-                                        ? 'bg-orange-100 border-2 border-orange-400 text-orange-900'
-                                        : 'bg-red-100 border-2 border-red-400 text-red-900'
-                                }`}
+                                title={tagsState === 'show' ? 'Скрыть теги' : 'Показать теги'}
+                                className="p-2 text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-100 transition-colors shadow-sm"
                             >
-                                🏷️ Теги {tagsState === 'show' ? '👁️' : tagsState === 'collapse' ? '📦' : '🚫'}
+                                {tagsState === 'show' ? (
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.97 9.97 0 01-2.572 4.293m-5.466-4.293a3 3 0 01-4.242-4.242" />
+                                    </svg>
+                                ) : (
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.522 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542 7z" />
+                                    </svg>
+                                )}
                             </button>
                         </div>
                     </div>
 
                     <p className="text-xs text-gray-600 mt-3">
-                        Нажимай кнопки, чтобы циклически переключаться: Показать → Свернуть → Скрыть → Показать...
+                        Нажимай на иконки выше: первая кнопка управляет заметками (3 состояния), вторая — тегами (2 состояния). Иконки меняются при каждом нажатии.
                     </p>
                 </div>
 
@@ -281,36 +284,31 @@ export const VisibilityControls: React.FC<ContentProps> = ({ title }) => {
                         {mockCalendarDay.map((item) => (
                             <div key={item.id}>
                                 {item.type === 'post' ? (
-                                    <div className="border border-indigo-300 rounded-lg p-3 bg-indigo-50">
+                                    <div className="border border-gray-200 rounded-lg p-3 bg-white shadow-sm">
                                         <p className="text-sm font-bold text-gray-900">{item.text}</p>
-                                        {tagsState !== 'hide' && item.tag && (
+                                        {tagsState === 'show' && item.tag && (
                                             <div className="mt-2">
-                                                {tagsState === 'show' ? (
-                                                    <span className={`inline-block px-2 py-1 rounded text-xs font-bold text-white ${
-                                                        item.tag.color === 'blue' ? 'bg-blue-500' :
-                                                        item.tag.color === 'red' ? 'bg-red-500' :
-                                                        'bg-green-500'
-                                                    }`}>
-                                                        {item.tag.name}
-                                                    </span>
-                                                ) : (
-                                                    <span className={`inline-block w-3 h-3 rounded-full ${
-                                                        item.tag.color === 'blue' ? 'bg-blue-500' :
-                                                        item.tag.color === 'red' ? 'bg-red-500' :
-                                                        'bg-green-500'
-                                                    }`} title={item.tag.name}></span>
-                                                )}
+                                                <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium text-white ${
+                                                    item.tag.color === 'blue' ? 'bg-blue-500' :
+                                                    item.tag.color === 'red' ? 'bg-red-500' :
+                                                    'bg-green-500'
+                                                }`}>
+                                                    {item.tag.name}
+                                                </span>
                                             </div>
                                         )}
                                     </div>
                                 ) : notesState !== 'hide' && item.type === 'note' ? (
-                                    <div className={`rounded-lg p-3 border-2 border-dashed ${
+                                    <div className={`rounded-lg p-3 border ${
                                         item.color === 'yellow' ? 'bg-yellow-50 border-yellow-300' : 'bg-gray-50 border-gray-300'
                                     }`}>
                                         {notesState === 'show' ? (
                                             <p className="text-sm font-bold text-gray-900">{item.text}</p>
                                         ) : (
-                                            <p className="text-xs font-bold text-gray-900">Заметка...</p>
+                                            <div className="flex items-center gap-2">
+                                                <p className="text-xs font-bold text-gray-900">14:00</p>
+                                                <p className="text-xs font-medium text-gray-900">Позвонить Ивану</p>
+                                            </div>
                                         )}
                                     </div>
                                 ) : null}
@@ -352,22 +350,22 @@ export const VisibilityControls: React.FC<ContentProps> = ({ title }) => {
                     <thead>
                         <tr className="bg-gray-100">
                             <th className="border border-gray-300 px-4 py-2 text-left font-bold text-gray-900">Кнопка</th>
-                            <th className="border border-gray-300 px-4 py-2 text-left font-bold text-gray-900">👁️ Показать</th>
-                            <th className="border border-gray-300 px-4 py-2 text-left font-bold text-gray-900">📦 Свернуть</th>
-                            <th className="border border-gray-300 px-4 py-2 text-left font-bold text-gray-900">🚫 Скрыть</th>
+                            <th className="border border-gray-300 px-4 py-2 text-left font-bold text-gray-900">Показать</th>
+                            <th className="border border-gray-300 px-4 py-2 text-left font-bold text-gray-900">Свернуть</th>
+                            <th className="border border-gray-300 px-4 py-2 text-left font-bold text-gray-900">Скрыть</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr className="hover:bg-gray-50">
-                            <td className="border border-gray-300 px-4 py-2 font-bold text-gray-900">📝 Заметки</td>
+                        <tr className="bg-white">
+                            <td className="border border-gray-300 px-4 py-2 font-bold text-gray-900">Заметки</td>
                             <td className="border border-gray-300 px-4 py-2 text-gray-700">Полный текст и информация</td>
-                            <td className="border border-gray-300 px-4 py-2 text-gray-700">Только название/иконка</td>
+                            <td className="border border-gray-300 px-4 py-2 text-gray-700">Время и название</td>
                             <td className="border border-gray-300 px-4 py-2 text-gray-700">Полностью исчезают</td>
                         </tr>
-                        <tr className="hover:bg-gray-50">
-                            <td className="border border-gray-300 px-4 py-2 font-bold text-gray-900">🏷️ Теги</td>
+                        <tr className="bg-white">
+                            <td className="border border-gray-300 px-4 py-2 font-bold text-gray-900">Теги</td>
                             <td className="border border-gray-300 px-4 py-2 text-gray-700">Полные теги с названиями</td>
-                            <td className="border border-gray-300 px-4 py-2 text-gray-700">Только цветные иконки/точки</td>
+                            <td className="border border-gray-300 px-4 py-2 text-gray-700">—</td>
                             <td className="border border-gray-300 px-4 py-2 text-gray-700">Полностью исчезают</td>
                         </tr>
                     </tbody>
@@ -381,15 +379,15 @@ export const VisibilityControls: React.FC<ContentProps> = ({ title }) => {
 
             <div className="not-prose space-y-4 my-6">
                 <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">❓ Какая разница между "Свернуть" и "Скрыть"?</p>
+                    <p className="font-bold text-amber-900 mb-2">Какая разница между "Свернуть" и "Скрыть"?</p>
                     <p className="text-sm text-gray-700">
-                        <strong>Свернуть:</strong> Элементы остаются видны, но в сокращённом виде (компактный режим). 
+                        <strong>Свернуть</strong> (только для заметок): Элементы остаются видны, но в сокращённом виде (компактный режим). 
                         <strong>Скрыть:</strong> Элементы полностью исчезают с экрана. Ничего не видно.
                     </p>
                 </div>
 
                 <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">❓ Если я скрою заметку, она удалится?</p>
+                    <p className="font-bold text-amber-900 mb-2">Если я скрою заметку, она удалится?</p>
                     <p className="text-sm text-gray-700">
                         Нет! Скрытие — это временно. Заметка остаётся на сервере и вернётся, 
                         когда ты переключишься обратно на "Показать".
@@ -397,15 +395,15 @@ export const VisibilityControls: React.FC<ContentProps> = ({ title }) => {
                 </div>
 
                 <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">❓ Можно ли скрывать/сворачивать отдельные заметки?</p>
+                    <p className="font-bold text-amber-900 mb-2">Можно ли скрывать или сворачивать отдельные заметки?</p>
                     <p className="text-sm text-gray-700">
                         Нет, кнопки управляют <strong>всеми заметками сразу</strong>. 
-                        Если ты хочешь скрыть одну заметку, нужно её удалить (нажать на иконку 🗑️).
+                        Если ты хочешь скрыть одну заметку, нужно её удалить.
                     </p>
                 </div>
 
                 <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">❓ Теги назначаются автоматически?</p>
+                    <p className="font-bold text-amber-900 mb-2">Теги назначаются автоматически?</p>
                     <p className="text-sm text-gray-700">
                         Да! Система сканирует текст поста и автоматически назначает теги 
                         по предустановленным правилам. Но ты можешь менять эти правила в настройках.
@@ -413,27 +411,18 @@ export const VisibilityControls: React.FC<ContentProps> = ({ title }) => {
                 </div>
 
                 <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">❓ Какое состояние по умолчанию?</p>
+                    <p className="font-bold text-amber-900 mb-2">Какое состояние по умолчанию?</p>
                     <p className="text-sm text-gray-700">
                         По умолчанию обе кнопки находятся в режиме <strong>"Показать"</strong> (полный вид). 
-                        Это максимум информации. Ты можешь менять состояния по своему усмотрению.
+                        Это максимум информации. При каждом открытии календаря видимость сбрасывается на показ всех элементов.
                     </p>
                 </div>
 
                 <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">❓ Сохраняется ли мой выбор (состояние кнопок)?</p>
+                    <p className="font-bold text-amber-900 mb-2">Когда использовать "Свернуть"?</p>
                     <p className="text-sm text-gray-700">
-                        Да! Приложение <strong>запоминает твой выбор</strong>. 
-                        Если ты свернул теги, они останут свёрнутыми, пока ты не измениш их состояние 
-                        (даже если перезагрузишь приложение).
-                    </p>
-                </div>
-
-                <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">❓ Когда использовать "Свернуть"?</p>
-                    <p className="text-sm text-gray-700">
-                        "Свернуть" полезно, когда ты хочешь сэкономить место, но всё ещё видеть, что элементы есть. 
-                        Например, свернуть теги в иконки — видишь категории, но меньше текста занимает место.
+                        "Свернуть" полезно для заметок, когда ты хочешь сэкономить место, но всё ещё видеть, что заметки есть. 
+                        Заметка будет отображаться в сокращённом виде (время и название), но останется на экране.
                     </p>
                 </div>
             </div>
@@ -442,14 +431,14 @@ export const VisibilityControls: React.FC<ContentProps> = ({ title }) => {
 
             {/* Совет */}
             <div className="not-prose bg-green-50 border-l-4 border-green-400 pl-4 py-3 rounded-lg">
-                <p className="text-green-900 font-bold mb-2">💚 Совет для опытных пользователей</p>
+                <p className="text-green-900 font-bold mb-2">Совет для опытных пользователей</p>
                 <p className="text-sm text-gray-700 mb-3">
-                    Используй <strong>"Свернуть"</strong> как промежуточный вариант:
+                    Используй разные комбинации состояний для оптимизации пространства:
                 </p>
                 <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
-                    <li><strong>Свернуть теги</strong> → сэкономить место, но видеть категории (как иконки)</li>
-                    <li><strong>Свернуть заметки</strong> → видеть напоминания (галочки), но не весь текст</li>
-                    <li><strong>Скрыть полностью</strong> → максимум места для постов</li>
+                    <li><strong>Свернуть заметки</strong> → видеть напоминания, но не весь текст</li>
+                    <li><strong>Скрыть теги</strong> → максимум места для текста постов</li>
+                    <li><strong>Скрыть заметки и теги полностью</strong> → максимум места для постов</li>
                 </ul>
             </div>
         </article>

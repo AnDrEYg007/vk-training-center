@@ -7,7 +7,6 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
 
     const handleCreateNote = () => {
         setIsButtonClicked(true);
-        setTimeout(() => setIsButtonClicked(false), 2000);
     };
 
     return (
@@ -16,7 +15,7 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
             <h1 className="!text-3xl !font-bold !tracking-tight !text-gray-900 !border-b !pb-4 !mb-6">{title}</h1>
 
             <p className="!text-base !leading-relaxed !text-gray-700">
-                Кнопка <strong>"Создать заметку"</strong> с иконкой <strong>✏️</strong> — это 
+                Кнопка <strong>"Создать заметку"</strong> с иконкой карандаша — это 
                 <strong> самый быстрый и очевидный способ</strong> создать новую заметку в календаре. 
                 Она находится в шапке календаря и открывает окно создания заметки с автоматической 
                 установкой текущей даты.
@@ -25,7 +24,7 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
             <div className="not-prose bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-6">
                 <p className="text-sm text-indigo-800">
                     <strong>Главная идея:</strong> Помимо двойного клика по ячейке календаря, 
-                    у тебя есть явная кнопка с понятной иконкой ✏️, которая всегда доступна 
+                    у тебя есть явная кнопка с иконкой карандаша, которая всегда доступна 
                     и создаёт заметку на текущую дату.
                 </p>
             </div>
@@ -36,43 +35,10 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
             <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Где находится кнопка?</h2>
 
             <p className="!text-base !leading-relaxed !text-gray-700">
-                Кнопка "Создать заметку" расположена в <strong>правой части шапки календаря</strong>, 
-                обычно после кнопки "Выбрать" (массовые действия). Она имеет характерную иконку 
-                <strong> ✏️</strong> и подпись "Создать заметку" или просто иконку в компактном режиме.
+                Кнопка "Создать заметку" расположена в <strong>правой части шапки календаря</strong> 
+                среди кнопок управления заметками и тегами. Она отображается как кнопка с иконкой 
+                карандаша (при наведении появляется подсказка "Создать заметку").
             </p>
-
-            <div className="not-prose my-6">
-                <div className="bg-white border-2 border-gray-200 rounded-lg p-6">
-                    <div className="flex items-center justify-between mb-4">
-                        <span className="text-sm font-medium text-gray-600">Шапка календаря</span>
-                        <div className="flex gap-2">
-                            <button className="px-3 py-1.5 bg-gray-100 text-gray-600 rounded text-sm">
-                                Обновить 🔄
-                            </button>
-                            <button className="px-3 py-1.5 bg-gray-100 text-gray-600 rounded text-sm">
-                                Выбрать
-                            </button>
-                            <button 
-                                onClick={handleCreateNote}
-                                className={`px-4 py-1.5 ${
-                                    isButtonClicked 
-                                        ? 'bg-green-500' 
-                                        : 'bg-indigo-600'
-                                } text-white rounded text-sm font-medium transition-colors`}
-                            >
-                                ✏️ Создать заметку
-                            </button>
-                        </div>
-                    </div>
-                    {isButtonClicked && (
-                        <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
-                            <p className="text-sm text-green-800">
-                                ✅ Открыто окно создания заметки на дату: <strong>{selectedDate}</strong>
-                            </p>
-                        </div>
-                    )}
-                </div>
-            </div>
 
             <hr className="!my-10" />
 
@@ -92,16 +58,14 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
                     <strong>Автоматически устанавливается текущая дата</strong> — не нужно выбирать дату вручную
                 </li>
                 <li>
-                    <strong>Курсор фокусируется на поле заголовка</strong> — можно сразу начать печатать
-                </li>
-                <li>
-                    После заполнения и сохранения заметка появляется в календаре на сегодняшней дате
+                    После заполнения обязательного поля "Текст заметки" и сохранения, заметка появляется 
+                    в календаре на сегодняшней дате
                 </li>
             </ol>
 
             <div className="not-prose bg-amber-50 border border-amber-200 rounded-lg p-4 my-6">
                 <p className="text-sm text-amber-800">
-                    <strong>⚡ Совет:</strong> Если тебе нужно быстро создать заметку на сегодня, 
+                    <strong>Совет:</strong> Если тебе нужно быстро создать заметку на сегодня, 
                     используй эту кнопку. Для заметок на конкретную дату в будущем или прошлом — 
                     удобнее двойной клик по нужной ячейке календаря.
                 </p>
@@ -139,10 +103,7 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
                     <tbody>
                         <tr className="border-b hover:bg-gray-50">
                             <td className="px-4 py-3 text-sm font-medium text-gray-900">
-                                <span className="flex items-center gap-2">
-                                    <span className="text-lg">✏️</span>
-                                    Кнопка "Создать"
-                                </span>
+                                Кнопка "Создать"
                             </td>
                             <td className="px-4 py-3 text-sm text-gray-700">
                                 Кликнуть по кнопке в шапке календаря
@@ -158,10 +119,7 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
                         </tr>
                         <tr className="hover:bg-gray-50">
                             <td className="px-4 py-3 text-sm font-medium text-gray-900">
-                                <span className="flex items-center gap-2">
-                                    <span className="text-lg">🖱️</span>
-                                    Двойной клик
-                                </span>
+                                Двойной клик
                             </td>
                             <td className="px-4 py-3 text-sm text-gray-700">
                                 Дважды кликнуть по нужной ячейке календаря
@@ -197,36 +155,40 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
                         <div className="flex gap-2">
                             <button 
                                 onClick={handleCreateNote}
-                                className={`px-4 py-2 ${
+                                className={`p-2 ${
                                     isButtonClicked 
-                                        ? 'bg-green-500' 
-                                        : 'bg-indigo-600 hover:bg-indigo-700'
-                                } text-white rounded-lg text-sm font-medium transition-all shadow-md`}
+                                        ? 'bg-green-500 border-green-500 text-white' 
+                                        : 'bg-white border-gray-300 text-gray-600 hover:bg-gray-100'
+                                } border rounded-md transition-all shadow-sm`}
+                                title="Создать заметку"
                             >
-                                ✏️ Создать заметку
+                                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.536L16.732 3.732z" /></svg>
                             </button>
                         </div>
                     </div>
 
                     <div className="grid grid-cols-7 gap-2 mb-4">
-                        {['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'].map((day, index) => (
-                            <div 
-                                key={day} 
-                                className={`p-3 bg-white border-2 ${
-                                    index === 3 ? 'border-indigo-400' : 'border-gray-200'
-                                } rounded text-center`}
-                            >
-                                <div className="text-xs text-gray-500 mb-1">{day}</div>
-                                <div className={`text-sm font-medium ${
-                                    index === 3 ? 'text-indigo-600' : 'text-gray-700'
-                                }`}>
-                                    {27 + index}
-                                    {index === 3 && (
-                                        <span className="block text-xs text-indigo-500 mt-1">Сегодня</span>
-                                    )}
+                        {[29, 30, 31, 1, 2, 3, 4].map((date, index) => {
+                            const day = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'][index];
+                            return (
+                                <div 
+                                    key={day} 
+                                    className={`p-3 bg-white border-2 ${
+                                        index === 3 ? 'border-indigo-400' : 'border-gray-200'
+                                    } rounded text-center`}
+                                >
+                                    <div className="text-xs text-gray-500 mb-1">{day}</div>
+                                    <div className={`text-sm font-medium ${
+                                        index === 3 ? 'text-indigo-600' : 'text-gray-700'
+                                    }`}>
+                                        {date}
+                                        {index === 3 && (
+                                            <span className="block text-xs text-indigo-500 mt-1">Сегодня</span>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
 
                     {isButtonClicked && (
@@ -234,7 +196,7 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
                             <div className="flex items-start gap-3">
                                 <div className="flex-shrink-0">
                                     <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                                        <span className="text-green-600 text-xl">✏️</span>
+                                        <svg className="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.536L16.732 3.732z" /></svg>
                                     </div>
                                 </div>
                                 <div className="flex-grow">
@@ -243,18 +205,34 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
                                     </h4>
                                     <div className="space-y-2">
                                         <div>
-                                            <label className="block text-xs text-gray-600 mb-1">Дата</label>
+                                            <label className="block text-xs text-gray-600 mb-1">Дата и время</label>
                                             <div className="px-3 py-2 bg-gray-50 border border-gray-200 rounded text-sm text-gray-700">
-                                                30 января 2026 (Чт) — Сегодня
+                                                4 февраля 2026 (Ср) — Сегодня
                                             </div>
                                         </div>
                                         <div>
-                                            <label className="block text-xs text-gray-600 mb-1">Заголовок</label>
+                                            <label className="block text-xs text-gray-600 mb-1">Название (необязательно)</label>
                                             <input 
                                                 type="text" 
-                                                placeholder="Введите заголовок заметки..." 
+                                                placeholder="Введите название..." 
                                                 className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                             />
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs text-gray-600 mb-1">Текст заметки</label>
+                                            <textarea 
+                                                rows={3}
+                                                placeholder="Введите текст..." 
+                                                className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs text-gray-600 mb-1">Цвет</label>
+                                            <div className="flex gap-2">
+                                                {['#FEE2E2', '#FEF3C7', '#D1FAE5', '#DBEAFE', '#E0E7FF'].map(c => (
+                                                    <div key={c} className="w-6 h-6 rounded-full border-2 border-gray-300" style={{ backgroundColor: c }} />
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="flex gap-2 mt-3">
@@ -275,7 +253,7 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
 
                     {!isButtonClicked && (
                         <div className="text-center text-sm text-gray-500 py-4">
-                            Нажми на кнопку "✏️ Создать заметку" выше, чтобы увидеть форму создания
+                            Нажми на кнопку с иконкой карандаша выше, чтобы увидеть форму создания
                         </div>
                     )}
                 </div>
@@ -293,72 +271,44 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
             </p>
 
             <div className="not-prose my-6 space-y-4">
-                <div className="flex gap-4 items-start p-4 bg-white border border-gray-200 rounded-lg">
-                    <div className="flex-shrink-0">
-                        <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                            <span className="text-blue-600 text-lg">📝</span>
-                        </div>
-                    </div>
-                    <div>
-                        <h4 className="text-sm font-semibold text-gray-800 mb-1">
-                            Быстрая заметка "на сегодня"
-                        </h4>
-                        <p className="text-sm text-gray-600">
-                            Нужно зафиксировать идею, задачу или напоминание на сегодняшний день. 
-                            Кнопка автоматически установит текущую дату.
-                        </p>
-                    </div>
+                <div className="p-4 bg-white border border-gray-200 rounded-lg">
+                    <h4 className="text-sm font-semibold text-gray-800 mb-1">
+                        Быстрая заметка "на сегодня"
+                    </h4>
+                    <p className="text-sm text-gray-600">
+                        Нужно зафиксировать идею, задачу или напоминание на сегодняшний день. 
+                        Кнопка автоматически установит текущую дату.
+                    </p>
                 </div>
 
-                <div className="flex gap-4 items-start p-4 bg-white border border-gray-200 rounded-lg">
-                    <div className="flex-shrink-0">
-                        <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
-                            <span className="text-purple-600 text-lg">🎯</span>
-                        </div>
-                    </div>
-                    <div>
-                        <h4 className="text-sm font-semibold text-gray-800 mb-1">
-                            Не видно нужную дату в календаре
-                        </h4>
-                        <p className="text-sm text-gray-600">
-                            Если ты находишься на другой неделе в календаре, но хочешь создать заметку 
-                            на сегодня — не нужно возвращаться к текущей дате, просто используй кнопку.
-                        </p>
-                    </div>
+                <div className="p-4 bg-white border border-gray-200 rounded-lg">
+                    <h4 className="text-sm font-semibold text-gray-800 mb-1">
+                        Не видно нужную дату в календаре
+                    </h4>
+                    <p className="text-sm text-gray-600">
+                        Если ты находишься на другой неделе в календаре, но хочешь создать заметку 
+                        на сегодня — не нужно возвращаться к текущей дате, просто используй кнопку.
+                    </p>
                 </div>
 
-                <div className="flex gap-4 items-start p-4 bg-white border border-gray-200 rounded-lg">
-                    <div className="flex-shrink-0">
-                        <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                            <span className="text-green-600 text-lg">🚀</span>
-                        </div>
-                    </div>
-                    <div>
-                        <h4 className="text-sm font-semibold text-gray-800 mb-1">
-                            Более очевидный интерфейс для новичков
-                        </h4>
-                        <p className="text-sm text-gray-600">
-                            Не все пользователи знают про двойной клик по ячейке. Кнопка с явной 
-                            подписью делает функцию создания заметки более понятной и доступной.
-                        </p>
-                    </div>
+                <div className="p-4 bg-white border border-gray-200 rounded-lg">
+                    <h4 className="text-sm font-semibold text-gray-800 mb-1">
+                        Более очевидный интерфейс для новичков
+                    </h4>
+                    <p className="text-sm text-gray-600">
+                        Не все пользователи знают про двойной клик по ячейке. Явная кнопка 
+                        делает функцию создания заметки более понятной и доступной.
+                    </p>
                 </div>
 
-                <div className="flex gap-4 items-start p-4 bg-white border border-gray-200 rounded-lg">
-                    <div className="flex-shrink-0">
-                        <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
-                            <span className="text-orange-600 text-lg">⌨️</span>
-                        </div>
-                    </div>
-                    <div>
-                        <h4 className="text-sm font-semibold text-gray-800 mb-1">
-                            Работа с клавиатурой
-                        </h4>
-                        <p className="text-sm text-gray-600">
-                            Кнопку можно активировать с помощью клавиатуры (Tab для перехода + Enter), 
-                            что удобнее, чем двойной клик мышью для тех, кто предпочитает клавиатуру.
-                        </p>
-                    </div>
+                <div className="p-4 bg-white border border-gray-200 rounded-lg">
+                    <h4 className="text-sm font-semibold text-gray-800 mb-1">
+                        Работа с клавиатурой
+                    </h4>
+                    <p className="text-sm text-gray-600">
+                        Кнопку можно активировать с помощью клавиатуры (Tab для перехода + Enter), 
+                        что удобнее, чем двойной клик мышью для тех, кто предпочитает клавиатуру.
+                    </p>
                 </div>
             </div>
 
@@ -422,13 +372,12 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
 
                 <details className="group bg-white border border-gray-200 rounded-lg overflow-hidden">
                     <summary className="px-4 py-3 cursor-pointer font-medium text-gray-800 hover:bg-gray-50 flex justify-between items-center">
-                        <span>Что произойдет, если не заполнить заголовок заметки?</span>
+                        <span>Что произойдет, если не заполнить текст заметки?</span>
                         <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
                     </summary>
                     <div className="px-4 py-3 bg-gray-50 text-sm text-gray-700 border-t border-gray-200">
-                        Заголовок заметки — обязательное поле. Если попытаться сохранить заметку без 
-                        заголовка, приложение покажет ошибку валидации и попросит заполнить это поле. 
-                        Минимальная длина заголовка — обычно 1 символ.
+                        Текст заметки — обязательное поле. Если попытаться сохранить заметку без 
+                        текста, кнопка "Сохранить" будет неактивна. Название заметки заполнять необязательно.
                     </div>
                 </details>
 
@@ -438,21 +387,20 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
                         <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
                     </summary>
                     <div className="px-4 py-3 bg-gray-50 text-sm text-gray-700 border-t border-gray-200">
-                        Заметки предназначены для текстовых записей и обычно не поддерживают прикрепление 
+                        Заметки предназначены для текстовых записей и не поддерживают прикрепление 
                         файлов (в отличие от постов). Однако ты можешь добавить ссылки на внешние ресурсы 
-                        или использовать теги для организации заметок.
+                        в текст заметки.
                     </div>
                 </details>
 
                 <details className="group bg-white border border-gray-200 rounded-lg overflow-hidden">
                     <summary className="px-4 py-3 cursor-pointer font-medium text-gray-800 hover:bg-gray-50 flex justify-between items-center">
-                        <span>Видны ли заметки в мобильном приложении?</span>
+                        <span>Можно ли выбрать цвет заметки?</span>
                         <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
                     </summary>
                     <div className="px-4 py-3 bg-gray-50 text-sm text-gray-700 border-t border-gray-200">
-                        Это зависит от реализации приложения. Если есть мобильная версия с синхронизацией, 
-                        то заметки будут доступны и там. Обычно заметки хранятся в облаке и синхронизируются 
-                        между устройствами, чтобы ты мог работать с ними везде.
+                        Да! При создании или редактировании заметки ты можешь выбрать один из семи 
+                        пастельных цветов. Это помогает визуально группировать заметки по типам или важности.
                     </div>
                 </details>
             </div>
@@ -461,27 +409,20 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
 
             {/* Совет эксперта */}
             <div className="not-prose bg-gradient-to-r from-indigo-50 to-purple-50 border-l-4 border-indigo-600 rounded-lg p-6 my-8">
-                <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0">
-                        <div className="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center">
-                            <span className="text-white text-xl">💡</span>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 className="text-lg font-bold text-gray-800 mb-2">Совет эксперта</h3>
-                        <p className="text-sm text-gray-700 leading-relaxed">
-                            <strong>Используй заметки как якоря для планирования контента.</strong> Например, 
-                            создай заметку "Проверить статистику предыдущих постов" на понедельник, 
-                            "Подготовить контент на неделю" на вторник, "Запланировать посты на выходные" 
-                            на среду. Так ты создашь систему регулярных задач, которая поможет не забывать 
-                            важные рутинные операции.
-                        </p>
-                        <p className="text-sm text-gray-700 leading-relaxed mt-3">
-                            <strong>Комбинируй заметки с тегами.</strong> Добавляй к заметкам теги вроде 
-                            "срочно", "идея", "задача", "напоминание" — это поможет быстро фильтровать 
-                            и находить нужные записи в календаре.
-                        </p>
-                    </div>
+                <div>
+                    <h3 className="text-lg font-bold text-gray-800 mb-2">Совет эксперта</h3>
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                        <strong>Используй заметки как якоря для планирования контента.</strong> Например, 
+                        создай заметку "Проверить статистику предыдущих постов" на понедельник, 
+                        "Подготовить контент на неделю" на вторник, "Запланировать посты на выходные" 
+                        на среду. Так ты создашь систему регулярных задач, которая поможет не забывать 
+                        важные рутинные операции.
+                    </p>
+                    <p className="text-sm text-gray-700 leading-relaxed mt-3">
+                        <strong>Используй цвета для категоризации.</strong> Например, красный — для срочных дел, 
+                        зелёный — для идей, синий — для задач, жёлтый — для напоминаний. Так ты быстро 
+                        увидишь в календаре, какие заметки требуют внимания в первую очередь.
+                    </p>
                 </div>
             </div>
 
@@ -491,7 +432,7 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
             <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Итоги</h2>
 
             <p className="!text-base !leading-relaxed !text-gray-700">
-                Кнопка <strong>"Создать заметку" (✏️)</strong> — это простой и интуитивный инструмент 
+                Кнопка <strong>"Создать заметку"</strong> — это простой и интуитивный инструмент 
                 для быстрого добавления заметок в календарь. Она особенно полезна для:
             </p>
 
@@ -514,7 +455,7 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
 
             <p className="!text-base !leading-relaxed !text-gray-700">
                 Используй её вместе с двойным кликом по ячейкам календаря для максимальной 
-                эффективности в работе с заметками! 📝✨
+                эффективности в работе с заметками!
             </p>
         </article>
     );
