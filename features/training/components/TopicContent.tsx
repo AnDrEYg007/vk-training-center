@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Topic } from './TableOfContents';
 import { PlaceholderPage } from './content/PlaceholderPage';
 import { PostCardDeepDive } from './content/PostCardDeepDive';
@@ -44,8 +44,13 @@ import { RefreshButton } from './content/section2/RefreshButton';
 import { BulkActions } from './content/section2/BulkActions';
 import { CreateNoteButton } from './content/section2/CreateNoteButton';
 import { CalendarHeaderOverview } from './content/section2/CalendarHeaderOverview';
-import { CalendarGrid } from './content/section2/CalendarGrid';
-import { DayColumns } from './content/section2/DayColumns';
+
+// Lazy-загрузка для больших компонентов раздела календаря
+const CalendarGrid = lazy(() => import('./content/section2/CalendarGrid').then(m => ({ default: m.CalendarGrid })));
+const DayColumns = lazy(() => import('./content/section2/DayColumns').then(m => ({ default: m.DayColumns })));
+const GridInteraction = lazy(() => import('./content/section2/GridInteraction').then(m => ({ default: m.GridInteraction })));
+const DragAndDrop = lazy(() => import('./content/section2/DragAndDrop').then(m => ({ default: m.DragAndDrop })));
+const QuickNote = lazy(() => import('./content/section2/QuickNote').then(m => ({ default: m.QuickNote })));
 
 interface TopicContentProps {
     selectedTopic: Topic | null;
@@ -97,6 +102,9 @@ const componentMap: Record<string, React.FC<{ title: string }>> = {
     '2-1-2-6-create-note-button': CreateNoteButton,
     '2-1-3-calendar-grid': CalendarGrid,
     '2-1-3-1-day-columns': DayColumns,
+    '2-1-3-2-grid-interaction': GridInteraction,
+    '2-1-3-3-drag-and-drop': DragAndDrop,
+    '2-1-3-4-quick-note': QuickNote,
     '2-4-3-postcard-deep-dive': PostCardDeepDive,
     '2-1-sidebar-nav': SidebarNavDeepDive,
 };
@@ -120,7 +128,15 @@ export const TopicContent: React.FC<TopicContentProps> = ({ selectedTopic }) => 
     const ContentComponent = componentMap[selectedTopic.path];
     
     if (ContentComponent) {
-        return <ContentComponent title={selectedTopic.title} />;
+        return (
+            <Suspense fallback={
+                <div className="flex items-center justify-center h-64">
+                    <div className="animate-pulse text-gray-500">Загрузка...</div>
+                </div>
+            }>
+                <ContentComponent title={selectedTopic.title} />
+            </Suspense>
+        );
     }
 
     // Если компонент не найден, показываем заглушку

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { ContentProps } from '../shared';
+import { ContentProps, NavigationLink } from '../shared';
+import { useCalendar } from '../../../hooks/useCalendar';
+import { DEMO_WEEK_CONTENT } from './CalendarGridMocks';
 
 // =====================================================================
 // Основной компонент: Сетка календаря
@@ -7,80 +9,12 @@ import { ContentProps } from '../shared';
 export const CalendarGrid: React.FC<ContentProps> = ({ title }) => {
     const [selectedDay, setSelectedDay] = useState<number | null>(null);
 
-    // Генерация недели для демонстрации
-    const getWeekDates = () => {
-        const today = new Date(2024, 0, 15); // 15 января 2024 (понедельник)
-        const week = [];
-        for (let i = 0; i < 7; i++) {
-            const day = new Date(today);
-            day.setDate(today.getDate() + i);
-            week.push(day);
-        }
-        return week;
-    };
+    // Используем хук для генерации недели
+    const { weekDates } = useCalendar(new Date(2026, 1, 10)); // 10 февраля 2026
+    const today = new Date(2026, 1, 12); // Среда для демонстрации (12 февраля)
 
-    const weekDates = getWeekDates();
-    const today = new Date(2024, 0, 17); // Среда для демонстрации
-
-    // Демо-данные
-    const demoContent = {
-        0: { // Понедельник
-            stories: 2,
-            posts: [
-                { time: '10:00', type: 'scheduled', text: 'Утренний пост о новой коллекции' },
-                { time: '16:00', type: 'published', text: 'Вечерний пост уже опубликован' }
-            ],
-            notes: [
-                { time: '14:00', color: '#FEE2E2', title: 'Созвон с командой' }
-            ]
-        },
-        1: { // Вторник
-            stories: 0,
-            posts: [
-                { time: '12:00', type: 'scheduled', text: 'Пост про акцию' }
-            ],
-            notes: []
-        },
-        2: { // Среда (сегодня)
-            stories: 3,
-            posts: [
-                { time: '09:00', type: 'system', text: 'AI-лента: автопост', isGhost: false },
-                { time: '15:00', type: 'scheduled', text: 'Пост про конкурс' }
-            ],
-            notes: [
-                { time: '11:00', color: '#D1FAE5', title: 'Подготовить фото' }
-            ]
-        },
-        3: { // Четверг
-            stories: 0,
-            posts: [
-                { time: '09:00', type: 'system', text: 'AI-лента: автопост', isGhost: true },
-                { time: '18:00', type: 'scheduled', text: 'Вечерний пост' }
-            ],
-            notes: []
-        },
-        4: { // Пятница
-            stories: 1,
-            posts: [
-                { time: '09:00', type: 'system', text: 'AI-лента: автопост', isGhost: true },
-            ],
-            notes: [
-                { time: '10:00', color: '#FEF3C7', title: 'Запланировать посты на выходные' }
-            ]
-        },
-        5: { // Суббота
-            stories: 0,
-            posts: [],
-            notes: []
-        },
-        6: { // Воскресенье
-            stories: 0,
-            posts: [
-                { time: '12:00', type: 'scheduled', text: 'Воскресный пост' }
-            ],
-            notes: []
-        }
-    };
+    // Используем импортированные демо-данные
+    const demoContent = DEMO_WEEK_CONTENT;
 
     return (
         <article className="prose prose-indigo max-w-none">
@@ -284,8 +218,10 @@ export const CalendarGrid: React.FC<ContentProps> = ({ title }) => {
                                     <button
                                         className="w-full mt-1 p-1 border border-dashed border-gray-300 rounded text-gray-400 hover:border-indigo-400 hover:text-indigo-500 transition-colors"
                                         title="Создать пост"
+                                        aria-label={`Создать пост на ${date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' })}`}
+                                        tabIndex={0}
                                     >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                                         </svg>
                                     </button>
@@ -301,8 +237,11 @@ export const CalendarGrid: React.FC<ContentProps> = ({ title }) => {
                                                     key={i}
                                                     className="w-6 h-6 rounded-full bg-indigo-100 border-2 border-white flex items-center justify-center cursor-pointer hover:z-10 hover:scale-110 transition-transform"
                                                     title="История"
+                                                    role="button"
+                                                    tabIndex={0}
+                                                    aria-label={`Посмотреть историю ${i + 1}`}
                                                 >
-                                                    <span className="text-[8px] text-indigo-600">S</span>
+                                                    <span className="text-[8px] text-indigo-600" aria-hidden="true">S</span>
                                                 </div>
                                             ))}
                                         </div>
@@ -317,8 +256,10 @@ export const CalendarGrid: React.FC<ContentProps> = ({ title }) => {
                                                 return (
                                                     <div 
                                                         key={`note-${i}`}
-                                                        style={{ backgroundColor: item.color }}
-                                                        className="p-2 rounded border text-[10px] cursor-pointer"
+                                                        className={`p-2 rounded border text-[10px] cursor-pointer ${item.color}`}
+                                                        role="button"
+                                                        tabIndex={0}
+                                                        aria-label={`Заметка: ${item.title} в ${item.time}`}
                                                     >
                                                         <p className="font-bold text-gray-800">{item.time}</p>
                                                         <p className="text-gray-700 truncate">{item.title}</p>
@@ -454,7 +395,7 @@ export const CalendarGrid: React.FC<ContentProps> = ({ title }) => {
                 </div>
 
                 <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
-                    <h3 className="font-bold text-gray-900 mb-2">Режим выбора (Selection Mode)</h3>
+                    <h3 className="font-bold text-gray-900 mb-2">Режим выбора</h3>
                     <p className="text-sm text-gray-700 mb-2">
                         Когда включён режим выбора (через кнопку "Выбрать" в шапке):
                     </p>
@@ -676,6 +617,24 @@ export const CalendarGrid: React.FC<ContentProps> = ({ title }) => {
                         <span>Кнопка "+" в заголовке дня = создание поста</span>
                     </li>
                 </ul>
+            </div>
+
+            <hr className="!my-10" />
+
+            {/* Навигация к следующим разделам */}
+            <div className="not-prose grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+                <NavigationLink
+                    to="2-1-3-1-day-columns"
+                    title="2.1.3.1 Дневные колонки"
+                    description="Подробнее о структуре и работе отдельной колонки"
+                    variant="next"
+                />
+                <NavigationLink
+                    to="2-1-3-2-grid-interaction"
+                    title="2.1.3.2 Взаимодействие с сеткой"
+                    description="Как работать с контентом в сетке календаря"
+                    variant="related"
+                />
             </div>
         </article>
     );

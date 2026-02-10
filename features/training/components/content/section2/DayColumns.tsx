@@ -1,5 +1,5 @@
 import React from 'react';
-import { ContentProps } from '../shared';
+import { ContentProps, NavigationLink } from '../shared';
 
 // =====================================================================
 // Основной компонент: Дневные колонки в сетке календаря
@@ -189,6 +189,24 @@ export const DayColumns: React.FC<ContentProps> = ({ title }) => {
                         <span>Сегодняшний день всегда выделен синей верхней границей</span>
                     </li>
                 </ul>
+            </div>
+
+            <hr className="!my-10" />
+
+            {/* Навигация к следующему разделу */}
+            <div className="not-prose grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+                <NavigationLink
+                    to="2-1-3-calendar-grid"
+                    title="Назад: 2.1.3 Сетка календаря"
+                    description="Вернуться к обзору сетки календаря"
+                    variant="prev"
+                />
+                <NavigationLink
+                    to="2-1-3-2-grid-interaction"
+                    title="Далее: 2.1.3.2 Взаимодействие с сеткой"
+                    description="Как работать с контентом в сетке"
+                    variant="next"
+                />
             </div>
         </article>
     );

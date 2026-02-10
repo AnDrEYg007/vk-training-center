@@ -1,5 +1,5 @@
 import React from 'react';
-import { ContentProps } from '../shared';
+import { ContentProps, NavigationLink } from '../shared';
 
 // =====================================================================
 // Взаимодействие с сеткой календаря: обучение
@@ -59,6 +59,24 @@ export const GridInteraction: React.FC<ContentProps> = ({ title }) => {
             <p className="!text-base !leading-relaxed !text-gray-700">
                 Все основные действия с контентом доступны прямо в сетке календаря — это удобно и ускоряет работу.
             </p>
+
+            <hr className="!my-10" />
+
+            {/* Навигация к следующему разделу */}
+            <div className="not-prose grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+                <NavigationLink
+                    to="2-1-3-1-day-columns"
+                    title="Назад: 2.1.3.1 Дневные колонки"
+                    description="Подробнее о структуре колонки"
+                    variant="prev"
+                />
+                <NavigationLink
+                    to="2-1-3-3-drag-and-drop"
+                    title="Далее: 2.1.3.3 Drag-and-Drop"
+                    description="Как перетаскивать элементы между днями"
+                    variant="next"
+                />
+            </div>
         </article>
     );
 };
