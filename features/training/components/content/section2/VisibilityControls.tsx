@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ContentProps } from '../shared';
+import { ContentProps, NavigationButtons, Sandbox } from '../shared';
 
 export const VisibilityControls: React.FC<ContentProps> = ({ title }) => {
     const [notesState, setNotesState] = useState<'show' | 'collapse' | 'hide'>('show');
@@ -37,9 +37,9 @@ export const VisibilityControls: React.FC<ContentProps> = ({ title }) => {
                 <strong> кнопки управления видимостью</strong> — они позволяют показать, свернуть или полностью скрыть эти элементы.
             </p>
 
-            <div className="not-prose bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-6">
-                <p className="text-sm text-indigo-800">
-                    <strong>Главная идея:</strong> Управление видимостью помогает найти баланс между информацией и чистотой экрана. 
+            <div className="not-prose bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4 my-6">
+                <p className="text-sm text-blue-900">
+                    <strong>💡 Главная идея:</strong> Управление видимостью помогает найти баланс между информацией и чистотой экрана. 
                     Ты можешь не только скрывать элементы, но и сворачивать их в компактный вид.
                 </p>
             </div>
@@ -200,25 +200,25 @@ export const VisibilityControls: React.FC<ContentProps> = ({ title }) => {
             {/* Интерактивный демо */}
             <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Интерактивный демо</h2>
 
-            <p className="!text-base !leading-relaxed !text-gray-700 mb-6">
-                Ниже находится <strong>макет календаря с кнопками управления видимостью</strong>. 
-                Попробуй переключать кнопки и смотри, как меняется содержимое дня:
-            </p>
-
-            <div className="not-prose bg-gray-50 border border-gray-300 rounded-lg p-6 my-8">
+            <Sandbox
+                title="Управление видимостью элементов"
+                description="Ниже находится макет календаря с кнопками управления видимостью. Попробуй переключать кнопки и смотри, как меняется содержимое дня."
+                instructions={["Переключай состояния кнопки 'Заметки' (👁️ → 📋 → 🚫)", "Переключай состояния кнопки 'Теги' (👁️ → 🚫)", "Обрати внимание на изменения в ячейке календаря"]}
+            >
+            <div className="not-prose bg-gray-50 border border-gray-300 rounded-lg p-6">
                 {/* Шапка с кнопками */}
                 <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm mb-6">
                     <div className="flex items-center justify-between">
                         {/* Левая часть (навигация) */}
                         <div className="flex items-center gap-2">
-                            <button className="p-2 rounded bg-gray-100 text-gray-700">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <button className="p-2 rounded bg-gray-100 text-gray-700" aria-label="Предыдущая неделя">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                                 </svg>
                             </button>
                             <span className="text-sm font-bold text-gray-800 min-w-[100px]">Янв 15 — 21</span>
-                            <button className="p-2 rounded bg-gray-100 text-gray-700">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <button className="p-2 rounded bg-gray-100 text-gray-700" aria-label="Следующая неделя">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                                 </svg>
                             </button>
@@ -233,18 +233,20 @@ export const VisibilityControls: React.FC<ContentProps> = ({ title }) => {
                                     setNotesState(states[(currentIndex + 1) % 3]);
                                 }}
                                 title={notesState === 'show' ? 'Свернуть заметки' : notesState === 'collapse' ? 'Скрыть заметки' : 'Показать заметки'}
+                                aria-label={`Заметки: ${notesState === 'show' ? 'показаны' : notesState === 'collapse' ? 'свёрнуты' : 'скрыты'}`}
+                                aria-pressed={notesState === 'show'}
                                 className="p-2 text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-100 transition-colors shadow-sm"
                             >
                                 {notesState === 'show' ? (
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h7" />
                                     </svg>
                                 ) : notesState === 'collapse' ? (
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.97 9.97 0 01-2.572 4.293m-5.466-4.293a3 3 0 01-4.242-4.242" />
                                     </svg>
                                 ) : (
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.522 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542 7z" />
                                     </svg>
@@ -255,14 +257,16 @@ export const VisibilityControls: React.FC<ContentProps> = ({ title }) => {
                                     setTagsState(tagsState === 'show' ? 'hide' : 'show');
                                 }}
                                 title={tagsState === 'show' ? 'Скрыть теги' : 'Показать теги'}
+                                aria-label={`Теги: ${tagsState === 'show' ? 'показаны' : 'скрыты'}`}
+                                aria-pressed={tagsState === 'show'}
                                 className="p-2 text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-100 transition-colors shadow-sm"
                             >
                                 {tagsState === 'show' ? (
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.97 9.97 0 01-2.572 4.293m-5.466-4.293a3 3 0 01-4.242-4.242" />
                                     </svg>
                                 ) : (
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.522 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542 7z" />
                                     </svg>
@@ -339,6 +343,7 @@ export const VisibilityControls: React.FC<ContentProps> = ({ title }) => {
                     Нажимай кнопки выше, чтобы переключать видимость элементов
                 </p>
             </div>
+            </Sandbox>
 
             <hr className="!my-10" />
 
@@ -374,73 +379,109 @@ export const VisibilityControls: React.FC<ContentProps> = ({ title }) => {
 
             <hr className="!my-10" />
 
-            {/* Частые ошибки */}
-            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Частые вопросы</h2>
+            {/* FAQ */}
+            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Часто задаваемые вопросы</h2>
 
-            <div className="not-prose space-y-4 my-6">
-                <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">Какая разница между "Свернуть" и "Скрыть"?</p>
-                    <p className="text-sm text-gray-700">
+            <div className="not-prose space-y-4 my-8">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Какая разница между "Свернуть" и "Скрыть"?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
                         <strong>Свернуть</strong> (только для заметок): Элементы остаются видны, но в сокращённом виде (компактный режим). 
                         <strong>Скрыть:</strong> Элементы полностью исчезают с экрана. Ничего не видно.
                     </p>
-                </div>
+                </details>
 
-                <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">Если я скрою заметку, она удалится?</p>
-                    <p className="text-sm text-gray-700">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Если я скрою заметку, она удалится?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
                         Нет! Скрытие — это временно. Заметка остаётся на сервере и вернётся, 
                         когда ты переключишься обратно на "Показать".
                     </p>
-                </div>
+                </details>
 
-                <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">Можно ли скрывать или сворачивать отдельные заметки?</p>
-                    <p className="text-sm text-gray-700">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Можно ли скрывать или сворачивать отдельные заметки?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
                         Нет, кнопки управляют <strong>всеми заметками сразу</strong>. 
                         Если ты хочешь скрыть одну заметку, нужно её удалить.
                     </p>
-                </div>
+                </details>
 
-                <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">Теги назначаются автоматически?</p>
-                    <p className="text-sm text-gray-700">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Теги назначаются автоматически?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
                         Да! Система сканирует текст поста и автоматически назначает теги 
                         по предустановленным правилам. Но ты можешь менять эти правила в настройках.
                     </p>
-                </div>
+                </details>
 
-                <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">Какое состояние по умолчанию?</p>
-                    <p className="text-sm text-gray-700">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Какое состояние по умолчанию?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
                         По умолчанию обе кнопки находятся в режиме <strong>"Показать"</strong> (полный вид). 
                         Это максимум информации. При каждом открытии календаря видимость сбрасывается на показ всех элементов.
                     </p>
-                </div>
+                </details>
 
-                <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">Когда использовать "Свернуть"?</p>
-                    <p className="text-sm text-gray-700">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Когда использовать "Свернуть"?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
                         "Свернуть" полезно для заметок, когда ты хочешь сэкономить место, но всё ещё видеть, что заметки есть. 
                         Заметка будет отображаться в сокращённом виде (время и название), но останется на экране.
                     </p>
-                </div>
+                </details>
             </div>
 
             <hr className="!my-10" />
 
-            {/* Совет */}
-            <div className="not-prose bg-green-50 border-l-4 border-green-400 pl-4 py-3 rounded-lg">
-                <p className="text-green-900 font-bold mb-2">Совет для опытных пользователей</p>
-                <p className="text-sm text-gray-700 mb-3">
-                    Используй разные комбинации состояний для оптимизации пространства:
-                </p>
-                <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
-                    <li><strong>Свернуть заметки</strong> → видеть напоминания, но не весь текст</li>
-                    <li><strong>Скрыть теги</strong> → максимум места для текста постов</li>
-                    <li><strong>Скрыть заметки и теги полностью</strong> → максимум места для постов</li>
+            {/* Итоги */}
+            <div className="not-prose bg-gray-100 border border-gray-300 rounded-lg p-6 my-8">
+                <h3 className="font-bold text-gray-900 text-lg mb-3">Итоги: что нужно запомнить</h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span><strong>Видимость ≠ удаление.</strong> Скрытые элементы остаются в системе и можно вернуть их в любой момент.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Заметки имеют <strong>3 режима</strong> (Показать → Свернуть → Скрыть), теги — <strong>2 режима</strong> (Показать → Скрыть).</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>"Свернуть" доступно <strong>только для заметок</strong> — это компактный вид с сохранением времени и названия.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Кнопки управления видимостью находятся в <strong>шапке календаря</strong> (правая секция).</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Комбинируй состояния для оптимизации пространства: свернуть заметки + скрыть теги = максимум места для постов.</span>
+                    </li>
                 </ul>
             </div>
+
+            <hr className="!my-10" />
+
+            {/* Совет эксперта */}
+            <div className="not-prose bg-gradient-to-r from-indigo-50 to-purple-50 border-l-4 border-indigo-500 p-6 rounded-r-lg my-8">
+                <div className="flex items-start gap-4">
+                    <div className="text-4xl">💡</div>
+                    <div>
+                        <h3 className="font-bold text-indigo-900 text-lg mb-2">Совет эксперта</h3>
+                        <p className="text-sm text-gray-700 mb-3">
+                            Используй разные комбинации состояний для оптимизации пространства:
+                        </p>
+                        <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
+                            <li><strong>Свернуть заметки</strong> → видеть напоминания, но не весь текст</li>
+                            <li><strong>Скрыть теги</strong> → максимум места для текста постов</li>
+                            <li><strong>Скрыть заметки и теги полностью</strong> → максимум места для постов</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <NavigationButtons />
         </article>
     );
 };
