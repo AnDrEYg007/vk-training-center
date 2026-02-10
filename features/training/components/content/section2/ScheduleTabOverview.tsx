@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
-import { ContentProps } from '../shared';
-import { Sandbox } from '../SharedComponents';
+import { ContentProps, Sandbox, NavigationButtons } from '../shared';
 
 // =====================================================================
 // Основной компонент: Обзор вкладки "Отложенные" (Календарь)
 // =====================================================================
 export const ScheduleTabOverview: React.FC<ContentProps> = ({ title }) => {
     const [activeDay, setActiveDay] = useState<number | null>(null);
-    const [isDragging, setIsDragging] = useState(false);
-    const [draggedPostId, setDraggedPostId] = useState<string | null>(null);
     const [noteVisibility, setNoteVisibility] = useState<'expanded' | 'collapsed' | 'hidden'>('expanded');
 
     // Mock данные для демо
@@ -62,8 +59,8 @@ export const ScheduleTabOverview: React.FC<ContentProps> = ({ title }) => {
                 и оставляешь напоминания через заметки.
             </p>
 
-            <div className="not-prose bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-6">
-                <p className="text-sm text-indigo-800">
+            <div className="not-prose bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4 my-6">
+                <p className="text-sm text-blue-900">
                     <strong>Главная идея:</strong> Вся работа с контентом сосредоточена в одном календаре. 
                     Выбрал проект слева → видишь все посты на неделю → кликнул на пост → редактируешь или публикуешь. 
                     Больше не нужно заходить в каждое сообщество VK отдельно.
@@ -332,7 +329,7 @@ export const ScheduleTabOverview: React.FC<ContentProps> = ({ title }) => {
             <div className="not-prose grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
                 <div className="p-4 bg-white border border-gray-200 rounded-lg">
                     <div className="flex items-center gap-2 mb-2">
-                        <svg className="w-5 h-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                        <svg className="w-5 h-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
                         <h3 className="font-bold text-gray-800">Создавать посты</h3>
                     </div>
                     <p className="text-sm text-gray-600">
@@ -343,7 +340,7 @@ export const ScheduleTabOverview: React.FC<ContentProps> = ({ title }) => {
 
                 <div className="p-4 bg-white border border-gray-200 rounded-lg">
                     <div className="flex items-center gap-2 mb-2">
-                        <svg className="w-5 h-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                        <svg className="w-5 h-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
                         <h3 className="font-bold text-gray-800">Редактировать черновики</h3>
                     </div>
                     <p className="text-sm text-gray-600">
@@ -354,7 +351,7 @@ export const ScheduleTabOverview: React.FC<ContentProps> = ({ title }) => {
 
                 <div className="p-4 bg-white border border-gray-200 rounded-lg">
                     <div className="flex items-center gap-2 mb-2">
-                        <svg className="w-5 h-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                        <svg className="w-5 h-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
                         <h3 className="font-bold text-gray-800">Копировать посты</h3>
                     </div>
                     <p className="text-sm text-gray-600">
@@ -365,8 +362,8 @@ export const ScheduleTabOverview: React.FC<ContentProps> = ({ title }) => {
 
                 <div className="p-4 bg-white border border-gray-200 rounded-lg">
                     <div className="flex items-center gap-2 mb-2">
-                        <svg className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" /></svg>
-                        <h3 className="font-bold text-gray-800">Перетаскивать (drag-and-drop)</h3>
+                        <svg className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" /></svg>
+                        <h3 className="font-bold text-gray-800">Перетаскивать</h3>
                     </div>
                     <p className="text-sm text-gray-600">
                         Зажми пост → перетащи на другой день → отпусти → откроется окно подтверждения → 
@@ -403,7 +400,7 @@ export const ScheduleTabOverview: React.FC<ContentProps> = ({ title }) => {
                 <div className="p-4 border border-gray-200 rounded-lg bg-white">
                     <h3 className="font-bold text-indigo-900 mb-2">2.1.3. Сетка календаря</h3>
                     <p className="text-sm text-gray-700">
-                        Как устроены дневные колонки, drag-and-drop, быстрое создание заметок двойным кликом.
+                        Как устроены дневные колонки, перетаскивание, быстрое создание заметок двойным кликом.
                     </p>
                 </div>
 
@@ -430,12 +427,90 @@ export const ScheduleTabOverview: React.FC<ContentProps> = ({ title }) => {
                 </div>
             </div>
 
-            <div className="not-prose bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-6">
-                <p className="text-sm text-indigo-800">
-                    <strong>Совет:</strong> Начни с раздела <strong>2.1.4. Посты в календаре</strong> — 
-                    там подробно разобраны все типы постов и их отличия. Это поможет понять логику работы календаря.
-                </p>
+            <hr className="!my-10" />
+
+            {/* FAQ */}
+            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Часто задаваемые вопросы</h2>
+            <div className="not-prose space-y-4 my-8">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Как отличить отложенный пост от опубликованного?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Опубликованные посты обычно имеют более светлый фон и маркер «✅». Отложенные посты — белая карточка с обычной рамкой.
+                    </p>
+                </details>
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Что означают цветные карточки (фиолетовые, голубые, оранжевые)?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Это системные посты из автоматизаций: фиолетовый — конкурс отзывов, голубой — старт универсального конкурса, оранжевый — итоги конкурса, синий — AI-генерация или циклические публикации.
+                    </p>
+                </details>
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Что такое «призрачные посты»?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Призрачные посты — это будущие повторяющиеся публикации циклических постов. Они отображаются полупрозрачными с пунктирной рамкой и помогают планировать контент.
+                    </p>
+                </details>
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Как переключить видимость заметок?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        В шапке календаря есть кнопка переключения: развёрнутые (полный текст) → свёрнутые (только время и заголовок) → скрытые (не отображаются).
+                    </p>
+                </details>
             </div>
+
+            <hr className="!my-10" />
+
+            {/* Совет эксперта */}
+            <div className="not-prose bg-gradient-to-r from-indigo-50 to-purple-50 border-l-4 border-indigo-500 p-6 rounded-r-lg my-8">
+                <div className="flex items-start gap-4">
+                    <div className="text-4xl">💡</div>
+                    <div>
+                        <h3 className="font-bold text-indigo-900 text-lg mb-2">Совет эксперта</h3>
+                        <p className="text-sm text-gray-700">
+                            Начни с раздела <strong>2.1.4. Посты в календаре</strong> — там подробно разобраны все типы постов и их отличия. Это поможет понять логику работы календаря и эффективно использовать автоматизации.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <hr className="!my-10" />
+
+            {/* Итоги */}
+            <div className="not-prose bg-gray-100 border border-gray-300 rounded-lg p-6 my-8">
+                <h3 className="font-bold text-gray-900 text-lg mb-3">Итоги: что нужно запомнить</h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Календарь показывает текущую неделю (7 дней) со всеми постами и заметками</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Три типа контента: отложенные посты, опубликованные посты, системные посты (автоматизации)</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Цвет карточки указывает на тип автоматизации (фиолетовый, голубой, оранжевый, синий)</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Заметки имеют 3 режима отображения: развёрнутые, свёрнутые, скрытые</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Призрачные посты показывают будущие циклические публикации</span>
+                    </li>
+                </ul>
+            </div>
+
+            <NavigationButtons currentPath="2-1-schedule" />
         </article>
     );
 };
