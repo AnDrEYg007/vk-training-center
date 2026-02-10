@@ -191,7 +191,7 @@ export const CalendarGrid: React.FC<ContentProps> = ({ title }) => {
                 {/* Демонстрация сетки */}
                 <div className="grid grid-cols-7 gap-3">
                     {weekDates.map((date, index) => {
-                        const isToday = date.toDateString() === today.toDateString();
+                        const isToday = date.date.toDateString() === today.toDateString();
                         const dayContent = demoContent[index as keyof typeof demoContent] || { stories: 0, posts: [], notes: [] };
                         const isSelected = selectedDay === index;
 
@@ -209,16 +209,16 @@ export const CalendarGrid: React.FC<ContentProps> = ({ title }) => {
                                 {/* Заголовок дня */}
                                 <div className="text-center p-2 border-b border-gray-200">
                                     <p className={`font-bold text-xs ${isToday ? 'text-indigo-600' : 'text-gray-700'}`}>
-                                        {date.toLocaleDateString('ru-RU', { weekday: 'short' })}
+                                        {date.date.toLocaleDateString('ru-RU', { weekday: 'short' })}
                                     </p>
                                     <p className="text-gray-500 text-[10px]">
-                                        {date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' })}
+                                        {date.date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' })}
                                     </p>
                                     {/* Кнопка + */}
                                     <button
                                         className="w-full mt-1 p-1 border border-dashed border-gray-300 rounded text-gray-400 hover:border-indigo-400 hover:text-indigo-500 transition-colors"
                                         title="Создать пост"
-                                        aria-label={`Создать пост на ${date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' })}`}
+                                        aria-label={`Создать пост на ${date.date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' })}`}
                                         tabIndex={0}
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -314,7 +314,7 @@ export const CalendarGrid: React.FC<ContentProps> = ({ title }) => {
                     <p className="text-sm text-blue-800">
                         {selectedDay !== null ? (
                             <>
-                                <strong>Выбран день:</strong> {weekDates[selectedDay].toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' })}
+                                <strong>Выбран день:</strong> {weekDates[selectedDay].date.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' })}
                             </>
                         ) : (
                             <>
