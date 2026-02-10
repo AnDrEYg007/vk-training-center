@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ContentProps, Sandbox } from '../shared';
+import React, { useState, useEffect } from 'react';
+import { ContentProps, Sandbox, NavigationLink } from '../shared';
 
 // =====================================================================
 // Быстрое создание заметки в сетке календаря
@@ -27,6 +27,16 @@ export const QuickNote: React.FC<ContentProps> = ({ title }) => {
         setShowModal(false);
     };
 
+    useEffect(() => {
+        const handleEscape = (e: KeyboardEvent) => {
+            if (e.key === 'Escape' && showModal) {
+                handleCancel();
+            }
+        };
+        window.addEventListener('keydown', handleEscape);
+        return () => window.removeEventListener('keydown', handleEscape);
+    }, [showModal]);
+
     return (
         <article className="prose prose-indigo max-w-none">
             {/* Заголовок */}
@@ -37,8 +47,8 @@ export const QuickNote: React.FC<ContentProps> = ({ title }) => {
                 Достаточно дважды кликнуть по свободному месту в колонке дня, и откроется окно для создания заметки.
             </p>
 
-            <div className="not-prose bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-6">
-                <p className="text-sm text-indigo-800">
+            <div className="not-prose bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4 my-6">
+                <p className="text-sm text-blue-900">
                     <strong>Главное:</strong> Двойной клик по пустому месту дня открывает окно быстрого создания заметки. Это экономит время по сравнению с использованием основной кнопки создания.
                 </p>
             </div>
@@ -107,7 +117,12 @@ export const QuickNote: React.FC<ContentProps> = ({ title }) => {
                     {/* Модальное окно */}
                     {showModal && (
                         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                            <div className="bg-white rounded-lg p-6 w-96 shadow-xl">
+                            <div 
+                                className="bg-white rounded-lg p-6 w-96 shadow-xl"
+                                role="dialog"
+                                aria-modal="true"
+                                aria-labelledby="modal-title"
+                            >
                                 <h3 className="text-xl font-bold text-gray-900 mb-4">Создать заметку</h3>
                                 
                                 <label className="block mb-4">
@@ -174,31 +189,107 @@ export const QuickNote: React.FC<ContentProps> = ({ title }) => {
             <ul className="list-disc list-inside space-y-2 !text-base !leading-relaxed !text-gray-700">
                 <li><strong>Приватность:</strong> Заметки видны только вам — они не публикуются и не отправляются в соцсети.</li>
                 <li><strong>Цветовая маркировка:</strong> Используйте разные цвета для категоризации (например, красный — срочно, жёлтый — напоминание).</li>
-                <li><strong>Перемещение:</strong> Заметки можно перетаскивать между днями через drag-and-drop.</li>
+                <li><strong>Перемещение:</strong> Заметки можно перетаскивать между днями.</li>
                 <li><strong>Редактирование:</strong> Кликните по заметке один раз, чтобы открыть её для редактирования или удаления.</li>
             </ul>
 
-            <div className="not-prose bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-6">
-                <p className="text-sm text-indigo-800">
-                    <strong>Совет эксперта:</strong> Создавайте заметки для важных дедлайнов, встреч с командой или напоминаний о подготовке контента. Это помогает держать всё под контролем.
-                </p>
+            <div className="not-prose bg-gradient-to-r from-indigo-50 to-purple-50 border-l-4 border-indigo-500 p-6 rounded-r-lg my-8">
+                <div className="flex items-start gap-4">
+                    <div className="text-4xl">💡</div>
+                    <div>
+                        <h3 className="font-bold text-indigo-900 text-lg mb-2">Совет эксперта</h3>
+                        <p className="text-sm text-gray-700">
+                            Создавайте заметки для важных дедлайнов, встреч с командой или напоминаний о подготовке контента. Это помогает держать всё под контролем.
+                        </p>
+                    </div>
+                </div>
             </div>
 
             <hr className="!my-10" />
 
             {/* FAQ */}
-            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">FAQ: Частые вопросы</h2>
-            <ul className="list-disc list-inside space-y-2 !text-base !leading-relaxed !text-gray-700">
-                <li><strong>Можно ли создать заметку в прошлом?</strong> Да, но она не будет иметь практической ценности — заметки предназначены для планирования будущих действий.</li>
-                <li><strong>Сколько заметок можно создать в один день?</strong> Количество не ограничено, но для удобства рекомендуется не более 5–7 заметок в день.</li>
-                <li><strong>Можно ли добавить время к заметке?</strong> Заметки не имеют точного времени — они прикрепляются к дню. Если нужно время, укажите его в тексте заметки.</li>
-                <li><strong>Что делать, если двойной клик не работает?</strong> Убедитесь, что кликаете по пустому месту, а не по посту или другой заметке.</li>
-            </ul>
+            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Часто задаваемые вопросы</h2>
+            <div className="not-prose space-y-4 my-8">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Можно ли создать заметку в прошлом?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Да, но она не будет иметь практической ценности — заметки предназначены для планирования будущих действий.
+                    </p>
+                </details>
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Сколько заметок можно создать в один день?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Количество не ограничено, но для удобства рекомендуется не более 5–7 заметок в день.
+                    </p>
+                </details>
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Можно ли добавить время к заметке?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Заметки не имеют точного времени — они прикрепляются к дню. Если нужно время, укажите его в тексте заметки.
+                    </p>
+                </details>
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Что делать, если двойной клик не работает?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Убедитесь, что кликаете по пустому месту, а не по посту или другой заметке.
+                    </p>
+                </details>
+            </div>
 
             <hr className="!my-10" />
-            <p className="!text-base !leading-relaxed !text-gray-700">
-                Быстрое создание заметок помогает организовать работу и не упустить важные детали — используйте двойной клик для мгновенного добавления напоминаний.
-            </p>
+
+            {/* Итоги */}
+            <div className="not-prose bg-gray-100 border border-gray-300 rounded-lg p-6 my-8">
+                <h3 className="font-bold text-gray-900 text-lg mb-3">Итоги: что нужно запомнить</h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Двойной клик по пустому месту открывает окно создания заметки</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Заметки приватны — они не публикуются в соцсетях</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Используйте цвета для категоризации задач и напоминаний</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Заметки можно перетаскивать между днями</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Нажмите Escape для быстрого закрытия модального окна</span>
+                    </li>
+                </ul>
+            </div>
+
+            <hr className="!my-10" />
+
+            {/* Навигация к соседним разделам */}
+            <div className="not-prose grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+                <NavigationLink
+                    to="2-1-3-3-drag-and-drop"
+                    title="Назад: 2.1.3.3 Перетаскивание в сетке календаря"
+                    description="Как перемещать элементы между днями"
+                    variant="prev"
+                />
+                <NavigationLink
+                    to="2-1-4-time-selection"
+                    title="Далее: 2.1.4 Выбор времени публикации"
+                    description="Настройка точного времени для постов"
+                    variant="next"
+                />
+            </div>
         </article>
     );
 };
