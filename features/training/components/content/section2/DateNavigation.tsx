@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ContentProps } from '../shared';
+import { ContentProps, NavigationButtons, Sandbox } from '../shared';
 
 // =====================================================================
 // Основной компонент: Навигация по датам в шапке календаря
@@ -58,9 +58,9 @@ export const DateNavigation: React.FC<ContentProps> = ({ title }) => {
                 Это инструмент для быстрого переключения между неделями и для быстрого возврата к текущей дате.
             </p>
 
-            <div className="not-prose bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-6">
-                <p className="text-sm text-indigo-800">
-                    <strong>Главная идея:</strong> Навигация по датам позволяет легко перемещаться 
+            <div className="not-prose bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4 my-6">
+                <p className="text-sm text-blue-900">
+                    <strong>💡 Главная идея:</strong> Навигация по датам позволяет легко перемещаться 
                     по времени в календаре, не листая его вручную на много недель вперед или назад.
                 </p>
             </div>
@@ -165,12 +165,12 @@ export const DateNavigation: React.FC<ContentProps> = ({ title }) => {
             {/* Интерактивная демонстрация */}
             <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Попробуй сам</h2>
 
-            <p className="!text-base !leading-relaxed !text-gray-700 mb-6">
-                Ниже находится <strong>интерактивная демонстрация</strong> навигации. 
-                Попробуй нажать на кнопки, чтобы понять, как это работает:
-            </p>
-
-            <div className="not-prose bg-gray-50 border border-gray-300 rounded-lg p-6 my-8">
+            <Sandbox
+                title="Интерактивная навигация по датам"
+                description="Попробуй нажать на кнопки навигации, чтобы понять, как это работает. Обрати внимание, что кнопка 'Сегодня' блокируется, когда ты уже на текущей неделе."
+                instructions={["Нажми стрелку влево, чтобы перейти на неделю назад", "Нажми 'Сегодня', чтобы вернуться", "Нажми стрелку вправо, чтобы перейти на неделю вперёд", "Обрати внимание: кнопка 'Сегодня' блокируется на текущей неделе"]}
+            >
+            <div className="not-prose bg-gray-50 border border-gray-300 rounded-lg p-6">
                 {/* Демонстрация шапки */}
                 <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
                     {/* Навигация - единый блок */}
@@ -182,8 +182,9 @@ export const DateNavigation: React.FC<ContentProps> = ({ title }) => {
                                     onClick={goToPreviousWeek}
                                     className="p-2 text-gray-600 hover:bg-gray-100 rounded-l-md"
                                     title="Предыдущая неделя"
+                                    aria-label="Предыдущая неделя"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                                     </svg>
                                 </button>
@@ -204,8 +205,9 @@ export const DateNavigation: React.FC<ContentProps> = ({ title }) => {
                                     onClick={goToNextWeek}
                                     className="p-2 text-gray-600 hover:bg-gray-100 rounded-r-md"
                                     title="Следующая неделя"
+                                    aria-label="Следующая неделя"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                                     </svg>
                                 </button>
@@ -248,38 +250,48 @@ export const DateNavigation: React.FC<ContentProps> = ({ title }) => {
                     ℹ️ Демонстрация показывает режим "Неделя" (Пн-Вс). О режиме "Сегодня" читай в следующем разделе.
                 </p>
             </div>
+            </Sandbox>
 
             <hr className="!my-10" />
 
-            {/* Частые ошибки */}
-            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Частые вопросы и ошибки</h2>
+            {/* FAQ */}
+            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Часто задаваемые вопросы</h2>
 
-            <div className="not-prose space-y-4 my-6">
-                <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3">
-                    <p className="font-bold text-amber-900 mb-2">❓ Кнопка "Сегодня" не реагирует</p>
-                    <p className="text-sm text-gray-700">
-                        Это нормально! Если ты уже на текущей неделе, кнопка <strong>заблокирована</strong> 
+            <div className="not-prose space-y-4 my-8">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Кнопка "Сегодня" не реагирует — это ошибка?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Нет, это нормально! Если ты уже на текущей неделе, кнопка <strong>заблокирована</strong> 
                         и становится блеклой. Это специально сделано, чтобы показать что ты уже "дома" — 
                         на текущей неделе. Нажать её нельзя, пока не уйдёшь в другую неделю.
                     </p>
-                </div>
+                </details>
 
-                <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3">
-                    <p className="font-bold text-amber-900 mb-2">❓ Как далеко я могу переходить в будущее?</p>
-                    <p className="text-sm text-gray-700">
-                        Ты можешь переходить на столько недель вперед, на сколько захочешь! 
-                        В приложении нет ограничений. Это полезно для долгосрочного планирования контента.
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Как далеко я могу переходить в будущее или прошлое?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Ты можешь переходить на столько недель вперед или назад, на сколько захочешь! 
+                        В приложении нет ограничений. Это полезно для долгосрочного планирования контента или проверки старых постов.
                     </p>
-                </div>
+                </details>
 
-                <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3">
-                    <p className="font-bold text-amber-900 mb-2">❓ Я могу увидеть дни по одному, а не неделями?</p>
-                    <p className="text-sm text-gray-700">
-                        Да! Это называется <strong>"режим отображения"</strong>. 
-                        Есть два режима: "Неделя" (7 дней) и "Сегодня" (7 дней начиная с сегодня). 
-                        Об этом подробнее в следующем разделе.
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Можно ли увидеть дни по одному, а не целыми неделями?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Нет прямого способа просмотра по одному дню. Но есть два <strong>режима отображения</strong>: 
+                        "Неделя" (показывает 7 дней с понедельника по воскресенье) и "Сегодня" (показывает 7 дней начиная с текущего дня). 
+                        Навигация работает одинаково в обоих режимах. Подробнее читай в разделе "Режимы отображения".
                     </p>
-                </div>
+                </details>
+
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Почему три кнопки объединены в один блок?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Единый блок создаёт визуальную группу и показывает, что это связанные действия для перемещения по времени. 
+                        Это стандартный UX-паттерн для календарей и временных навигационных элементов. Разделительные линии между кнопками 
+                        помогают визуально отличить каждую функцию, сохраняя единство блока.
+                    </p>
+                </details>
             </div>
 
             <hr className="!my-10" />
@@ -294,9 +306,9 @@ export const DateNavigation: React.FC<ContentProps> = ({ title }) => {
                 Стрелки всегда перемещают на неделю вперёд/назад, а кнопка "Сегодня" возвращает на текущую неделю.
             </p>
 
-            <div className="not-prose bg-blue-50 border border-blue-200 rounded-lg p-4 my-6">
+            <div className="not-prose bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4 my-6">
                 <p className="text-sm text-blue-900 mb-2">
-                    <strong>Разница режимов:</strong>
+                    <strong>💡 Разница режимов:</strong>
                 </p>
                 <ul className="text-sm text-blue-800 space-y-2">
                     <li>
@@ -315,16 +327,53 @@ export const DateNavigation: React.FC<ContentProps> = ({ title }) => {
 
             <hr className="!my-10" />
 
-            {/* Полезный совет */}
-            <div className="not-prose bg-green-50 border-l-4 border-green-400 pl-4 py-3 rounded-lg">
-                <p className="text-green-900 font-bold mb-2">💚 Совет для опытных пользователей</p>
-                <p className="text-sm text-gray-700">
-                    Если ты часто планируешь контент на много недель вперед, 
-                    <strong> используй режим "Сегодня"</strong> вместе с кнопкой "Вперед". 
-                    Это позволит тебе видеть все дни относительно сегодняшнего дня, 
-                    что удобнее для долгосрочного планирования.
-                </p>
+            {/* Итоги */}
+            <div className="not-prose bg-gray-100 border border-gray-300 rounded-lg p-6 my-8">
+                <h3 className="font-bold text-gray-900 text-lg mb-3">Итоги: что нужно запомнить</h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span><strong>Три кнопки в едином блоке:</strong> стрелка влево (назад), кнопка "Сегодня" (вернуться), стрелка вправо (вперёд).</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Стрелки перемещают календарь на <strong>одну неделю</strong> (7 дней) вперёд или назад.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Кнопка "Сегодня" <strong>блокируется</strong>, когда ты уже на текущей неделе.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Ограничений по времени нет — можно листать хоть на годы вперёд или назад.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Навигация работает <strong>одинаково</strong> в режимах "Неделя" и "Сегодня".</span>
+                    </li>
+                </ul>
             </div>
+
+            <hr className="!my-10" />
+
+            {/* Совет эксперта */}
+            <div className="not-prose bg-gradient-to-r from-indigo-50 to-purple-50 border-l-4 border-indigo-500 p-6 rounded-r-lg my-8">
+                <div className="flex items-start gap-4">
+                    <div className="text-4xl">💡</div>
+                    <div>
+                        <h3 className="font-bold text-indigo-900 text-lg mb-2">Совет эксперта</h3>
+                        <p className="text-sm text-gray-700">
+                            Если ты часто планируешь контент на много недель вперед, 
+                            <strong> используй режим "Сегодня"</strong> вместе с кнопкой "Вперед". 
+                            Это позволит тебе видеть все дни относительно сегодняшнего дня, 
+                            что удобнее для долгосрочного планирования. А кнопка "Сегодня" всегда вернёт тебя 
+                            к актуальному моменту одним кликом.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <NavigationButtons />
         </article>
     );
 };
