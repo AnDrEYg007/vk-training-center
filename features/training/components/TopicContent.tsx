@@ -46,11 +46,26 @@ import { CreateNoteButton } from './content/section2/CreateNoteButton';
 import { CalendarHeaderOverview } from './content/section2/CalendarHeaderOverview';
 
 // Lazy-загрузка для больших компонентов раздела календаря
-const CalendarGrid = lazy(() => import('./content/section2/CalendarGrid').then(m => ({ default: m.CalendarGrid })));
-const DayColumns = lazy(() => import('./content/section2/DayColumns').then(m => ({ default: m.DayColumns })));
-const GridInteraction = lazy(() => import('./content/section2/GridInteraction').then(m => ({ default: m.GridInteraction })));
-const DragAndDrop = lazy(() => import('./content/section2/DragAndDrop').then(m => ({ default: m.DragAndDrop })));
-const QuickNote = lazy(() => import('./content/section2/QuickNote').then(m => ({ default: m.QuickNote })));
+const CalendarGrid = lazy(async () => {
+  const module = await import('./content/section2/CalendarGrid');
+  return { default: module.CalendarGrid };
+});
+const DayColumns = lazy(async () => {
+  const module = await import('./content/section2/DayColumns');
+  return { default: module.DayColumns };
+});
+const GridInteraction = lazy(async () => {
+  const module = await import('./content/section2/GridInteraction');
+  return { default: module.GridInteraction };
+});
+const DragAndDrop = lazy(async () => {
+  const module = await import('./content/section2/DragAndDrop');
+  return { default: module.DragAndDrop };
+});
+const QuickNote = lazy(async () => {
+  const module = await import('./content/section2/QuickNote');
+  return { default: module.QuickNote };
+});
 
 interface TopicContentProps {
     selectedTopic: Topic | null;
