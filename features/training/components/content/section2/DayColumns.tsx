@@ -1,5 +1,5 @@
 import React from 'react';
-import { ContentProps, NavigationLink } from '../shared';
+import { ContentProps, NavigationLink, Sandbox } from '../shared';
 
 // =====================================================================
 // Основной компонент: Дневные колонки в сетке календаря
@@ -29,65 +29,106 @@ export const DayColumns: React.FC<ContentProps> = ({ title }) => {
                 <li><strong>Заголовок дня</strong> — показывает день недели и дату. Сегодняшний день выделяется синей верхней границей и цветом текста.</li>
                 <li><strong>Кнопка "+"</strong> — позволяет быстро создать пост на этот день (только для будущих дат).</li>
                 <li><strong>Блок историй</strong> — если в этот день есть истории, они отображаются кружками под заголовком.</li>
-                <li><strong>Содержимое дня</strong> — список постов и заметок, отсортированных по времени. Можно перетаскивать между днями (drag-and-drop).</li>
+                <li><strong>Содержимое дня</strong> — список постов и заметок, отсортированных по времени. Можно перетаскивать между днями.</li>
             </ul>
 
-            <div className="not-prose bg-gray-50 border border-gray-300 rounded-lg p-6 my-8">
-                <h3 className="font-bold text-gray-900 text-lg mb-4">Интерактивная демонстрация дневной колонки</h3>
+            <Sandbox
+                title="Интерактивная демонстрация дневной колонки"
+                description="Посмотрите как выглядят колонки в разных состояниях: обычный день, сегодня и прошедший день."
+                instructions={[
+                    'Наведите на кнопку <strong>"+"</strong> чтобы увидеть реакцию',
+                    'Кликните по <strong>кружку истории</strong> для просмотра',
+                    'Обратите внимание на <strong>синюю границу</strong> у сегодняшнего дня'
+                ]}
+            >
                 <div className="grid grid-cols-3 gap-6">
                     {/* Пример: обычный день */}
-                    <div className="border rounded-lg">
+                    <div className="border rounded-lg hover:shadow-md transition-shadow">
                         <div className="border-t-4 border-transparent text-center p-2">
                             <p className="font-bold text-xs text-gray-700">пн</p>
-                            <p className="text-gray-500 text-[10px]">15.01</p>
-                            <button className="w-full mt-1 p-1 border border-dashed border-gray-300 rounded text-gray-400 hover:border-indigo-400 hover:text-indigo-500 transition-colors" title="Создать пост">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <p className="text-gray-500 text-[10px]">10.02</p>
+                            <button 
+                                className="w-full mt-1 p-1 border border-dashed border-gray-300 rounded text-gray-400 hover:border-indigo-400 hover:text-indigo-500 transition-colors" 
+                                title="Создать пост"
+                                aria-label="Создать пост на понедельник 10 февраля"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                                 </svg>
                             </button>
                         </div>
                         <div className="p-2 min-h-[120px] space-y-2">
-                            <div className="w-6 h-6 rounded-full bg-indigo-100 border-2 border-white flex items-center justify-center text-[8px] text-indigo-600 mb-2">S</div>
-                            <div className="p-2 rounded border bg-white border-gray-200 text-[10px]">10:00 Пост</div>
-                            <div className="p-2 rounded border bg-white border-gray-200 text-[10px]">14:00 Заметка</div>
+                            <div 
+                                className="w-6 h-6 rounded-full bg-indigo-100 border-2 border-white flex items-center justify-center text-[8px] text-indigo-600 mb-2 cursor-pointer hover:scale-110 transition-transform"
+                                role="button"
+                                tabIndex={0}
+                                aria-label="Посмотреть историю"
+                            >
+                                <span aria-hidden="true">S</span>
+                            </div>
+                            <div className="p-2 rounded border bg-white border-gray-200 text-[10px] cursor-pointer hover:bg-gray-50 transition-colors">10:00 Пост</div>
+                            <div className="p-2 rounded border bg-white border-gray-200 text-[10px] cursor-pointer hover:bg-gray-50 transition-colors">14:00 Заметка</div>
                         </div>
                     </div>
                     {/* Пример: сегодня */}
-                    <div className="border rounded-lg">
+                    <div className="border rounded-lg hover:shadow-md transition-shadow">
                         <div className="border-t-4 border-t-indigo-500 text-center p-2">
                             <p className="font-bold text-xs text-indigo-600">ср</p>
-                            <p className="text-gray-500 text-[10px]">17.01</p>
-                            <button className="w-full mt-1 p-1 border border-dashed border-gray-300 rounded text-gray-400 hover:border-indigo-400 hover:text-indigo-500 transition-colors" title="Создать пост">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <p className="text-gray-500 text-[10px]">12.02</p>
+                            <button 
+                                className="w-full mt-1 p-1 border border-dashed border-gray-300 rounded text-gray-400 hover:border-indigo-400 hover:text-indigo-500 transition-colors" 
+                                title="Создать пост"
+                                aria-label="Создать пост на среду 12 февраля"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                                 </svg>
                             </button>
                         </div>
                         <div className="p-2 min-h-[120px] space-y-2">
-                            <div className="w-6 h-6 rounded-full bg-purple-100 border-2 border-white flex items-center justify-center text-[8px] text-purple-600 mb-2">S</div>
-                            <div className="p-2 rounded border bg-white border-gray-200 text-[10px]">09:00 Пост</div>
-                            <div className="p-2 rounded border bg-white border-gray-200 text-[10px]">11:00 Заметка</div>
+                            <div 
+                                className="w-6 h-6 rounded-full bg-purple-100 border-2 border-white flex items-center justify-center text-[8px] text-purple-600 mb-2 cursor-pointer hover:scale-110 transition-transform"
+                                role="button"
+                                tabIndex={0}
+                                aria-label="Посмотреть видео-историю"
+                            >
+                                <span aria-hidden="true">S</span>
+                            </div>
+                            <div className="p-2 rounded border bg-white border-gray-200 text-[10px] cursor-pointer hover:bg-gray-50 transition-colors">09:00 Пост</div>
+                            <div className="p-2 rounded border bg-white border-gray-200 text-[10px] cursor-pointer hover:bg-gray-50 transition-colors">11:00 Заметка</div>
                         </div>
                     </div>
                     {/* Пример: прошедший день (кнопка + неактивна) */}
-                    <div className="border rounded-lg">
+                    <div className="border rounded-lg hover:shadow-md transition-shadow">
                         <div className="border-t-4 border-transparent text-center p-2">
                             <p className="font-bold text-xs text-gray-400">вс</p>
-                            <p className="text-gray-400 text-[10px]">14.01</p>
-                            <button className="w-full mt-1 p-1 border border-dashed border-gray-300 rounded text-gray-300 cursor-not-allowed opacity-50" title="Нельзя создавать посты в прошлом" disabled>
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <p className="text-gray-400 text-[10px]">09.02</p>
+                            <button 
+                                className="w-full mt-1 p-1 border border-dashed border-gray-300 rounded text-gray-300 cursor-not-allowed opacity-50" 
+                                title="Нельзя создавать посты в прошлом" 
+                                disabled
+                                aria-label="Создание постов в прошлом недоступно"
+                                aria-disabled="true"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                                 </svg>
                             </button>
                         </div>
                         <div className="p-2 min-h-[120px] space-y-2">
-                            <div className="w-6 h-6 rounded-full bg-indigo-100 border-2 border-white flex items-center justify-center text-[8px] text-indigo-600 mb-2">S</div>
-                            <div className="p-2 rounded border bg-white border-gray-200 text-[10px]">12:00 Пост</div>
+                            <div 
+                                className="w-6 h-6 rounded-full bg-indigo-100 border-2 border-white flex items-center justify-center text-[8px] text-indigo-600 mb-2 cursor-pointer hover:scale-110 transition-transform"
+                                role="button"
+                                tabIndex={0}
+                                aria-label="Посмотреть историю"
+                            >
+                                <span aria-hidden="true">S</span>
+                            </div>
+                            <div className="p-2 rounded border bg-white border-gray-200 text-[10px] cursor-pointer hover:bg-gray-50 transition-colors">12:00 Пост</div>
                         </div>
                     </div>
                 </div>
-                <p className="text-xs text-gray-500 mt-4 text-center">Наведи курсор на любую колонку, чтобы увидеть стилизацию и состояние кнопки.</p>
-            </div>
+            </Sandbox>
 
             <hr className="!my-10" />
 
@@ -152,7 +193,7 @@ export const DayColumns: React.FC<ContentProps> = ({ title }) => {
                             Используй дневные колонки для визуального контроля загруженности недели. Если видишь, что в каком-то дне мало карточек — это отличный повод добавить туда пост или заметку.
                         </p>
                         <p className="text-sm text-gray-700">
-                            Не забывай про быстрые действия: двойной клик для заметки, drag-and-drop для переноса карточек, кнопка "+" для создания поста.
+                            Не забывай про быстрые действия: двойной клик для заметки, перетаскивание для переноса карточек, кнопка "+" для создания поста.
                         </p>
                     </div>
                 </div>
@@ -182,7 +223,7 @@ export const DayColumns: React.FC<ContentProps> = ({ title }) => {
                     </li>
                     <li className="flex items-start gap-2">
                         <span className="text-indigo-600 font-bold">•</span>
-                        <span>Drag-and-drop работает для переноса карточек между днями</span>
+                        <span>Перетаскивание работает для переноса карточек между днями</span>
                     </li>
                     <li className="flex items-start gap-2">
                         <span className="text-indigo-600 font-bold">•</span>
