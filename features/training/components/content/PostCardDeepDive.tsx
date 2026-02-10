@@ -1,6 +1,6 @@
-import React, { useState, DragEvent } from 'react';
+import React, { useState, DragEvent, useEffect } from 'react';
 import { MockPostCard, ActionIcon, StatusTable } from './PostCardMocks';
-import { NavigationButtons } from './shared';
+import { NavigationButtons, ContentProps } from './shared';
 
 // =====================================================================
 // Интерактивная песочница (компонент-демо)
@@ -91,6 +91,16 @@ const InteractiveDemo = () => {
         setConfirmModalState({ isOpen: false, postId: null, targetColumn: null });
     };
 
+    useEffect(() => {
+        const handleEscape = (e: KeyboardEvent) => {
+            if (e.key === 'Escape' && confirmModalState.isOpen) {
+                handleCancelAction();
+            }
+        };
+        window.addEventListener('keydown', handleEscape);
+        return () => window.removeEventListener('keydown', handleEscape);
+    }, [confirmModalState.isOpen]);
+
     // Компоненты-заглушки для UI
     const DemoDayColumn: React.FC<{ title: string; columnId: 'mon' | 'tue' | 'wed'; children: React.ReactNode; onDrop: (e: DragEvent<HTMLDivElement>, colId: 'mon' | 'tue' | 'wed') => void }> = 
     ({ title, columnId, children, onDrop }) => (
@@ -108,8 +118,13 @@ const InteractiveDemo = () => {
     
     const ConfirmMoveModalMock: React.FC<{ onConfirm: (isCopy: boolean) => void; onCancel: () => void; }> = ({ onConfirm, onCancel }) => (
         <div className="absolute inset-0 bg-black/30 flex items-center justify-center z-20 rounded-lg">
-            <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-sm space-y-4 animate-fade-in-up">
-                <h2 className="text-lg font-bold">Подтвердите действие</h2>
+            <div 
+                className="bg-white p-6 rounded-lg shadow-xl w-full max-w-sm space-y-4 animate-fade-in-up"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="confirm-modal-title"
+            >
+                <h2 id="confirm-modal-title" className="text-lg font-bold">Подтвердите действие</h2>
                 <p>Переместить или скопировать пост?</p>
                 <div className="flex justify-end gap-3 pt-2">
                     <button onClick={onCancel} className="px-4 py-2 text-sm font-medium rounded-md bg-gray-200 hover:bg-gray-300">Отмена</button>
@@ -132,7 +147,15 @@ const InteractiveDemo = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <DemoDayColumn title="Понедельник" columnId="mon" onDrop={handleDrop}>
                     {posts.filter(p => p.column === 'mon').map(post => (
-                        <div key={post.id} draggable onDragStart={(e) => handleDragStart(e, post)} onDragEnd={handleDragEnd}>
+                        <div 
+                            key={post.id} 
+                            draggable 
+                            onDragStart={(e) => handleDragStart(e, post)} 
+                            onDragEnd={handleDragEnd}
+                            role="button"
+                            tabIndex={0}
+                            aria-label={`Перетащить пост: ${post.text.substring(0, 30)}...`}
+                        >
                              <MockPostCard
                                 type="vk"
                                 textLength="long"
@@ -146,7 +169,15 @@ const InteractiveDemo = () => {
                 </DemoDayColumn>
                 <DemoDayColumn title="Вторник" columnId="tue" onDrop={handleDrop}>
                      {posts.filter(p => p.column === 'tue').map(post => (
-                        <div key={post.id} draggable onDragStart={(e) => handleDragStart(e, post)} onDragEnd={handleDragEnd}>
+                        <div 
+                            key={post.id} 
+                            draggable 
+                            onDragStart={(e) => handleDragStart(e, post)} 
+                            onDragEnd={handleDragEnd}
+                            role="button"
+                            tabIndex={0}
+                            aria-label={`Перетащить пост: ${post.text.substring(0, 30)}...`}
+                        >
                              <MockPostCard
                                 type="vk"
                                 textLength="long"
@@ -160,7 +191,15 @@ const InteractiveDemo = () => {
                 </DemoDayColumn>
                 <DemoDayColumn title="Среда" columnId="wed" onDrop={handleDrop}>
                      {posts.filter(p => p.column === 'wed').map(post => (
-                        <div key={post.id} draggable onDragStart={(e) => handleDragStart(e, post)} onDragEnd={handleDragEnd}>
+                        <div 
+                            key={post.id} 
+                            draggable 
+                            onDragStart={(e) => handleDragStart(e, post)} 
+                            onDragEnd={handleDragEnd}
+                            role="button"
+                            tabIndex={0}
+                            aria-label={`Перетащить пост: ${post.text.substring(0, 30)}...`}
+                        >
                              <MockPostCard
                                 type="vk"
                                 textLength="long"
@@ -182,7 +221,7 @@ const InteractiveDemo = () => {
 // Основной компонент обучающей страницы
 // =====================================================================
 
-export const PostCardDeepDive: React.FC<{ title: string }> = ({ title }) => {
+export const PostCardDeepDive: React.FC<ContentProps> = ({ title }) => {
     return (
         <article className="prose prose-indigo max-w-none">
             <h1 className="!text-3xl !font-bold !tracking-tight !text-gray-900 !border-b !pb-4 !mb-6">{title}</h1>
@@ -279,32 +318,32 @@ export const PostCardDeepDive: React.FC<{ title: string }> = ({ title }) => {
             <h3 className="!text-xl !font-semibold !text-gray-800 !mt-8">Что содержит и что можно сделать?</h3>
             <div className="space-y-6 not-prose mt-6">
                  <ActionIcon 
-                    icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>} 
+                    icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>} 
                     label="Опубликовать сейчас"
                     description="Немедленно публикует пост на стену, игнорируя запланированное время. Недоступна для уже опубликованных постов и пустых постов (без текста и медиа)."
                 />
                  <ActionIcon 
-                    icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>}
+                    icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>}
                     label="Перенести в отложку VK"
                     description="Превращает 'Системный пост' в 'Отложенный пост VK'. Появится в отложенных в интерфейсе VK, но потеряет все преимущества системного. Доступно только для постов в статусе 'Ожидает' 🕒."
                 />
                  <ActionIcon 
-                    icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>} 
+                    icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>} 
                     label="Копировать"
                     description="Открывает модальное окно для создания нового поста, предзаполнив его содержимым из текущего. Идеально для создания постов по шаблону."
                 />
                  <ActionIcon 
-                    icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.536L16.732 3.732z" /></svg>}
+                    icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.536L16.732 3.732z" /></svg>}
                     label="Редактировать"
                     description="Открывает модальное окно для изменения содержимого поста. Заблокировано для системных постов в процессе публикации ⚙️."
                 />
                 <ActionIcon 
-                    icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>} 
+                    icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>} 
                     label="Удалить"
                     description="Запускает процесс удаления поста. Система запросит подтверждение. Заблокировано для системных постов в процессе публикации ⚙️."
                 />
                 <ActionIcon 
-                    icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>} 
+                    icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>} 
                     label="Посмотреть на VK"
                     description="Открывает пост в новой вкладке на сайте ВКонтакте. Доступно только для опубликованных и отложенных в VK постов."
                 />
@@ -314,16 +353,20 @@ export const PostCardDeepDive: React.FC<{ title: string }> = ({ title }) => {
 
             <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Как с этим лучше работать?</h2>
             
-            <h3 className="!text-xl !font-semibold !text-gray-800 !mt-8">Ключевые механики и советы</h3>
-            <ul className="!text-base !leading-relaxed !text-gray-700">
-                <li><strong>Сворачивание текста:</strong> Если текст поста длинный, кликните по нему, чтобы плавно развернуть и прочитать полностью. Повторный клик свернет текст обратно.</li>
-                <li><strong>Drag-and-Drop:</strong>
-                    <ul>
-                        <li>Перетаскивание <strong>запланированного</strong> поста (любого типа) на другую дату — это <strong>перемещение</strong>.</li>
-                        <li>Перетаскивание <strong>опубликованного</strong> поста (с ✅) на другую дату — это всегда <strong>копирование</strong>.</li>
-                    </ul>
-                </li>
-            </ul>
+            <div className="not-prose bg-gradient-to-r from-indigo-50 to-purple-50 border-l-4 border-indigo-500 p-6 rounded-r-lg my-8">
+                <div className="flex items-start gap-4">
+                    <div className="text-4xl">💡</div>
+                    <div>
+                        <h3 className="font-bold text-indigo-900 text-lg mb-2">Совет эксперта</h3>
+                        <p className="text-sm text-gray-700 mb-3">
+                            <strong>Сворачивание текста:</strong> Если текст поста длинный, кликните по нему, чтобы плавно развернуть и прочитать полностью. Повторный клик свернет текст обратно.
+                        </p>
+                        <p className="text-sm text-gray-700">
+                            <strong>Перетаскивание:</strong> Запланированный пост (любого типа) при перетаскивании перемещается. Опубликованный пост (с ✅) всегда копируется на новую дату.
+                        </p>
+                    </div>
+                </div>
+            </div>
             
             {/* ИНТЕРАКТИВНОЕ ДЕМО */}
             <InteractiveDemo />
@@ -335,7 +378,75 @@ export const PostCardDeepDive: React.FC<{ title: string }> = ({ title }) => {
                 <li><strong>Нельзя опубликовать пустой пост:</strong> Кнопка "Опубликовать сейчас" неактивна, если в посте нет ни текста, ни медиафайлов.</li>
             </ul>
 
-            <NavigationButtons currentPath="2-1-4-6-postcard-deep-dive" />
+            <hr className="!my-10" />
+
+            {/* FAQ */}
+            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Часто задаваемые вопросы</h2>
+            <div className="not-prose space-y-4 my-8">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Почему у системного поста пунктирная рамка?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Пунктирная рамка визуально отличает системные посты от постов VK. Системные посты хранятся в нашей базе данных и автоматически публикуются в запланированное время.
+                    </p>
+                </details>
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Можно ли отменить публикацию поста со статусом ⚙️?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Нет, если пост находится в процессе публикации (⚙️), отменить его нельзя — процесс уже запущен. Поэтому важно проверять содержимое до назначенного времени.
+                    </p>
+                </details>
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Что произойдет, если я перетащу опубликованный пост?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Система создаст копию поста на новую дату. Оригинальный пост останется на стене, новая копия будет запланирована как новый системный пост.
+                    </p>
+                </details>
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Почему некоторые кнопки в панели действий неактивны?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Доступность кнопок зависит от типа и статуса поста. Например, опубликованный пост нельзя переместить, а публикующийся пост нельзя редактировать.
+                    </p>
+                </details>
+            </div>
+
+            <hr className="!my-10" />
+
+            {/* Итоги */}
+            <div className="not-prose bg-gray-100 border border-gray-300 rounded-lg p-6 my-8">
+                <h3 className="font-bold text-gray-900 text-lg mb-3">Итоги: что нужно запомнить</h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Системные посты (пунктир) автоматически публикуются, отложенные VK (сплошная рамка) — вручную</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Панель действий появляется при наведении — доступны публикация, редактирование, копирование, удаление</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Кликните по длинному тексту, чтобы развернуть его полностью</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Перетаскивание запланированного поста — перемещение, опубликованного — копирование</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Статус ⚙️ «Публикуется» блокирует редактирование и удаление</span>
+                    </li>
+                </ul>
+            </div>
+
+            <NavigationButtons currentPath="2-4-3-postcard-deep-dive" />
         </article>
     );
 };
