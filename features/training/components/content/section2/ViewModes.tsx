@@ -256,9 +256,9 @@ export const ViewModes: React.FC<ContentProps> = ({ title }) => {
                     {selectedMode === 'week'
                         ? '● = Сегодня (вт)'
                         : '● = Сегодня (отправная точка)'}
-            </Sandbox>
                 </p>
             </div>
+            </Sandbox>
 
             <hr className="!my-10" />
 
