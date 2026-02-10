@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ContentProps } from '../shared';
+import { ContentProps, NavigationButtons, Sandbox } from '../shared';
 
 // =====================================================================
 // Основной компонент: Режимы отображения (Неделя vs Сегодня)
@@ -51,9 +51,9 @@ export const ViewModes: React.FC<ContentProps> = ({ title }) => {
                 каждая полезна в своей ситуации.
             </p>
 
-            <div className="not-prose bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-6">
-                <p className="text-sm text-indigo-800">
-                    <strong>Главная идея:</strong> У каждого режима свой смысл. 
+            <div className="not-prose bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4 my-6">
+                <p className="text-sm text-blue-900">
+                    <strong>💡 Главная идея:</strong> У каждого режима свой смысл. 
                     "Неделя" — это календарный взгляд (Пн-Вс), а "Сегодня" — это относительный взгляд 
                     (7 дней начиная с сегодня).
                 </p>
@@ -167,15 +167,17 @@ export const ViewModes: React.FC<ContentProps> = ({ title }) => {
             {/* Интерактивное сравнение */}
             <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Интерактивное сравнение</h2>
 
-            <p className="!text-base !leading-relaxed !text-gray-700 mb-6">
-                Нажми на кнопки ниже, чтобы увидеть разницу между двумя режимами:
-            </p>
-
-            <div className="not-prose bg-gray-50 border border-gray-300 rounded-lg p-6 my-8">
+            <Sandbox
+                title="Сравнение режимов отображения"
+                description="Нажми на кнопки ниже, чтобы увидеть разницу между двумя режимами. Обрати внимание, как меняется начало недели в каждом режиме."
+                instructions={["Нажми 'Неделя' чтобы увидеть календарный формат (Пн-Вс)", "Нажми 'Сегодня' чтобы увидеть относительный формат (7 дней от сегодня)", "Сравни, как меняется позиция сегодняшнего дня (синяя точка)"]}
+            >
+            <div className="not-prose bg-gray-50 border border-gray-300 rounded-lg p-6">
                 {/* Переключатели */}
                 <div className="flex gap-3 mb-6 bg-white p-4 rounded-lg border border-gray-200">
                     <button
                         onClick={() => setSelectedMode('week')}
+                        aria-pressed={selectedMode === 'week'}
                         className={`flex-1 py-3 px-4 rounded-lg font-bold ${
                             selectedMode === 'week'
                                 ? 'bg-blue-500 text-white shadow-lg'
@@ -186,6 +188,7 @@ export const ViewModes: React.FC<ContentProps> = ({ title }) => {
                     </button>
                     <button
                         onClick={() => setSelectedMode('today')}
+                        aria-pressed={selectedMode === 'today'}
                         className={`flex-1 py-3 px-4 rounded-lg font-bold ${
                             selectedMode === 'today'
                                 ? 'bg-purple-500 text-white shadow-lg'
@@ -253,6 +256,7 @@ export const ViewModes: React.FC<ContentProps> = ({ title }) => {
                     {selectedMode === 'week'
                         ? '● = Сегодня (вт)'
                         : '● = Сегодня (отправная точка)'}
+            </Sandbox>
                 </p>
             </div>
 
@@ -302,57 +306,93 @@ export const ViewModes: React.FC<ContentProps> = ({ title }) => {
 
             <hr className="!my-10" />
 
-            {/* Частые ошибки */}
-            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Частые вопросы</h2>
+            {/* FAQ */}
+            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Часто задаваемые вопросы</h2>
 
-            <div className="not-prose space-y-4 my-6">
-                <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">❓ Какой режим использовать по умолчанию?</p>
-                    <p className="text-sm text-gray-700">
+            <div className="not-prose space-y-4 my-8">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Какой режим использовать по умолчанию?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
                         Оба полезны! Новички часто начинают с режима "Неделя", потому что это знакомый формат. 
                         Но "Сегодня" часто удобнее для планирования, если ты думаешь на "7 дней вперед".
                     </p>
-                </div>
+                </details>
 
-                <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">❓ Могу ли я переключаться между режимами?</p>
-                    <p className="text-sm text-gray-700">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Могу ли я переключаться между режимами?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
                         <strong>Да!</strong> Режимы переключаются одной кнопкой. 
                         Ты можешь менять их сколько угодно во время работы.
                     </p>
-                </div>
+                </details>
 
-                <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">❓ Если я в режиме "Сегодня", смогу ли я видеть прошлые дни?</p>
-                    <p className="text-sm text-gray-700">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Если я в режиме "Сегодня", смогу ли я видеть прошлые дни?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
                         <strong>Да!</strong> Используй кнопку со стрелкой "Назад" (←) в навигации. 
                         Она работает в обоих режимах. По умолчанию режим "Сегодня" показывает 7 дней начиная с сегодня, 
                         но ты можешь листать назад на любое количество недель.
                     </p>
-                </div>
+                </details>
 
-                <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">❓ Когда я нажимаю "Вперед", изменится ли режим?</p>
-                    <p className="text-sm text-gray-700">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Когда я нажимаю "Вперед", изменится ли режим?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
                         Нет, выбранный режим останется прежним. Если ты в режиме "Неделя", 
                         нажатие "Вперед" переведет тебя на следующую неделю (Пн-Вс). 
                         Если ты в режиме "Сегодня", переведет на +7 дней от текущего дня.
                     </p>
-                </div>
+                </details>
             </div>
 
             <hr className="!my-10" />
 
-            {/* Совет */}
-            <div className="not-prose bg-green-50 border-l-4 border-green-400 pl-4 py-3 rounded-lg">
-                <p className="text-green-900 font-bold mb-2">💚 Совет для опытных пользователей</p>
-                <p className="text-sm text-gray-700">
-                    Многие опытные пользователи используют <strong>режим "Сегодня"</strong> для 
-                    <strong> срочной работы</strong> (быстрое планирование на неделю) 
-                    и <strong>режим "Неделя"</strong> для <strong>просмотра архива</strong> 
-                    (проверка прошлых постов). Выбери свой стиль!
-                </p>
+            {/* Итоги */}
+            <div className="not-prose bg-gray-100 border border-gray-300 rounded-lg p-6 my-8">
+                <h3 className="font-bold text-gray-900 text-lg mb-3">Итоги: что нужно запомнить</h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span><strong>Два режима:</strong> "Неделя" (календарный Пн-Вс) и "Сегодня" (относительный от сегодня).</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Режим "Неделя" <strong>всегда начинается с понедельника</strong> и заканчивается воскресеньем.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Режим "Сегодня" <strong>всегда начинается с текущей даты</strong> и показывает следующие 6 дней.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Переключение между режимами — <strong>одна кнопка</strong> в шапке календаря.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Навигация (← Сегодня →) работает <strong>одинаково в обоих режимах</strong>.</span>
+                    </li>
+                </ul>
             </div>
+
+            <hr className="!my-10" />
+
+            {/* Совет эксперта */}
+            <div className="not-prose bg-gradient-to-r from-indigo-50 to-purple-50 border-l-4 border-indigo-500 p-6 rounded-r-lg my-8">
+                <div className="flex items-start gap-4">
+                    <div className="text-4xl">💡</div>
+                    <div>
+                        <h3 className="font-bold text-indigo-900 text-lg mb-2">Совет эксперта</h3>
+                        <p className="text-sm text-gray-700">
+                            Многие опытные пользователи используют <strong>режим "Сегодня"</strong> для 
+                            <strong> срочной работы</strong> (быстрое планирование на неделю) 
+                            и <strong>режим "Неделя"</strong> для <strong>просмотра архива</strong> 
+                            (проверка прошлых постов). Экспериментируй с обоими режимами и выбери свой стиль!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <NavigationButtons />
         </article>
     );
 };
