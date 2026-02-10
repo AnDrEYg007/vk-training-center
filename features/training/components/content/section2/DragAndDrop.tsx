@@ -1,27 +1,34 @@
 import React, { useState } from 'react';
-import { ContentProps, Sandbox } from '../shared';
+import { ContentProps, Sandbox, NavigationLink } from '../shared';
 
 // =====================================================================
-// Drag-and-Drop в сетке календаря
+// Перетаскивание в сетке календаря
 // =====================================================================
 export const DragAndDrop: React.FC<ContentProps> = ({ title }) => {
     const [draggedItem, setDraggedItem] = useState<string | null>(null);
+    const [dragOverColumn, setDragOverColumn] = useState<string | null>(null);
     const [columns, setColumns] = useState<Record<'monday' | 'tuesday' | 'wednesday', string[]>>({
         monday: ['Пост 10:00', 'Заметка 14:00'],
         tuesday: ['Пост 12:00'],
         wednesday: []
     });
 
-    const handleDragStart = (item: string, column: string) => {
+    const handleDragStart = (item: string) => {
         setDraggedItem(item);
     };
 
-    const handleDragOver = (e: React.DragEvent) => {
+    const handleDragOver = (e: React.DragEvent, column: string) => {
         e.preventDefault();
+        setDragOverColumn(column);
+    };
+
+    const handleDragLeave = () => {
+        setDragOverColumn(null);
     };
 
     const handleDrop = (targetColumn: keyof typeof columns) => {
         if (!draggedItem) return;
+        setDragOverColumn(null);
 
         // Найти исходную колонку
         let sourceColumn: keyof typeof columns | null = null;
@@ -53,7 +60,7 @@ export const DragAndDrop: React.FC<ContentProps> = ({ title }) => {
             <h1 className="!text-3xl !font-bold !tracking-tight !text-gray-900 !border-b !pb-4 !mb-6">{title}</h1>
 
             <p className="!text-base !leading-relaxed !text-gray-700">
-                Drag-and-Drop (перетаскивание) — это удобный способ перемещать посты и заметки между днями в сетке календаря. 
+                Перетаскивание — это удобный способ перемещать посты и заметки между днями в сетке календаря. 
                 Просто захватите элемент мышкой и перенесите его в нужную колонку.
             </p>
 
@@ -65,7 +72,7 @@ export const DragAndDrop: React.FC<ContentProps> = ({ title }) => {
 
             <hr className="!my-10" />
 
-            {/* Как работает Drag-and-Drop */}
+            {/* Как работает перетаскивание */}
             <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Как перетаскивать элементы?</h2>
             <ol className="list-decimal list-inside space-y-2 !text-base !leading-relaxed !text-gray-700">
                 <li><strong>Наведите курсор</strong> на пост или заметку, которую хотите переместить.</li>
@@ -93,9 +100,14 @@ export const DragAndDrop: React.FC<ContentProps> = ({ title }) => {
                 <div className="grid grid-cols-3 gap-4">
                     {/* Понедельник */}
                     <div
-                        onDragOver={handleDragOver}
+                        onDragOver={(e) => handleDragOver(e, 'monday')}
+                        onDragLeave={handleDragLeave}
                         onDrop={() => handleDrop('monday')}
-                        className="bg-white border-2 border-gray-200 rounded-lg p-4 min-h-[200px]"
+                        className={`border-2 rounded-lg p-4 min-h-[200px] transition-colors ${
+                            dragOverColumn === 'monday' 
+                                ? 'bg-indigo-100 border-indigo-400' 
+                                : 'bg-white border-gray-200'
+                        }`}
                     >
                         <h4 className="font-bold text-gray-900 mb-3">Понедельник</h4>
                         <div className="space-y-2">
@@ -103,7 +115,7 @@ export const DragAndDrop: React.FC<ContentProps> = ({ title }) => {
                                 <div
                                     key={idx}
                                     draggable
-                                    onDragStart={() => handleDragStart(item, 'monday')}
+                                    onDragStart={() => handleDragStart(item)}
                                     className="bg-blue-100 border border-blue-300 rounded p-2 cursor-move hover:bg-blue-200 transition"
                                     role="button"
                                     tabIndex={0}
@@ -117,9 +129,14 @@ export const DragAndDrop: React.FC<ContentProps> = ({ title }) => {
 
                     {/* Вторник */}
                     <div
-                        onDragOver={handleDragOver}
+                        onDragOver={(e) => handleDragOver(e, 'tuesday')}
+                        onDragLeave={handleDragLeave}
                         onDrop={() => handleDrop('tuesday')}
-                        className="bg-white border-2 border-gray-200 rounded-lg p-4 min-h-[200px]"
+                        className={`border-2 rounded-lg p-4 min-h-[200px] transition-colors ${
+                            dragOverColumn === 'tuesday' 
+                                ? 'bg-indigo-100 border-indigo-400' 
+                                : 'bg-white border-gray-200'
+                        }`}
                     >
                         <h4 className="font-bold text-gray-900 mb-3">Вторник</h4>
                         <div className="space-y-2">
@@ -127,7 +144,7 @@ export const DragAndDrop: React.FC<ContentProps> = ({ title }) => {
                                 <div
                                     key={idx}
                                     draggable
-                                    onDragStart={() => handleDragStart(item, 'tuesday')}
+                                    onDragStart={() => handleDragStart(item)}
                                     className="bg-blue-100 border border-blue-300 rounded p-2 cursor-move hover:bg-blue-200 transition"
                                     role="button"
                                     tabIndex={0}
@@ -141,20 +158,25 @@ export const DragAndDrop: React.FC<ContentProps> = ({ title }) => {
 
                     {/* Среда */}
                     <div
-                        onDragOver={handleDragOver}
+                        onDragOver={(e) => handleDragOver(e, 'wednesday')}
+                        onDragLeave={handleDragLeave}
                         onDrop={() => handleDrop('wednesday')}
-                        className="bg-white border-2 border-gray-200 rounded-lg p-4 min-h-[200px]"
+                        className={`border-2 rounded-lg p-4 min-h-[200px] transition-colors ${
+                            dragOverColumn === 'wednesday' 
+                                ? 'bg-indigo-100 border-indigo-400' 
+                                : 'bg-white border-gray-200'
+                        }`}
                     >
                         <h4 className="font-bold text-gray-900 mb-3">Среда</h4>
                         <div className="space-y-2">
                             {columns.wednesday.length === 0 ? (
-                                <p className="text-sm text-gray-500 italic">Перетащите сюда</p>
+                                <p className="text-sm text-gray-500 italic" aria-live="polite">Перетащите сюда</p>
                             ) : (
                                 columns.wednesday.map((item, idx) => (
                                     <div
                                         key={idx}
                                         draggable
-                                        onDragStart={() => handleDragStart(item, 'wednesday')}
+                                        onDragStart={() => handleDragStart(item)}
                                         className="bg-blue-100 border border-blue-300 rounded p-2 cursor-move hover:bg-blue-200 transition"
                                         role="button"
                                         tabIndex={0}
@@ -172,24 +194,101 @@ export const DragAndDrop: React.FC<ContentProps> = ({ title }) => {
             <hr className="!my-10" />
 
             {/* FAQ */}
-            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">FAQ: Частые вопросы</h2>
-            <ul className="list-disc list-inside space-y-2 !text-base !leading-relaxed !text-gray-700">
-                <li><strong>Можно ли перетаскивать несколько элементов сразу?</strong> Нет, drag-and-drop работает только для одного элемента за раз. Для массовых действий используйте режим выделения.</li>
-                <li><strong>Изменится ли время публикации?</strong> Нет, время останется прежним. Изменяется только дата.</li>
-                <li><strong>Можно ли перетащить в прошлое?</strong> Да, но для опубликованных постов это может вызвать ошибки. Система предупредит о возможных проблемах.</li>
-                <li><strong>Что делать, если случайно переместил не туда?</strong> Просто перетащите элемент обратно в нужный день.</li>
-            </ul>
+            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Часто задаваемые вопросы</h2>
+            <div className="not-prose space-y-4 my-8">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Можно ли перетаскивать несколько элементов сразу?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Нет, перетаскивание работает только для одного элемента за раз. Для массовых действий используйте режим выделения.
+                    </p>
+                </details>
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Изменится ли время публикации?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Нет, время останется прежним. Изменяется только дата.
+                    </p>
+                </details>
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Можно ли перетащить в прошлое?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Да, но для опубликованных постов это может вызвать ошибки. Система предупредит о возможных проблемах.
+                    </p>
+                </details>
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Что делать, если случайно переместил не туда?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Просто перетащите элемент обратно в нужный день.
+                    </p>
+                </details>
+            </div>
 
-            <div className="not-prose bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-6">
-                <p className="text-sm text-indigo-800">
-                    <strong>Совет эксперта:</strong> Используйте drag-and-drop для быстрого перепланирования контента. Это экономит время по сравнению с ручным редактированием каждого поста.
-                </p>
+            {/* Совет эксперта */}
+            <div className="not-prose bg-gradient-to-r from-indigo-50 to-purple-50 border-l-4 border-indigo-500 p-6 rounded-r-lg my-8">
+                <div className="flex items-start gap-4">
+                    <div className="text-4xl">💡</div>
+                    <div>
+                        <h3 className="font-bold text-indigo-900 text-lg mb-2">Совет эксперта</h3>
+                        <p className="text-sm text-gray-700">
+                            Используйте перетаскивание для быстрого перепланирования контента. Это экономит время по сравнению с ручным редактированием каждого поста.
+                        </p>
+                    </div>
+                </div>
             </div>
 
             <hr className="!my-10" />
-            <p className="!text-base !leading-relaxed !text-gray-700">
-                Drag-and-Drop делает работу с календарём быстрой и интуитивной — просто перетащите элемент туда, куда нужно.
-            </p>
+
+            {/* Итоги */}
+            <div className="not-prose bg-gray-100 border border-gray-300 rounded-lg p-6 my-8">
+                <h3 className="font-bold text-gray-900 text-lg mb-3">Итоги: что нужно запомнить</h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Перетаскивание работает для постов и заметок</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Изменяется только дата, время остаётся прежним</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Колонка-цель подсвечивается синим при наведении</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Для массовых действий используйте режим выделения</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Ошиблись? Просто перетащите обратно</span>
+                    </li>
+                </ul>
+            </div>
+
+            <hr className="!my-10" />
+
+            {/* Навигация к соседним разделам */}
+            <div className="not-prose grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+                <NavigationLink
+                    to="2-1-3-2-grid-interaction"
+                    title="Назад: 2.1.3.2 Взаимодействие с сеткой"
+                    description="Как работать с контентом в сетке"
+                    variant="prev"
+                />
+                <NavigationLink
+                    to="2-1-3-4-quick-note"
+                    title="Далее: 2.1.3.4 Быстрая заметка"
+                    description="Как создать заметку двойным кликом"
+                    variant="next"
+                />
+            </div>
         </article>
     );
 };
