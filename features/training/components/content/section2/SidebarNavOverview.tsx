@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ContentProps } from '../shared';
+import { ContentProps, NavigationButtons, Sandbox } from '../shared';
 
 // =====================================================================
 // Основной компонент: Обзор сайдбара проектов
@@ -22,9 +22,9 @@ export const SidebarNavOverview: React.FC<ContentProps> = ({ title }) => {
                 Это не просто список — это мощный инструмент управления, который показывает много важной информации одновременно.
             </p>
 
-            <div className="not-prose bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-6">
-                <p className="text-sm text-indigo-800">
-                    <strong>Главная идея:</strong> Сайдбар — это твой "пульт управления" проектами. 
+            <div className="not-prose bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4 my-6">
+                <p className="text-sm text-blue-900">
+                    <strong>💡 Главная идея:</strong> Сайдбар — это твой "пульт управления" проектами. 
                     Одним взглядом видишь состояние всех сообществ и быстро переключаешься между ними.
                 </p>
             </div>
@@ -74,7 +74,7 @@ export const SidebarNavOverview: React.FC<ContentProps> = ({ title }) => {
                             </p>
                             <ul className="text-sm text-gray-700 mt-2 space-y-1">
                                 <li className="flex items-center gap-2">
-                                    <svg className="inline-block w-4 h-4 text-amber-500 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 3.001-1.742 3.001H4.42c-1.53 0-2.493-1.667-1.743-3.001l5.58-9.92zM10 13a1 1 0 100-2 1 1 0 000 2zm-1-4a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" /></svg>
+                                    <svg className="inline-block w-4 h-4 text-amber-500 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 3.001-1.742 3.001H4.42c-1.53 0-2.493-1.667-1.743-3.001l5.58-9.92zM10 13a1 1 0 100-2 1 1 0 000 2zm-1-4a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" /></svg>
                                     <span>Янтарный треугольник — ошибка доступа к проекту</span>
                                 </li>
                                 <li className="flex items-center gap-2">
@@ -199,9 +199,14 @@ export const SidebarNavOverview: React.FC<ContentProps> = ({ title }) => {
             {/* Как это выглядит */}
             <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Как это выглядит?</h2>
 
-            <div className="not-prose bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-6">
-                <p className="text-sm text-indigo-800">
-                    <strong>Структура сайдбара:</strong> Ниже показана точная структура всех элементов. 
+            <Sandbox
+                title="Интерактивный макет сайдбара"
+                description="Попробуй взаимодействовать с фильтрами и кнопками — они работают как в реальном приложении."
+                instructions="Кликай на кнопки фильтров команд и контента, вводи текст в поиск, сворачивай секцию отключённых проектов."
+            >
+            <div className="not-prose bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4 mb-6">
+                <p className="text-sm text-blue-900">
+                    <strong>📋 Структура сайдбара:</strong> Ниже показана точная структура всех элементов. 
                     Данные (названия проектов, имя пользователя) загружаются из базы данных при работе приложения.
                     <br /><br />
                     <strong>Важно:</strong> Фильтры по количеству постов показаны здесь для примера, но в реальном приложении 
@@ -210,7 +215,7 @@ export const SidebarNavOverview: React.FC<ContentProps> = ({ title }) => {
                 </p>
             </div>
 
-            <div className="not-prose bg-gray-50 border border-gray-200 rounded-lg p-6 my-6">
+            <div className="not-prose bg-gray-50 border border-gray-200 rounded-lg p-6">
                 <p className="text-sm text-gray-600 mb-4 font-semibold">Полная структура сайдбара проектов:</p>
                 
                 <div className="space-y-2">
@@ -218,13 +223,13 @@ export const SidebarNavOverview: React.FC<ContentProps> = ({ title }) => {
                     <div className="p-4 border-b border-gray-200 flex justify-between items-center">
                         <h2 className="text-lg font-bold text-gray-800">Проекты</h2>
                         <div className="flex items-center gap-1">
-                            <button className="p-2 text-gray-500 rounded-full hover:bg-gray-200 hover:text-gray-800" title="Глобальное обновление всех проектов">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                            <button className="p-2 text-gray-500 rounded-full hover:bg-gray-200 hover:text-gray-800" title="Глобальное обновление всех проектов" aria-label="Глобальное обновление всех проектов">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                     <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
                                 </svg>
                             </button>
-                            <button className="p-2 text-gray-500 rounded-full hover:bg-gray-200 hover:text-gray-800" title="Обновить список проектов">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <button className="p-2 text-gray-500 rounded-full hover:bg-gray-200 hover:text-gray-800" title="Обновить список проектов" aria-label="Обновить список проектов">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h5m11 2a9 9 0 11-2.064-5.364M20 4v5h-5" />
                                 </svg>
                             </button>
@@ -252,18 +257,21 @@ export const SidebarNavOverview: React.FC<ContentProps> = ({ title }) => {
                                 <button 
                                     onClick={() => setActiveTeam('В')}
                                     className={`px-2.5 py-1 text-xs font-medium rounded-full transition-colors bg-gray-200 text-gray-700 hover:bg-gray-300 ${activeTeam === 'В' ? 'ring-2 ring-indigo-500' : ''}`}
+                                    aria-label="Фильтр по команде В"
                                 >
                                     В
                                 </button>
                                 <button 
                                     onClick={() => setActiveTeam('С')}
                                     className={`px-2.5 py-1 text-xs font-medium rounded-full transition-colors bg-gray-200 text-gray-700 hover:bg-gray-300 ${activeTeam === 'С' ? 'ring-2 ring-indigo-500' : ''}`}
+                                    aria-label="Фильтр по команде С"
                                 >
                                     С
                                 </button>
                                 <button 
                                     onClick={() => setActiveTeam('A')}
                                     className={`px-2.5 py-1 text-xs font-medium rounded-full transition-colors bg-gray-200 text-gray-700 hover:bg-gray-300 ${activeTeam === 'A' ? 'ring-2 ring-indigo-500' : ''}`}
+                                    aria-label="Фильтр по команде A"
                                 >
                                     A
                                 </button>
@@ -332,8 +340,9 @@ export const SidebarNavOverview: React.FC<ContentProps> = ({ title }) => {
                             onClick={() => setShowDisabled(!showDisabled)}
                             className="p-1 text-gray-400 rounded-full hover:bg-gray-200 hover:text-gray-700" 
                             title={showDisabled ? "Скрыть" : "Показать"}
+                            aria-label={showDisabled ? "Скрыть отключённые проекты" : "Показать отключённые проекты"}
                         >
-                            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                 {showDisabled ? (
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.97 9.97 0 01-2.572 4.293m-5.466-4.293a3 3 0 01-4.242-4.242" />
                                 ) : (
@@ -361,8 +370,8 @@ export const SidebarNavOverview: React.FC<ContentProps> = ({ title }) => {
                                 <p className="text-sm font-medium text-gray-900 truncate">admin</p>
                                 <p className="text-xs text-gray-500">Администратор</p>
                             </div>
-                            <button className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-200 rounded transition-colors" title="Выйти">
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <button className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-200 rounded transition-colors" title="Выйти" aria-label="Выйти из системы">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                                 </svg>
                             </button>
@@ -381,6 +390,7 @@ export const SidebarNavOverview: React.FC<ContentProps> = ({ title }) => {
                     Список проектов можно прокручивать, а блок с именем прибит к низу.
                 </p>
             </div>
+            </Sandbox>
 
             <hr className="!my-10" />
 
@@ -389,7 +399,7 @@ export const SidebarNavOverview: React.FC<ContentProps> = ({ title }) => {
 
             <div className="not-prose space-y-3 my-6">
                 <div className="flex items-start gap-3 p-4 bg-green-50 border border-green-200 rounded-lg">
-                    <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
                     <div>
@@ -399,7 +409,7 @@ export const SidebarNavOverview: React.FC<ContentProps> = ({ title }) => {
                 </div>
 
                 <div className="flex items-start gap-3 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                    <svg className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
                     <div>
@@ -409,7 +419,7 @@ export const SidebarNavOverview: React.FC<ContentProps> = ({ title }) => {
                 </div>
 
                 <div className="flex items-start gap-3 p-4 bg-purple-50 border border-purple-200 rounded-lg">
-                    <svg className="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
                     <div>
@@ -419,7 +429,7 @@ export const SidebarNavOverview: React.FC<ContentProps> = ({ title }) => {
                 </div>
 
                 <div className="flex items-start gap-3 p-4 bg-orange-50 border border-orange-200 rounded-lg">
-                    <svg className="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
                     <div>
@@ -465,11 +475,94 @@ export const SidebarNavOverview: React.FC<ContentProps> = ({ title }) => {
                 </div>
             </div>
 
-            <div className="not-prose bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-6">
-                <p className="text-sm text-indigo-800">
-                    <strong>Совет:</strong> Начни с раздела "Элементы списка проектов" — это основа для понимания всего остального.
-                </p>
+            <hr className="!my-10" />
+
+            {/* FAQ */}
+            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Часто задаваемые вопросы</h2>
+
+            <div className="not-prose space-y-4 my-8">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Почему я не вижу некоторые проекты в сайдбаре?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Скорее всего проекты находятся в секции «Отключённые». Прокрутите список вниз и разверните 
+                        эту секцию кнопкой с иконкой глаза. Также проверьте активные фильтры — возможно, выбрана 
+                        конкретная команда или фильтр по количеству постов.
+                    </p>
+                </details>
+
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Что означает жёлтый треугольник рядом с проектом?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Жёлтый (янтарный) треугольник — это индикатор ошибки доступа. Система не смогла получить данные 
+                        из ВКонтакте. Обычно это означает, что токен сообщества устарел или отозван. Нужно обновить 
+                        токен в настройках проекта.
+                    </p>
+                </details>
+
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Как быстро найти нужный проект среди 50+ сообществ?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Используйте поле поиска — начните вводить название сообщества. Также можно фильтровать 
+                        по командам (если вы их настроили) или по количеству постов (на вкладках «Отложенные» и «Предложенные»).
+                    </p>
+                </details>
+
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Зачем отключать проекты?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Отключение проектов полезно для сообществ, с которыми вы временно не работаете. Отключённые 
+                        проекты не участвуют в глобальном обновлении, что ускоряет загрузку данных. Проект можно 
+                        включить обратно в любой момент через настройки.
+                    </p>
+                </details>
             </div>
+
+            <hr className="!my-10" />
+
+            {/* Итоги */}
+            <div className="not-prose bg-gray-100 border border-gray-300 rounded-lg p-6 my-8">
+                <h3 className="font-bold text-gray-900 text-lg mb-3">Итоги: что нужно запомнить</h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Сайдбар состоит из 7 основных блоков: список проектов, индикаторы, счётчики, фильтры, глобальное обновление, отключённые проекты, блок пользователя.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Индикаторы (треугольник, точка) сигнализируют о проблемах или новых данных.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Счётчики показывают количество черновиков, цвет — уровень срочности.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Фильтры по командам и поиск помогают быстро находить нужный проект.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Блок пользователя внизу всегда виден и показывает текущую сессию.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <hr className="!my-10" />
+
+            {/* Совет эксперта */}
+            <div className="not-prose bg-gradient-to-r from-indigo-50 to-purple-50 border-l-4 border-indigo-500 p-6 rounded-r-lg my-8">
+                <div className="flex items-start gap-4">
+                    <div className="text-4xl">💡</div>
+                    <div>
+                        <h3 className="font-bold text-indigo-900 text-lg mb-2">Совет эксперта</h3>
+                        <p className="text-sm text-gray-700">
+                            Начни с раздела «Элементы списка проектов» — это основа для понимания всего остального. 
+                            Потом переходи к индикаторам и счётчикам, чтобы научиться читать состояние проектов одним взглядом.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <NavigationButtons />
         </article>
     );
 };
