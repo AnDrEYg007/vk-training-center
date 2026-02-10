@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ContentProps } from '../shared';
+import { ContentProps, NavigationButtons, Sandbox } from '../shared';
 
 // =====================================================================
 // Основной компонент: Фильтры и поиск
@@ -51,7 +51,7 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
 
             <div className="not-prose bg-amber-50 border border-amber-300 rounded-lg p-4 my-6">
                 <div className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                    <svg className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                         <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                     </svg>
                     <p className="text-sm text-amber-900">
@@ -62,9 +62,9 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
                 </div>
             </div>
 
-            <div className="not-prose bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-6">
-                <p className="text-sm text-indigo-800">
-                    <strong>Смысл:</strong> Вместо того, чтобы листать список вниз-вверх, 
+            <div className="not-prose bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4 my-6">
+                <p className="text-sm text-blue-900">
+                    <strong>💡 Смысл:</strong> Вместо того, чтобы листать список вниз-вверх, 
                     просто пишешь название или выбираешь фильтр — нужный проект находится мгновенно!
                 </p>
             </div>
@@ -79,7 +79,7 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
                 <div className="border-l-4 border-blue-400 pl-4 py-3 bg-blue-50">
                     <div className="flex items-start gap-3">
                         <div className="flex-shrink-0">
-                            <svg className="w-10 h-10 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <svg className="w-10 h-10 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
                         </div>
@@ -110,7 +110,7 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
                 <div className="border-l-4 border-green-400 pl-4 py-3 bg-green-50">
                     <div className="flex items-start gap-3">
                         <div className="flex-shrink-0">
-                            <svg className="w-10 h-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <svg className="w-10 h-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
                         </div>
@@ -141,7 +141,7 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
                 <div className="border-l-4 border-purple-400 pl-4 py-3 bg-purple-50">
                     <div className="flex items-start gap-3">
                         <div className="flex-shrink-0">
-                            <svg className="w-10 h-10 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <svg className="w-10 h-10 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                             </svg>
                         </div>
@@ -194,11 +194,12 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
             {/* Интерактивный пример */}
             <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Интерактивный пример</h2>
 
-            <p className="!text-base !leading-relaxed !text-gray-700">
-                Попробуй использовать фильтры ниже! Пиши в поле поиска, выбирай команду и фильтр по постам:
-            </p>
-
-            <div className="not-prose bg-gray-50 border border-gray-200 rounded-lg p-6 my-6">
+            <Sandbox
+                title="Интерактивные фильтры и поиск"
+                description="Попробуй использовать фильтры ниже! Пиши в поле поиска, выбирай команду и фильтр по постам."
+                instructions={["Напиши 'суши' в поиск", "Выбери 'Команда А'", "Попробуй фильтр 'Нет постов'", "Комбинируй все фильтры вместе"]}
+            >
+            <div className="not-prose bg-gray-50 border border-gray-200 rounded-lg p-6">
                 {/* Поиск */}
                 <div className="mb-4">
                     <input
@@ -288,6 +289,7 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
                     — должен остаться только проект "Фиолето Суши"!
                 </p>
             </div>
+            </Sandbox>
 
             <hr className="!my-10" />
 
@@ -295,7 +297,7 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
             <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Комбинирование фильтров</h2>
 
             <div className="not-prose space-y-4 my-6">
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4">
                     <p className="text-sm text-gray-700">
                         <strong>Важно:</strong> Все три фильтра работают <strong>одновременно</strong>. 
                         Это значит, что если ты выбрал &quot;Команда А&quot; и фильтр &quot;Нет постов&quot;, 
@@ -321,7 +323,7 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
 
             <div className="not-prose space-y-3 my-6">
                 <div className="flex items-start gap-3 p-4 bg-green-50 border border-green-200 rounded-lg">
-                    <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
                     <div>
@@ -334,7 +336,7 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
                 </div>
 
                 <div className="flex items-start gap-3 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                    <svg className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                         <path fillRule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zm-11-1a1 1 0 11-2 0 1 1 0 012 0z" clipRule="evenodd" />
                     </svg>
                     <div>
@@ -347,7 +349,7 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
                 </div>
 
                 <div className="flex items-start gap-3 p-4 bg-purple-50 border border-purple-200 rounded-lg">
-                    <svg className="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                     <div>
@@ -360,7 +362,7 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
                 </div>
 
                 <div className="flex items-start gap-3 p-4 bg-amber-50 border border-amber-200 rounded-lg">
-                    <svg className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                         <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                     </svg>
                     <div>
@@ -375,23 +377,91 @@ export const FiltersAndSearch: React.FC<ContentProps> = ({ title }) => {
 
             <hr className="!my-10" />
 
-            {/* Заключение */}
-            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Итог</h2>
+            {/* FAQ */}
+            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Часто задаваемые вопросы</h2>
 
-            <p className="!text-base !leading-relaxed !text-gray-700">
-                <strong>Фильтры и поиск</strong> — это мощные инструменты для навигации по проектам. 
-                Используй их ежедневно:
-            </p>
+            <div className="not-prose space-y-4 my-8">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Можно ли использовать несколько фильтров одновременно?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Да! Все три инструмента работают одновременно. Например, ты можешь выбрать "Команда А" + "Нет постов" 
+                        и дополнительно ввести текст в поиск. Результат будет отфильтрован по всем трём критериям.
+                    </p>
+                </details>
 
-            <ul className="!text-base !leading-relaxed !text-gray-700 !list-disc !pl-6 my-4">
-                <li><strong>Поиск</strong> — когда знаешь название проекта</li>
-                <li><strong>Фильтр по командам</strong> — когда работаешь в команде и нужны только её проекты</li>
-                <li><strong>Фильтр по постам</strong> — когда ищешь критичные проекты (пустые) или проверяешь статус</li>
-            </ul>
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Что делать, если поиск ничего не находит?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Проверь, активны ли фильтры команд или постов. Возможно, ты случайно выбрал фильтр, 
+                        который исключает нужный проект. Сбрось все фильтры (выбери "Все") и попробуй снова.
+                    </p>
+                </details>
 
-            <p className="!text-base !leading-relaxed !text-gray-700 mt-6">
-                Теперь ты полностью понял сайдбар проектов!
-            </p>
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Сохраняются ли фильтры при перезагрузке страницы?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Нет, при перезагрузке или переходе на другой модуль все фильтры сбрасываются. 
+                        Это сделано специально, чтобы ты всегда видел полный список проектов при открытии приложения.
+                    </p>
+                </details>
+
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Чем фильтр "Есть посты" отличается от других фильтров по постам?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Фильтр "Есть посты" показывает все проекты, где count &gt; 0 (любое количество). 
+                        Остальные фильтры более конкретны: "&lt; 5" = от 1 до 4, "5-10" = от 5 до 10, "&gt; 10" = больше 10.
+                    </p>
+                </details>
+            </div>
+
+            <hr className="!my-10" />
+
+            {/* Итоги */}
+            <div className="not-prose bg-gray-100 border border-gray-300 rounded-lg p-6 my-8">
+                <h3 className="font-bold text-gray-900 text-lg mb-3">Итоги: что нужно запомнить</h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span><strong>Три инструмента:</strong> поиск по названию, фильтр по командам, фильтр по постам.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Фильтры работают <strong>одновременно</strong> — можно комбинировать все три.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Поиск <strong>не чувствителен к регистру</strong> — СУШИ = суши.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Самый быстрый способ найти критичные проекты — фильтр <strong>"Нет постов"</strong>.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Фильтры сбрасываются при переходе на другой модуль или перезагрузке.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <hr className="!my-10" />
+
+            {/* Совет эксперта */}
+            <div className="not-prose bg-gradient-to-r from-indigo-50 to-purple-50 border-l-4 border-indigo-500 p-6 rounded-r-lg my-8">
+                <div className="flex items-start gap-4">
+                    <div className="text-4xl">💡</div>
+                    <div>
+                        <h3 className="font-bold text-indigo-900 text-lg mb-2">Совет эксперта</h3>
+                        <p className="text-sm text-gray-700">
+                            Создай себе <strong>утренний ритуал</strong>: открывай приложение, выбирай фильтр "Нет постов", 
+                            и сразу видишь проекты, где нужно срочно создать контент. За 5-10 минут можно создать 
+                            черновики для всех критичных проектов и вывести их хотя бы на оранжевый уровень (1-4 поста). 
+                            Это простая привычка, которая <strong>на 100% исключит ситуации</strong>, когда в проекте заканчивается контент.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <NavigationButtons />
         </article>
     );
 };
