@@ -202,7 +202,7 @@ export const SidebarNavOverview: React.FC<ContentProps> = ({ title }) => {
             <Sandbox
                 title="Интерактивный макет сайдбара"
                 description="Попробуй взаимодействовать с фильтрами и кнопками — они работают как в реальном приложении."
-                instructions="Кликай на кнопки фильтров команд и контента, вводи текст в поиск, сворачивай секцию отключённых проектов."
+                instructions={["Кликай на кнопки фильтров команд и контента, вводи текст в поиск, сворачивай секцию отключённых проектов."]}
             >
             <div className="not-prose bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4 mb-6">
                 <p className="text-sm text-blue-900">
