@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ContentProps } from '../shared';
+import { ContentProps, NavigationButtons, Sandbox } from '../shared';
 
 // =====================================================================
 // Основной компонент: Элементы списка проектов
@@ -17,9 +17,9 @@ export const ProjectListItems: React.FC<ContentProps> = ({ title }) => {
                 Каждый проект в этом списке — это <strong>целый элемент управления</strong> с несколькими частями.
             </p>
 
-            <div className="not-prose bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-6">
-                <p className="text-sm text-indigo-800">
-                    <strong>Что это значит:</strong> Один элемент списка — это не просто текст, 
+            <div className="not-prose bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4 my-6">
+                <p className="text-sm text-blue-900">
+                    <strong>💡 Что это значит:</strong> Один элемент списка — это не просто текст, 
                     а целая кнопка с иконками, счётчиком и скрытыми действиями.
                 </p>
             </div>
@@ -122,7 +122,7 @@ export const ProjectListItems: React.FC<ContentProps> = ({ title }) => {
                                 <div className="space-y-3">
                                     <div className="flex items-start gap-3 pb-3 border-b border-purple-200">
                                         <div className="flex-shrink-0">
-                                            <svg className="w-5 h-5 text-purple-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <svg className="w-5 h-5 text-purple-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h5m11 2a9 9 0 11-2.064-5.364M20 4v5h-5" />
                                             </svg>
                                         </div>
@@ -138,7 +138,7 @@ export const ProjectListItems: React.FC<ContentProps> = ({ title }) => {
 
                                     <div className="flex items-start gap-3">
                                         <div className="flex-shrink-0">
-                                            <svg className="w-5 h-5 text-purple-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <svg className="w-5 h-5 text-purple-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924 1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                             </svg>
@@ -177,7 +177,7 @@ export const ProjectListItems: React.FC<ContentProps> = ({ title }) => {
 
                             <div className="bg-white rounded p-4 border border-amber-200 space-y-3">
                                 <div className="flex items-center gap-2">
-                                    <svg className="w-4 h-4 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <svg className="w-4 h-4 text-amber-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                         <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 3.001-1.742 3.001H4.42c-1.53 0-2.493-1.667-1.743-3.001l5.58-9.92zM10 13a1 1 0 100-2 1 1 0 000 2zm-1-4a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" />
                                     </svg>
                                     <span className="text-sm font-medium text-amber-900">Значок ошибки</span>
@@ -220,8 +220,8 @@ export const ProjectListItems: React.FC<ContentProps> = ({ title }) => {
                 {/* Часть 6: Disabled проекты */}
                 <div className="border-l-4 border-gray-500 pl-4 py-3 bg-gray-50">
                     <div className="flex items-start gap-3">
-                        <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <span className="text-lg font-bold text-orange-700">4</span>
+                        <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span className="text-lg font-bold text-gray-700">6</span>
                         </div>
                         <div>
                             <h3 className="font-bold text-gray-900 mb-2">Отключенные проекты</h3>
@@ -275,11 +275,12 @@ export const ProjectListItems: React.FC<ContentProps> = ({ title }) => {
             {/* Интерактивный пример */}
             <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Живой пример</h2>
 
-            <p className="!text-base !leading-relaxed !text-gray-700">
-                Наведи курсор на проекты ниже, чтобы увидеть кнопки в действии:
-            </p>
-
-            <div className="not-prose bg-gray-50 border border-gray-200 rounded-lg p-6 my-6">
+            <Sandbox
+                title="Интерактивный список проектов"
+                description="Наведи курсор на проекты, чтобы увидеть кнопки управления."
+                instructions={["Наводи мышку на каждый проект слева — появятся кнопки 'Обновить' и 'Настройки'."]}
+            >
+            <div className="not-prose bg-gray-50 border border-gray-200 rounded-lg p-6">
                 <div className="space-y-2 bg-white rounded border border-gray-300 p-4">
                     {[
                         { name: 'Изготовление автоключей | К...', count: 0, status: 'danger' },
@@ -304,13 +305,13 @@ export const ProjectListItems: React.FC<ContentProps> = ({ title }) => {
                                 {isHovered && (
                                     <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-gray-200 transition-transform duration-300 ease-in-out translate-x-0">
                                         <div className="absolute top-1/2 left-0 -translate-y-1/2 flex items-center pl-2 space-x-1">
-                                        <button className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800" title="Обновить">
-                                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <button className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800" title="Обновить" aria-label="Обновить проект">
+                                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h5m11 2a9 9 0 11-2.064-5.364M20 4v5h-5" />
                                             </svg>
                                         </button>
-                                        <button className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800" title="Настройки">
-                                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <button className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800" title="Настройки" aria-label="Настройки проекта">
+                                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924 1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                             </svg>
@@ -341,6 +342,7 @@ export const ProjectListItems: React.FC<ContentProps> = ({ title }) => {
                     <strong>Попробуй:</strong> Наведи мышку на проект слева — увидишь скрытые кнопки!
                 </p>
             </div>
+            </Sandbox>
 
             <hr className="!my-10" />
 
@@ -349,7 +351,7 @@ export const ProjectListItems: React.FC<ContentProps> = ({ title }) => {
 
             <div className="not-prose space-y-3 my-6">
                 <div className="flex items-start gap-3 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                    <svg className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                         <path fillRule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zm-11-1a1 1 0 11-2 0 1 1 0 012 0z" clipRule="evenodd" />
                     </svg>
                     <div>
@@ -362,7 +364,7 @@ export const ProjectListItems: React.FC<ContentProps> = ({ title }) => {
                 </div>
 
                 <div className="flex items-start gap-3 p-4 bg-green-50 border border-green-200 rounded-lg">
-                    <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
                     <div>
@@ -375,7 +377,7 @@ export const ProjectListItems: React.FC<ContentProps> = ({ title }) => {
                 </div>
 
                 <div className="flex items-start gap-3 p-4 bg-purple-50 border border-purple-200 rounded-lg">
-                    <svg className="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                         <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
                     </svg>
                     <div>
@@ -390,14 +392,89 @@ export const ProjectListItems: React.FC<ContentProps> = ({ title }) => {
 
             <hr className="!my-10" />
 
-            {/* Следующие шаги */}
-            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Далее</h2>
+            {/* FAQ */}
+            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Часто задаваемые вопросы</h2>
 
-            <p className="!text-base !leading-relaxed !text-gray-700">
-                Теперь ты знаешь, как устроен <strong>один элемент проекта</strong>. 
-                Дальше мы поговорим про <strong>счётчики постов</strong> более детально 
-                и про <strong>фильтры для поиска</strong> проектов в списке.
-            </p>
+            <div className="not-prose space-y-4 my-8">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Почему кнопки появляются только при наведении?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Это сделано для экономии места — в списке может быть 50+ проектов. Постоянно видимые кнопки 
+                        загромождали бы интерфейс. При наведении они появляются плавно слева, сдвигая название вправо.
+                    </p>
+                </details>
+
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Что означает красный счётчик с нулём?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Красный счётчик (0 постов) — это сигнал «Внимание! В проекте нет черновиков». Это напоминание, 
+                        что пора создать контент для этого сообщества. Зелёный счётчик (10+ постов) означает, что запас контента достаточный.
+                    </p>
+                </details>
+
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Можно ли скрыть отключённые проекты?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Да, отключённые проекты по умолчанию скрыты. Чтобы их увидеть, нужно активировать переключатель 
+                        «Показывать отключённые проекты» в секции фильтров сайдбара.
+                    </p>
+                </details>
+
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Что делать, если появился янтарный треугольник?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Янтарный треугольник — индикатор ошибки с токеном VK API или доступом к сообществу. Наведите на него курсор, 
+                        чтобы увидеть описание ошибки. Обычно нужно обновить токен в настройках проекта.
+                    </p>
+                </details>
+            </div>
+
+            <hr className="!my-10" />
+
+            {/* Итоги */}
+            <div className="not-prose bg-gray-100 border border-gray-300 rounded-lg p-6 my-8">
+                <h3 className="font-bold text-gray-900 text-lg mb-3">Итоги: что нужно запомнить</h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Элемент проекта состоит из 7 частей: название, счётчик, кнопки, индикаторы, отключённость и анимация.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Счётчик постов меняет цвет: красный = 0 постов, оранжевый = 1-4, серый = 5-10, зелёный = 10+.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Кнопки «Обновить» и «Настройки» появляются только при наведении курсора.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Янтарный треугольник — проблема с доступом, синяя точка — непрочитанные обновления.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Отключённые проекты серые с прозрачностью, видны только при активном фильтре.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <hr className="!my-10" />
+
+            {/* Совет эксперта */}
+            <div className="not-prose bg-gradient-to-r from-indigo-50 to-purple-50 border-l-4 border-indigo-500 p-6 rounded-r-lg my-8">
+                <div className="flex items-start gap-4">
+                    <div className="text-4xl">💡</div>
+                    <div>
+                        <h3 className="font-bold text-indigo-900 text-lg mb-2">Совет эксперта</h3>
+                        <p className="text-sm text-gray-700">
+                            Красные счётчики — твой главный индикатор для планирования контента. Проверяй сайдбар каждое утро 
+                            и создавай посты для проектов с красными/оранжевыми счётчиками. Цель — все счётчики зелёные или серые.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <NavigationButtons />
         </article>
     );
 };
