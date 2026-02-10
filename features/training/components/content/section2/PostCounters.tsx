@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { ContentProps } from '../shared';
+import { ContentProps, NavigationButtons, Sandbox } from '../shared';
 
 // =====================================================================
 // Основной компонент: Счётчики постов
 // =====================================================================
 export const PostCounters: React.FC<ContentProps> = ({ title }) => {
-    const [selectedCounter, setSelectedCounter] = useState<'0' | 'lt5' | '5-10' | 'gt10'>('0');
     const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
     return (
@@ -19,9 +18,9 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
                 Но это не просто число — <strong>цвет этого числа очень важен!</strong>
             </p>
 
-            <div className="not-prose bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-6">
-                <p className="text-sm text-indigo-800">
-                    <strong>Главное правило:</strong> Цвет счётчика — это сигнал от приложения. 
+            <div className="not-prose bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4 my-6">
+                <p className="text-sm text-blue-900">
+                    <strong>💡 Главное правило:</strong> Цвет счётчика — это сигнал от приложения. 
                     Красный = "Срочно!", Зелёный = "Всё OK".
                 </p>
             </div>
@@ -37,10 +36,7 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
 
             <div className="not-prose space-y-4 my-8">
                 {/* Статус 1: Красный */}
-                <div 
-                    className="border-l-4 border-red-400 pl-4 py-3 bg-red-50 cursor-pointer transition-all hover:shadow-md"
-                    onClick={() => setSelectedCounter('0')}
-                >
+                <div className="border-l-4 border-red-400 pl-4 py-3 bg-red-50">
                     <div className="flex items-start gap-3">
                         <div className="flex-shrink-0">
                             <span className="text-xs font-medium bg-gradient-to-t from-gray-300 to-red-200 text-red-900 px-2 py-0.5 rounded-full">0</span>
@@ -71,10 +67,7 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
                 </div>
 
                 {/* Статус 2: Оранжевый */}
-                <div 
-                    className="border-l-4 border-orange-400 pl-4 py-3 bg-orange-50 cursor-pointer transition-all hover:shadow-md"
-                    onClick={() => setSelectedCounter('lt5')}
-                >
+                <div className="border-l-4 border-orange-400 pl-4 py-3 bg-orange-50">
                     <div className="flex items-start gap-3">
                         <div className="flex-shrink-0">
                             <span className="text-xs font-medium bg-gradient-to-t from-gray-300 to-orange-200 text-orange-900 px-2 py-0.5 rounded-full">3</span>
@@ -105,10 +98,7 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
                 </div>
 
                 {/* Статус 3: Серый */}
-                <div 
-                    className="border-l-4 border-gray-400 pl-4 py-3 bg-gray-50 cursor-pointer transition-all hover:shadow-md"
-                    onClick={() => setSelectedCounter('5-10')}
-                >
+                <div className="border-l-4 border-gray-400 pl-4 py-3 bg-gray-50">
                     <div className="flex items-start gap-3">
                         <div className="flex-shrink-0">
                             <span className="text-xs bg-gray-300 text-gray-700 px-2 py-0.5 rounded-full">7</span>
@@ -139,10 +129,7 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
                 </div>
 
                 {/* Статус 4: Зелёный */}
-                <div 
-                    className="border-l-4 border-green-400 pl-4 py-3 bg-green-50 cursor-pointer transition-all hover:shadow-md"
-                    onClick={() => setSelectedCounter('gt10')}
-                >
+                <div className="border-l-4 border-green-400 pl-4 py-3 bg-green-50">
                     <div className="flex items-start gap-3">
                         <div className="flex-shrink-0">
                             <span className="text-xs font-medium bg-gradient-to-t from-gray-300 to-green-200 text-green-900 px-2 py-0.5 rounded-full">15</span>
@@ -232,7 +219,7 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
 
             <div className="not-prose space-y-3 my-6">
                 <div className="flex items-start gap-3 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                    <svg className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                         <path fillRule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zm-11-1a1 1 0 11-2 0 1 1 0 012 0z" clipRule="evenodd" />
                     </svg>
                     <div>
@@ -245,7 +232,7 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
                 </div>
 
                 <div className="flex items-start gap-3 p-4 bg-purple-50 border border-purple-200 rounded-lg">
-                    <svg className="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                         <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
                     </svg>
                     <div>
@@ -258,7 +245,7 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
                 </div>
 
                 <div className="flex items-start gap-3 p-4 bg-green-50 border border-green-200 rounded-lg">
-                    <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
                     <div>
@@ -271,7 +258,7 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
                 </div>
 
                 <div className="flex items-start gap-3 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                    <svg className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                         <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                     </svg>
                     <div>
@@ -289,7 +276,12 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
             {/* Пример реальной работы */}
             <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Пример в реальной работе</h2>
 
-            <div className="not-prose bg-gray-50 border border-gray-200 rounded-lg p-6 my-6">
+            <Sandbox
+                title="Интерактивный список с разными счётчиками"
+                description="Наведи курсор на проекты, чтобы увидеть кнопки управления. Обрати внимание на разные цвета счётчиков."
+                instructions={["Красный (0) — срочно создавать посты", "Оранжевый (3) — мало контента", "Серый (7) — нормально", "Зелёный (18) — отлично"]}
+            >
+            <div className="not-prose bg-gray-50 border border-gray-200 rounded-lg p-6">
                 <p className="text-sm text-gray-600 mb-4 font-semibold">Список проектов с разными счётчиками:</p>
                 
                 <div className="space-y-2 bg-white rounded border border-gray-300 p-4">
@@ -304,17 +296,19 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
                             <div className="absolute top-1/2 left-0 -translate-y-1/2 flex items-center pl-2 space-x-1">
                                 <button
                                     title="Обновить данные"
+                                    aria-label="Обновить данные проекта"
                                     className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h5m11 2a9 9 0 11-2.064-5.364M20 4v5h-5" />
                                     </svg>
                                 </button>
                                 <button
                                     title="Настройки"
+                                    aria-label="Настройки проекта"
                                     className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
@@ -337,17 +331,19 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
                             <div className="absolute top-1/2 left-0 -translate-y-1/2 flex items-center pl-2 space-x-1">
                                 <button
                                     title="Обновить данные"
+                                    aria-label="Обновить данные проекта"
                                     className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h5m11 2a9 9 0 11-2.064-5.364M20 4v5h-5" />
                                     </svg>
                                 </button>
                                 <button
                                     title="Настройки"
+                                    aria-label="Настройки проекта"
                                     className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
@@ -370,17 +366,19 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
                             <div className="absolute top-1/2 left-0 -translate-y-1/2 flex items-center pl-2 space-x-1">
                                 <button
                                     title="Обновить данные"
+                                    aria-label="Обновить данные проекта"
                                     className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h5m11 2a9 9 0 11-2.064-5.364M20 4v5h-5" />
                                     </svg>
                                 </button>
                                 <button
                                     title="Настройки"
+                                    aria-label="Настройки проекта"
                                     className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
@@ -403,17 +401,19 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
                             <div className="absolute top-1/2 left-0 -translate-y-1/2 flex items-center pl-2 space-x-1">
                                 <button
                                     title="Обновить данные"
+                                    aria-label="Обновить данные проекта"
                                     className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h5m11 2a9 9 0 11-2.064-5.364M20 4v5h-5" />
                                     </svg>
                                 </button>
                                 <button
                                     title="Настройки"
+                                    aria-label="Настройки проекта"
                                     className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
@@ -432,17 +432,95 @@ export const PostCounters: React.FC<ContentProps> = ({ title }) => {
                     первый проект срочно нужно наполнить, второй чуть отстаёт, остальное в норме.
                 </p>
             </div>
+            </Sandbox>
 
             <hr className="!my-10" />
 
-            {/* Следующие шаги */}
-            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Далее</h2>
+            {/* FAQ */}
+            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Часто задаваемые вопросы</h2>
 
-            <p className="!text-base !leading-relaxed !text-gray-700">
-                Отлично! Теперь ты знаешь, что значит каждый цвет счётчика. 
-                Дальше мы разберём <strong>фильтры и поиск</strong> — как быстро найти нужный проект 
-                в списке, если их много.
-            </p>
+            <div className="not-prose space-y-4 my-8">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Почему счётчик меняется, когда я переключаю вкладки?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Счётчик показывает количество постов в текущей вкладке. На вкладке «Отложенные» — количество черновиков, 
+                        на вкладке «Предложенные» — количество постов от других. Это нормально и помогает быстро понять, 
+                        сколько контента есть в каждой категории.
+                    </p>
+                </details>
+
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Можно ли изменить пороги для цветов счётчиков?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Нет, пороги зафиксированы: красный (0), оранжевый (1-4), серый (5-10), зелёный (10+). 
+                        Эти значения выбраны на основе оптимального контент-плана для сообществ.
+                    </p>
+                </details>
+
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Как быстро исправить все красные счётчики?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Используй фильтры в сайдбаре — выбери «Нет постов» (красный фильтр), чтобы увидеть только проекты с нулевым контентом. 
+                        Затем поочерёдно открывай их и создавай посты. Цель — вывести все проекты хотя бы на оранжевый уровень (1-4 поста).
+                    </p>
+                </details>
+
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Что делать, если у всех проектов зелёные счётчики?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Поздравляем! Это означает, что контент-план в отличном состоянии. Можешь сосредоточиться на качестве контента, 
+                        стратегии публикаций или работе с другими проектами. Зелёные счётчики — это идеальная ситуация.
+                    </p>
+                </details>
+            </div>
+
+            <hr className="!my-10" />
+
+            {/* Итоги */}
+            <div className="not-prose bg-gray-100 border border-gray-300 rounded-lg p-6 my-8">
+                <h3 className="font-bold text-gray-900 text-lg mb-3">Итоги: что нужно запомнить</h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Счётчик показывает количество постов, ожидающих публикации (черновики).</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Красный (0) = срочно, оранжевый (1-4) = мало, серый (5-10) = нормально, зелёный (10+) = отлично.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Цвет счётчика — это сигнал приоритета: красные проекты нужно обрабатывать первыми.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Счётчики обновляются автоматически при создании/публикации постов.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Используй фильтры в сайдбаре для быстрого поиска проектов с определённым уровнем контента.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <hr className="!my-10" />
+
+            {/* Совет эксперта */}
+            <div className="not-prose bg-gradient-to-r from-indigo-50 to-purple-50 border-l-4 border-indigo-500 p-6 rounded-r-lg my-8">
+                <div className="flex items-start gap-4">
+                    <div className="text-4xl">💡</div>
+                    <div>
+                        <h3 className="font-bold text-indigo-900 text-lg mb-2">Совет эксперта</h3>
+                        <p className="text-sm text-gray-700">
+                            Каждое утро проверяй сайдбар и смотри на цвета счётчиков. Если видишь красные или оранжевые — 
+                            выдели 15-30 минут на создание постов для этих проектов. Цель — все счётчики минимум серые, 
+                            а лучше зелёные. Это гарантирует стабильную публикацию контента и отсутствие «провалов».
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <NavigationButtons />
         </article>
     );
 };
