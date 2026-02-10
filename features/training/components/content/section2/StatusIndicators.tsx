@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ContentProps, NavigationButtons } from '../shared';
+import { ContentProps, NavigationButtons, Sandbox } from '../shared';
 
 // =====================================================================
 // Основной компонент: Индикаторы состояния проектов
@@ -17,9 +17,9 @@ export const StatusIndicators: React.FC<ContentProps> = ({ title }) => {
                 Эти иконки помогают быстро понять, есть ли проблемы с проектом или если там произошли изменения.
             </p>
 
-            <div className="not-prose bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-6">
-                <p className="text-sm text-indigo-800">
-                    <strong>Зачем это нужно:</strong> Вместо того, чтобы заходить в каждый проект и проверять, 
+            <div className="not-prose bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4 my-6">
+                <p className="text-sm text-blue-900">
+                    <strong>💡 Зачем это нужно:</strong> Вместо того, чтобы заходить в каждый проект и проверять, 
                     сразу видишь по иконке — всё ли там нормально.
                 </p>
             </div>
@@ -38,7 +38,7 @@ export const StatusIndicators: React.FC<ContentProps> = ({ title }) => {
                 <div className="border-l-4 border-amber-400 pl-4 py-3 bg-amber-50">
                     <div className="flex items-start gap-3">
                         <div className="flex-shrink-0">
-                            <svg className="w-8 h-8 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
+                            <svg className="w-8 h-8 text-amber-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                 <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 3.001-1.742 3.001H4.42c-1.53 0-2.493-1.667-1.743-3.001l5.58-9.92zM10 13a1 1 0 100-2 1 1 0 000 2zm-1-4a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" />
                             </svg>
                         </div>
@@ -105,7 +105,12 @@ export const StatusIndicators: React.FC<ContentProps> = ({ title }) => {
             {/* Интерактивный пример */}
             <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Как это выглядит в интерфейсе?</h2>
 
-            <div className="not-prose bg-gray-50 border border-gray-200 rounded-lg p-6 my-6">
+            <Sandbox
+                title="Интерактивный список с индикаторами"
+                description="Наведи курсор на проекты, чтобы увидеть кнопки управления и индикаторы состояния."
+                instructions={["Проект 1 — нормальное состояние (зелёный счётчик)", "Проект 2 — ошибка доступа (янтарный треугольник)", "Проект 3 — есть обновления (синяя точка)"]}
+            >
+            <div className="not-prose bg-gray-50 border border-gray-200 rounded-lg p-6">
                 <p className="text-sm text-gray-600 mb-4 font-semibold">Пример списка проектов:</p>
                 
                 <div className="space-y-2 bg-white rounded border border-gray-300 p-4">
@@ -154,17 +159,19 @@ export const StatusIndicators: React.FC<ContentProps> = ({ title }) => {
                             <div className="absolute top-1/2 left-0 -translate-y-1/2 flex items-center pl-2 space-x-1">
                                 <button
                                     title="Обновить данные"
+                                    aria-label="Обновить данные проекта"
                                     className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h5m11 2a9 9 0 11-2.064-5.364M20 4v5h-5" />
                                     </svg>
                                 </button>
                                 <button
                                     title="Настройки"
+                                    aria-label="Настройки проекта"
                                     className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
@@ -175,7 +182,7 @@ export const StatusIndicators: React.FC<ContentProps> = ({ title }) => {
                             <div className="flex items-center min-w-0">
                                 <span className="truncate pr-1">Тестовое сообщество</span>
                                 <div title="Проблема с доступом. Проверьте права токена." className="text-amber-500 flex-shrink-0">
-                                    <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                         <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 3.001-1.742 3.001H4.42c-1.53 0-2.493-1.667-1.743-3.001l5.58-9.92zM10 13a1 1 0 100-2 1 1 0 000 2zm-1-4a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" />
                                     </svg>
                                 </div>
@@ -195,17 +202,19 @@ export const StatusIndicators: React.FC<ContentProps> = ({ title }) => {
                             <div className="absolute top-1/2 left-0 -translate-y-1/2 flex items-center pl-2 space-x-1">
                                 <button
                                     title="Обновить данные"
+                                    aria-label="Обновить данные проекта"
                                     className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h5m11 2a9 9 0 11-2.064-5.364M20 4v5h-5" />
                                     </svg>
                                 </button>
                                 <button
                                     title="Настройки"
+                                    aria-label="Настройки проекта"
                                     className="p-2 text-gray-500 rounded-full hover:bg-gray-300 hover:text-gray-800"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
@@ -226,6 +235,7 @@ export const StatusIndicators: React.FC<ContentProps> = ({ title }) => {
                     <strong>Подсказка:</strong> Наводи курсор на проект — для действий (обновить, настройки) появятся дополнительные кнопки.
                 </p>
             </div>
+            </Sandbox>
 
             <hr className="!my-10" />
 
@@ -234,7 +244,7 @@ export const StatusIndicators: React.FC<ContentProps> = ({ title }) => {
 
             <div className="not-prose space-y-3 my-6">
                 <div className="flex items-start gap-3 p-4 bg-purple-50 border border-purple-200 rounded-lg">
-                    <svg className="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                         <path fillRule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zm-11-1a1 1 0 11-2 0 1 1 0 012 0z" clipRule="evenodd" />
                     </svg>
                     <div>
@@ -247,7 +257,7 @@ export const StatusIndicators: React.FC<ContentProps> = ({ title }) => {
                 </div>
 
                 <div className="flex items-start gap-3 p-4 bg-green-50 border border-green-200 rounded-lg">
-                    <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
                     <div>
@@ -262,14 +272,91 @@ export const StatusIndicators: React.FC<ContentProps> = ({ title }) => {
 
             <hr className="!my-10" />
 
-            {/* Следующие шаги */}
-            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Далее</h2>
+            {/* FAQ */}
+            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Часто задаваемые вопросы</h2>
 
-            <p className="!text-base !leading-relaxed !text-gray-700">
-                Теперь, когда ты знаешь про индикаторы, давайте посмотрим на 
-                <strong> счётчики постов</strong> — те цифры справа от названия проекта, 
-                которые показывают, сколько там черновиков и отложенных постов.
-            </p>
+            <div className="not-prose space-y-4 my-8">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Что делать, если индикатор не исчезает?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Янтарный треугольник останется, пока вы не исправите проблему с токеном в настройках проекта. 
+                        Синяя точка исчезнет автоматически при переключении на проект — система загрузит свежие данные.
+                    </p>
+                </details>
+
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Может ли быть два индикатора одновременно?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Да, проект может иметь и ошибку доступа (треугольник), и непрочитанные обновления (точка). 
+                        В таком случае оба значка будут отображаться рядом с названием.
+                    </p>
+                </details>
+
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Как часто появляется синяя точка?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Синяя точка появляется каждый раз, когда на сервере VK происходят изменения: новый пост, 
+                        изменение отложенных постов, обновление данных сообщества. Точка исчезает при открытии проекта.
+                    </p>
+                </details>
+
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">Почему треугольник янтарный, а не красный?</summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Янтарный (жёлто-оранжевый) цвет используется для предупреждений — это проблема, но не критическая. 
+                        Проект остаётся в списке, и вы можете исправить токен в любой момент. Красный цвет зарезервирован 
+                        для более серьёзных ошибок.
+                    </p>
+                </details>
+            </div>
+
+            <hr className="!my-10" />
+
+            {/* Итоги */}
+            <div className="not-prose bg-gray-100 border border-gray-300 rounded-lg p-6 my-8">
+                <h3 className="font-bold text-gray-900 text-lg mb-3">Итоги: что нужно запомнить</h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Янтарный треугольник = ошибка доступа к VK API, нужно обновить токен в настройках.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Синяя точка = есть обновления, исчезнет при открытии проекта.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Нет индикатора = всё в порядке, проект работает нормально.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Индикаторы помогают видеть состояние всех проектов без входа в каждый из них.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Можно навести на индикатор курсор — появится подсказка с деталями.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <hr className="!my-10" />
+
+            {/* Совет эксперта */}
+            <div className="not-prose bg-gradient-to-r from-indigo-50 to-purple-50 border-l-4 border-indigo-500 p-6 rounded-r-lg my-8">
+                <div className="flex items-start gap-4">
+                    <div className="text-4xl">💡</div>
+                    <div>
+                        <h3 className="font-bold text-indigo-900 text-lg mb-2">Совет эксперта</h3>
+                        <p className="text-sm text-gray-700">
+                            Проверяй индикаторы каждое утро перед началом работы. Если видишь янтарные треугольники — 
+                            сразу исправь доступ, чтобы не потерять данные. Синие точки показывают активность — 
+                            это сигнал проверить, не появилось ли что-то важное в сообществе.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <NavigationButtons />
         </article>
     );
 };
