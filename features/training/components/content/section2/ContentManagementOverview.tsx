@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { ContentProps } from '../shared';
-import { Sandbox } from '../SharedComponents';
+import { ContentProps, Sandbox, NavigationButtons } from '../shared';
 
 // =====================================================================
 // Основной компонент: Обзор модуля "Контент-менеджмент"
@@ -60,8 +59,8 @@ export const ContentManagementOverview: React.FC<ContentProps> = ({ title }) => 
                 для планирования, создания и управления контентом.
             </p>
 
-            <div className="not-prose bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-6">
-                <p className="text-sm text-indigo-800">
+            <div className="not-prose bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4 my-6">
+                <p className="text-sm text-blue-900">
                     <strong>Главная идея:</strong> Модуль объединяет три основных типа контента 
                     (отложенные посты, предложенные посты, товары) плюс инструменты автоматизации в одном удобном интерфейсе. 
                     Выбрал проект в сайдбаре → переключил вкладку → работаешь с нужным типом контента.
@@ -82,7 +81,7 @@ export const ContentManagementOverview: React.FC<ContentProps> = ({ title }) => 
                 <div className="border-l-4 border-indigo-400 pl-4 py-3 bg-indigo-50">
                     <div className="flex items-start gap-3">
                         <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <svg className="w-5 h-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <svg className="w-5 h-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                         </div>
@@ -104,7 +103,7 @@ export const ContentManagementOverview: React.FC<ContentProps> = ({ title }) => 
                 <div className="border-l-4 border-purple-400 pl-4 py-3 bg-purple-50">
                     <div className="flex items-start gap-3">
                         <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <svg className="w-5 h-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <svg className="w-5 h-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                             </svg>
                         </div>
@@ -126,7 +125,7 @@ export const ContentManagementOverview: React.FC<ContentProps> = ({ title }) => 
                 <div className="border-l-4 border-green-400 pl-4 py-3 bg-green-50">
                     <div className="flex items-start gap-3">
                         <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <svg className="w-5 h-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <svg className="w-5 h-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                             </svg>
                         </div>
@@ -148,7 +147,7 @@ export const ContentManagementOverview: React.FC<ContentProps> = ({ title }) => 
                 <div className="border-l-4 border-amber-400 pl-4 py-3 bg-amber-50">
                     <div className="flex items-start gap-3">
                         <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <svg className="w-5 h-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <svg className="w-5 h-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                             </svg>
                         </div>
@@ -310,18 +309,21 @@ export const ContentManagementOverview: React.FC<ContentProps> = ({ title }) => 
                                     <button 
                                         onClick={() => setTeamFilter('В')}
                                         className={`px-2.5 py-1 text-xs bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 font-medium transition-all ${teamFilter === 'В' ? 'ring-2 ring-indigo-500' : ''}`}
+                                        aria-label="Фильтр по команде В"
                                     >
                                         В
                                     </button>
                                     <button 
                                         onClick={() => setTeamFilter('С')}
                                         className={`px-2.5 py-1 text-xs bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 font-medium transition-all ${teamFilter === 'С' ? 'ring-2 ring-indigo-500' : ''}`}
+                                        aria-label="Фильтр по команде С"
                                     >
                                         С
                                     </button>
                                     <button 
                                         onClick={() => setTeamFilter('А')}
                                         className={`px-2.5 py-1 text-xs bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 font-medium transition-all ${teamFilter === 'А' ? 'ring-2 ring-indigo-500' : ''}`}
+                                        aria-label="Фильтр по команде А"
                                     >
                                         А
                                     </button>
@@ -801,12 +803,90 @@ export const ContentManagementOverview: React.FC<ContentProps> = ({ title }) => 
                 </div>
             </div>
 
-            <div className="not-prose bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-6">
-                <p className="text-sm text-indigo-800">
-                    <strong>Совет:</strong> Начни с раздела 2.1 "Вкладка Отложенные" — это самая используемая 
-                    часть модуля, где ты будешь проводить больше всего времени.
-                </p>
+            <hr className="!my-10" />
+
+            {/* FAQ */}
+            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Часто задаваемые вопросы</h2>
+            <div className="not-prose space-y-4 my-8">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Как переключаться между проектами?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Используйте сайдбар проектов (вторая колонка). Просто кликните по нужному проекту в списке, и рабочая область обновится.
+                    </p>
+                </details>
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Зачем нужны фильтры в сайдбаре проектов?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Фильтры помогают быстро найти нужные проекты. Вы можете фильтровать по команде (В, С, А) или по количеству отложенных постов (пустые, 1-5, более 10).
+                    </p>
+                </details>
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Что означают цветные счётчики рядом с проектами?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Счётчики показывают количество отложенных постов: красный — нет постов (0), оранжевый — мало постов (1-4), зелёный — много постов (больше 10), серый — средне (5-10).
+                    </p>
+                </details>
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Можно ли работать с несколькими проектами одновременно?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
+                        Нет, в рабочей области отображается только один проект за раз. Но вы можете быстро переключаться между проектами через сайдбар.
+                    </p>
+                </details>
             </div>
+
+            <hr className="!my-10" />
+
+            {/* Совет эксперта */}
+            <div className="not-prose bg-gradient-to-r from-indigo-50 to-purple-50 border-l-4 border-indigo-500 p-6 rounded-r-lg my-8">
+                <div className="flex items-start gap-4">
+                    <div className="text-4xl">💡</div>
+                    <div>
+                        <h3 className="font-bold text-indigo-900 text-lg mb-2">Совет эксперта</h3>
+                        <p className="text-sm text-gray-700">
+                            Начни с раздела 2.1 "Вкладка Отложенные" — это самая используемая часть модуля, где ты будешь проводить больше всего времени. Изучи работу с календарём, и остальные вкладки покажутся простыми.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <hr className="!my-10" />
+
+            {/* Итоги */}
+            <div className="not-prose bg-gray-100 border border-gray-300 rounded-lg p-6 my-8">
+                <h3 className="font-bold text-gray-900 text-lg mb-3">Итоги: что нужно запомнить</h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Модуль состоит из 3 вкладок (Отложенные, Предложенные, Товары) + секция Автоматизации</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Интерфейс имеет 3 колонки: главная панель, сайдбар проектов, рабочая область</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Сайдбар проектов общий для всех вкладок — фильтруй, ищи, переключайся</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Цветные счётчики помогают быстро оценить количество контента в проекте</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Рабочая область меняется в зависимости от выбранной вкладки</span>
+                    </li>
+                </ul>
+            </div>
+
+            <NavigationButtons currentPath="2-content-management" />
         </article>
     );
 };
