@@ -46,6 +46,7 @@ import { CreateNoteButton } from './content/section2/CreateNoteButton';
 import { CalendarHeaderOverview } from './content/section2/CalendarHeaderOverview';
 import { PostsInCalendar } from './content/section2/PostsInCalendar';
 import { PostTypes } from './content/section2/PostTypes';
+import { PublishedPost } from './content/section2/PublishedPost';
 
 // Lazy-загрузка для больших компонентов раздела календаря
 const CalendarGrid = lazy(async () => {
@@ -124,6 +125,7 @@ const componentMap: Record<string, React.FC<{ title: string }>> = {
     '2-1-3-4-quick-note': QuickNote,
     '2-1-4-posts-in-calendar': PostsInCalendar,
     '2-1-4-1-post-types': PostTypes,
+    '2-1-4-2-published-post': PublishedPost,
     '2-4-3-postcard-deep-dive': PostCardDeepDive,
     '2-1-sidebar-nav': SidebarNavDeepDive,
 };
