@@ -88,8 +88,8 @@ export const PostTypes: React.FC<ContentProps> = ({ title }) => {
         <li>✅ <strong>Просмотр</strong> — открывает карточку поста с подробностями</li>
         <li>✅ <strong>Копировать</strong> — создаёт новый системный пост с таким же содержимым</li>
         <li>✅ <strong>Посмотреть на стене ВК</strong> — переход по ссылке на публикацию (если есть vkPostUrl)</li>
-        <li>❌ <strong>Редактирование</strong> — невозможно, изменения нужно делать непосредственно в ВКонтакте</li>
-        <li>❌ <strong>Удаление</strong> — недоступно через приложение, только через интерфейс ВКонтакте</li>
+        <li>✅ <strong>Редактирование</strong> — доступно через приложение (изменения применяются к источнику в ВКонтакте)</li>
+        <li>✅ <strong>Удаление</strong> — удаляет публикацию через API ВКонтакте</li>
       </ul>
 
       <hr className="!my-10" />
@@ -161,7 +161,7 @@ export const PostTypes: React.FC<ContentProps> = ({ title }) => {
         <li><strong>Циклические публикации:</strong> автоматическое повторение публикаций с настройкой интервала, количества повторов и дня недели</li>
         <li><strong>Автоматизации:</strong> автоматическое создание постов для конкурсов, AI-ленты, универсальных конкурсов</li>
         <li><strong>AI-генерация:</strong> сохранение параметров генерации контента с использованием искусственного интеллекта</li>
-        <li><strong>Глобальные переменные:</strong> динамическая подстановка данных в текст поста через синтаксис <code>{'{{global_key}}'}</code></li>
+        <li><strong>Глобальные переменные:</strong> динамическая подстановка данных в текст поста через синтаксис <code>{'{global_key}'}</code></li>
         <li><strong>Статусы жизненного цикла:</strong> отслеживание состояния публикации (ожидание, публикация, ошибка)</li>
       </ul>
 
@@ -333,13 +333,13 @@ export const PostTypes: React.FC<ContentProps> = ({ title }) => {
             </tr>
             <tr>
               <td className="border border-gray-300 px-4 py-2 font-medium">Редактирование</td>
-              <td className="border border-gray-300 px-4 py-2">❌</td>
+              <td className="border border-gray-300 px-4 py-2">✅ (через API VK)</td>
               <td className="border border-gray-300 px-4 py-2">✅ (через API VK)</td>
               <td className="border border-gray-300 px-4 py-2">✅ (локально)</td>
             </tr>
             <tr>
               <td className="border border-gray-300 px-4 py-2 font-medium">Удаление</td>
-              <td className="border border-gray-300 px-4 py-2">❌ (только через VK)</td>
+              <td className="border border-gray-300 px-4 py-2">✅ (через API VK)</td>
               <td className="border border-gray-300 px-4 py-2">✅ (через API VK)</td>
               <td className="border border-gray-300 px-4 py-2">✅ (локально)</td>
             </tr>
@@ -384,10 +384,10 @@ export const PostTypes: React.FC<ContentProps> = ({ title }) => {
 
       <details className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-4">
         <summary className="cursor-pointer font-semibold text-gray-900">
-          Почему нельзя редактировать опубликованные посты?
+          Можно ли редактировать опубликованные посты?
         </summary>
         <p className="mt-2 text-gray-700">
-          Опубликованные посты хранятся только на серверах ВКонтакте. Приложение синхронизирует их для отображения в календаре, но не имеет прямого доступа к редактированию. Чтобы изменить опубликованный пост, откройте его на стене сообщества в интерфейсе ВКонтакте.
+          Да, опубликованные посты можно редактировать и удалять через приложение. Изменения отправляются на серверы ВКонтакте через API и применяются к оригинальной публикации на стене сообщества. Приложение синхронизирует опубликованные посты для отображения в календаре и предоставляет полный набор действий для управления ими.
         </p>
       </details>
 

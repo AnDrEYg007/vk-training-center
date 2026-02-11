@@ -23,80 +23,117 @@ export const MockPostCard: React.FC<MockPostCardProps> = ({
   const isScheduled = type === 'scheduled';
   const isSystem = type === 'system';
 
-  // Цвета рамки для автоматизаций
+  // Цвета рамки и фона для автоматизаций
   const automationBorderColors: Record<string, string> = {
-    contest_winner: 'border-fuchsia-400',
-    ai_feed: 'border-indigo-400',
-    general_contest_start: 'border-sky-400',
-    general_contest_result: 'border-orange-400',
+    contest_winner: 'border-fuchsia-300 bg-fuchsia-50/40',
+    ai_feed: 'border-indigo-300 bg-indigo-50/40',
+    general_contest_start: 'border-sky-300 bg-sky-50/40',
+    general_contest_result: 'border-orange-300 bg-orange-50/40',
   };
 
-  // Бейджи для автоматизаций
-  const automationBadges: Record<string, { text: string; color: string }> = {
-    contest_winner: { text: 'КОНКУРС', color: 'bg-fuchsia-500' },
-    ai_feed: { text: 'AI AUTO', color: 'bg-indigo-500' },
-    general_contest_start: { text: 'КОНКУРС', color: 'bg-sky-500' },
-    general_contest_result: { text: 'ИТОГИ', color: 'bg-orange-500' },
+  // Бейджи для автоматизаций (соответствуют реальному PostCard)
+  const getAutomationBadge = (postType: string) => {
+    switch (postType) {
+      case 'contest_winner':
+        return (
+          <div className="bg-fuchsia-100 text-fuchsia-700 rounded-full px-1.5 py-0.5 border border-fuchsia-200 shadow-sm flex items-center gap-1" title="Конкурс отзывов">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
+            </svg>
+            <span className="text-[9px] font-bold uppercase tracking-wider">Конкурс</span>
+          </div>
+        );
+      case 'ai_feed':
+        return (
+          <div className="bg-indigo-100 text-indigo-700 rounded-full px-1.5 py-0.5 border border-indigo-200 shadow-sm flex items-center gap-1" title="Автоматическая AI генерация">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
+            </svg>
+            <span className="text-[9px] font-bold uppercase tracking-wider">AI Auto</span>
+          </div>
+        );
+      case 'general_contest_start':
+        return (
+          <div className="bg-sky-100 text-sky-700 rounded-full px-1.5 py-0.5 border border-sky-200 shadow-sm flex items-center gap-1" title="Универсальный конкурс: Старт">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
+            </svg>
+            <span className="text-[9px] font-bold uppercase tracking-wider">Конкурс</span>
+          </div>
+        );
+      case 'general_contest_result':
+        return (
+          <div className="bg-orange-100 text-orange-700 rounded-full px-1.5 py-0.5 border border-orange-200 shadow-sm flex items-center gap-1" title="Универсальный конкурс: Итоги">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11 4a1 1 0 10-2 0v4a1 1 0 102 0V7zm-3 5a1 1 0 11-2 0 1 1 0 012 0z" clipRule="evenodd" />
+            </svg>
+            <span className="text-[9px] font-bold uppercase tracking-wider">Итоги</span>
+          </div>
+        );
+      default:
+        return null;
+    }
   };
 
-  // Иконки статусов системного поста
-  const statusIcons: Record<string, { icon: string; color: string }> = {
-    pending_publication: { icon: '🕒', color: 'bg-blue-100 text-blue-600' },
-    publishing: { icon: '⚙️', color: 'bg-yellow-100 text-yellow-600' },
-    possible_error: { icon: '⚠️', color: 'bg-orange-100 text-orange-600' },
-    error: { icon: '❌', color: 'bg-red-100 text-red-600' },
+  // SVG иконки статусов системного поста (соответствуют реальному PostCard)
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'pending_publication':
+        return <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>;
+      case 'publishing':
+        return <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-500 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>;
+      case 'possible_error':
+        return <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 3.001-1.742 3.001H4.42c-1.53 0-2.493-1.667-1.743-3.001l5.58-9.92zM10 13a1 1 0 100-2 1 1 0 000 2zm-1-4a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" /></svg>;
+      case 'error':
+        return <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" /></svg>;
+      default:
+        return null;
+    }
   };
 
   const borderStyle = isSystem 
-    ? (postType !== 'regular' ? automationBorderColors[postType] : 'border-gray-300 border-dashed')
-    : 'border-gray-300';
+    ? (postType !== 'regular' ? automationBorderColors[postType] : 'border-gray-400 border-dashed')
+    : 'border-gray-200';
 
-  const showAutomationBadge = isSystem && postType !== 'regular' && automationBadges[postType];
+  const showAutomationBadge = isSystem && postType !== 'regular';
   const showStatusIcon = isSystem;
 
   return (
-    <div className={`relative rounded-lg border-2 ${borderStyle} bg-white p-4 transition-all hover:shadow-md`}>
+    <div className={`relative group rounded-lg border ${borderStyle} bg-white p-2.5 transition-all hover:shadow-md`}>
       {/* Полупрозрачный оверлей для опубликованных */}
       {isPublished && (
-        <div className="absolute inset-0 bg-gradient-to-b from-white/80 to-white/40 rounded-lg pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-white/80 to-white/10 rounded-lg pointer-events-none group-hover:opacity-0 transition-opacity duration-300" />
       )}
 
       {/* Иконка опубликованного поста */}
       {isPublished && (
-        <div className="absolute top-2 left-2 z-10">
-          <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center">
-            <svg className="h-4 w-4 text-green-500" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-            </svg>
-          </div>
+        <div className="absolute top-2 left-2 z-10 group-hover:opacity-0 transition-opacity duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-500 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
         </div>
       )}
 
       {/* Иконка статуса системного поста */}
       {showStatusIcon && (
-        <div className="absolute top-2 left-2 z-10">
-          <div className={`h-7 w-7 rounded-full ${statusIcons[status].color} flex items-center justify-center text-sm font-semibold`}>
-            <span aria-label={`Статус: ${status}`}>{statusIcons[status].icon}</span>
-          </div>
+        <div className="absolute top-2 left-2 z-10" title={`Статус: ${status}`}>
+          {getStatusIcon(status)}
         </div>
       )}
 
       {/* Бейдж циклического поста */}
       {isCyclic && (
-        <div className="absolute top-2 right-2 z-10">
-          <div className="px-2 py-1 rounded bg-purple-100 text-purple-700 text-xs font-semibold flex items-center gap-1">
-            <span aria-hidden="true">🔄</span>
-            <span>Циклический</span>
-          </div>
+        <div className="absolute top-[-8px] right-[-8px] bg-indigo-100 text-indigo-600 rounded-full p-1 border border-indigo-200 shadow-sm z-10" title="Циклическая публикация">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
         </div>
       )}
 
       {/* Бейдж автоматизации */}
       {showAutomationBadge && (
-        <div className="absolute top-2 right-2 z-10">
-          <div className={`px-2 py-1 rounded ${automationBadges[postType].color} text-white text-xs font-semibold`}>
-            {automationBadges[postType].text}
-          </div>
+        <div className="absolute top-[-8px] right-[-4px] z-10">
+          {getAutomationBadge(postType)}
         </div>
       )}
 
@@ -186,10 +223,10 @@ export const PostTypeComparison: React.FC<PostTypeComparisonProps> = ({
         <ul className="space-y-1 text-sm text-gray-700">
           {selectedType === 'published' && (
             <>
-              <li>✅ Зелёная галочка в левом верхнем углу</li>
-              <li>📊 Сплошная серая рамка с полупрозрачным оверлеем</li>
+              <li>✅ Зелёная галочка в левом верхнем углу (исчезает при наведении)</li>
+              <li>📊 Сплошная серая рамка с полупрозрачным оверлеем (горизонтальный градиент)</li>
               <li>📤 Уже опубликован на стене ВКонтакте</li>
-              <li>🔒 Редактирование и удаление только через ВКонтакте</li>
+              <li>✏️ Можно редактировать и удалять через API ВКонтакте</li>
               <li>📋 Можно копировать (создаёт системный пост)</li>
             </>
           )}
