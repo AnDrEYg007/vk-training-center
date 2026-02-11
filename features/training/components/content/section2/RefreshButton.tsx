@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ContentProps } from '../shared';
+import { ContentProps, NavigationButtons, Sandbox } from '../shared';
 
 export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -31,9 +31,9 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
                 это целое раздвижное меню с разными вариантами обновления.
             </p>
 
-            <div className="not-prose bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-6">
-                <p className="text-sm text-indigo-800">
-                    <strong>Главная идея:</strong> Вместо того, чтобы обновлять всё подряд (что занимает время), 
+            <div className="not-prose bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4 my-6">
+                <p className="text-sm text-blue-900">
+                    <strong>💡 Главная идея:</strong> Вместо того, чтобы обновлять всё подряд (что занимает время), 
                     ты можешь обновить только нужный тип данных (опубликованные, отложенные, системные и т.д.).
                 </p>
             </div>
@@ -259,12 +259,12 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
             {/* Интерактивная демонстрация */}
             <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Интерактивная демонстрация</h2>
 
-            <p className="!text-base !leading-relaxed !text-gray-700 mb-6">
-                Ниже находится <strong>макет кнопки "Обновить"</strong> с работающим раздвижным меню. 
-                Попробуй нажать на кнопку и выбрать один из вариантов:
-            </p>
-
-            <div className="not-prose bg-gray-50 border border-gray-300 rounded-lg p-6 my-8">
+            <Sandbox
+                title="Кнопка «Обновить» с раздвижным меню"
+                description="Ниже находится макет кнопки «Обновить» с работающим раздвижным меню. Попробуй нажать на кнопку и выбрать один из вариантов обновления."
+                instructions={["Нажми на кнопку «Обновить», чтобы раскрыть меню вариантов", "Выбери один из 7 вариантов обновления (Опубликованные, Отложенные VK, и т.д.)", "Обрати внимание, как меню раздвигается вправо и показывает результат обновления"]}
+            >
+            <div className="not-prose bg-gray-50 border border-gray-300 rounded-lg p-6">
                 <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
                     {/* Шапка календаря */}
                     <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
@@ -275,9 +275,10 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
                         <div className="relative">
                             <button
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                aria-expanded={isDropdownOpen}
                                 className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors shadow-sm"
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h5m11 2a9 9 0 11-2.064-5.364M20 4v5h-5" />
                                 </svg>
                                 <span>Обновить</span>
@@ -295,6 +296,7 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
                                                 onClick={() => handleRefresh(option.id)}
                                                 className="px-3 py-1 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
                                                 title={option.description}
+                                                aria-label={`Обновить: ${option.label}`}
                                             >
                                                 {option.label}
                                             </button>
@@ -330,6 +332,7 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
                     Нажми на кнопку и выбери тип данных для обновления
                 </p>
             </div>
+            </Sandbox>
 
             <hr className="!my-10" />
 
@@ -399,74 +402,113 @@ export const RefreshButton: React.FC<ContentProps> = ({ title }) => {
             <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Частые вопросы</h2>
 
             <div className="not-prose space-y-4 my-6">
-                <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">Почему я не вижу только что созданный пост?</p>
-                    <p className="text-sm text-gray-700">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Почему я не вижу только что созданный пост?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
                         Скорее всего, ты создал его через VK или другой интерфейс. 
                         Нажми <strong>"Обновить → Опубликованные"</strong> (если пост уже на стене) 
                         или <strong>"Обновить → Отложенные VK"</strong> (если пост отложен).
                     </p>
-                </div>
+                </details>
 
-                <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">Как часто нужно нажимать "Обновить"?</p>
-                    <p className="text-sm text-gray-700">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Как часто нужно нажимать "Обновить"?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
                         Приложение <strong>автоматически проверяет наличие обновлений</strong> каждые 5 секунд. 
                         Но если работаешь в команде или что-то изменил вручную в VK, 
                         лучше нажать "Обновить" сразу для мгновенной синхронизации.
                     </p>
-                </div>
+                </details>
 
-                <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">Что быстрее: "Все сразу" или несколько раз точечно?</p>
-                    <p className="text-sm text-gray-700">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Что быстрее: "Все сразу" или несколько раз точечно?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
                         <strong>Точечное обновление быстрее!</strong> Если тебе нужно обновить только системные посты, 
                         нажми "Обновить → Системные". Не нужно загружать всё подряд.
                     </p>
-                </div>
+                </details>
 
-                <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">Можно ли обновить данные для конкретного проекта?</p>
-                    <p className="text-sm text-gray-700">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Можно ли обновить данные для конкретного проекта?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
                         Да! В сайдбаре проектов (слева) наведи на проект и нажми <strong>иконку обновления (стрелки)</strong>. 
                         Это обновит данные только для этого сообщества, не затрагивая остальные.
                     </p>
-                </div>
+                </details>
 
-                <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">Что делать, если обновление "зависло"?</p>
-                    <p className="text-sm text-gray-700">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Что делать, если обновление "зависло"?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
                         Обычно обновление занимает 2-5 секунд. Если прошло больше 10 секунд, 
                         попробуй <strong>обновить страницу браузера</strong> (F5) и попробуй снова.
                     </p>
-                </div>
+                </details>
 
-                <div className="bg-amber-50 border-l-4 border-amber-400 pl-4 py-3 rounded-r-lg">
-                    <p className="font-bold text-amber-900 mb-2">Отличается ли обновление для разных типов постов?</p>
-                    <p className="text-sm text-gray-700">
+                <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <summary className="font-bold text-gray-900 cursor-pointer">
+                        Отличается ли обновление для разных типов постов?
+                    </summary>
+                    <p className="text-sm text-gray-700 mt-2">
                         Да! <strong>"Опубликованные"</strong> загружаются с VK API (wall.get), 
                         <strong>"Отложенные VK"</strong> — через wall.getScheduled, 
                         а <strong>"Системные"</strong> — из нашей базы данных на сервере.
                     </p>
-                </div>
+                </details>
+            </div>
+
+            <hr className="!my-10" />
+
+            {/* Итоги */}
+            <div className="not-prose bg-gray-100 border border-gray-300 rounded-lg p-6 space-y-3">
+                <p className="font-bold text-gray-900 text-lg mb-4">Итоги</p>
+                <p className="text-sm text-gray-700">
+                    <span className="text-indigo-600 font-bold">•</span> Кнопка «Обновить» имеет 7 типов обновления: Опубликованные, Отложенные VK, Системные, Истории, Теги, Заметки и «Все сразу»
+                </p>
+                <p className="text-sm text-gray-700">
+                    <span className="text-indigo-600 font-bold">•</span> Точечное обновление быстрее полного — обновляй только нужный тип данных
+                </p>
+                <p className="text-sm text-gray-700">
+                    <span className="text-indigo-600 font-bold">•</span> «Все сразу» — самый медленный вариант, используй его только при необходимости полной синхронизации
+                </p>
+                <p className="text-sm text-gray-700">
+                    <span className="text-indigo-600 font-bold">•</span> Приложение автоматически проверяет обновления каждые 5 секунд, но ручное обновление даёт мгновенную синхронизацию
+                </p>
+                <p className="text-sm text-gray-700">
+                    <span className="text-indigo-600 font-bold">•</span> Раздвижное меню разворачивается вправо и показывает все доступные варианты обновления
+                </p>
             </div>
 
             <hr className="!my-10" />
 
             {/* Совет */}
-            <div className="not-prose bg-green-50 border-l-4 border-green-400 pl-4 py-3 rounded-lg">
-                <p className="text-green-900 font-bold mb-2">Совет для опытных пользователей</p>
-                <p className="text-sm text-gray-700 mb-3">
-                    <strong>Оптимальная стратегия обновления:</strong>
-                </p>
-                <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
-                    <li><strong>Утром / При открытии:</strong> "Все сразу" (полная синхронизация)</li>
-                    <li><strong>После публикации системного поста:</strong> "Опубликованные" (проверить, что появился)</li>
-                    <li><strong>После редактирования:</strong> "Системные" (увидеть изменения)</li>
-                    <li><strong>Изменил правила тегов:</strong> "Теги" (пересчитать для всех постов)</li>
-                    <li><strong>Опубликовали историю:</strong> "Истории" (обновить блок историй)</li>
-                </ul>
+            <div className="not-prose bg-gradient-to-r from-indigo-50 to-purple-50 border-l-4 border-indigo-500 p-6 rounded-r-lg flex gap-4">
+                <div className="text-4xl">💡</div>
+                <div>
+                    <p className="font-bold text-indigo-900 mb-2">Совет эксперта</p>
+                    <p className="text-sm text-gray-700 mb-3">
+                        <strong>Оптимальная стратегия обновления:</strong>
+                    </p>
+                    <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
+                        <li><strong>Утром / При открытии:</strong> "Все сразу" (полная синхронизация)</li>
+                        <li><strong>После публикации системного поста:</strong> "Опубликованные" (проверить, что появился)</li>
+                        <li><strong>После редактирования:</strong> "Системные" (увидеть изменения)</li>
+                        <li><strong>Изменил правила тегов:</strong> "Теги" (пересчитать для всех постов)</li>
+                        <li><strong>Опубликовали историю:</strong> "Истории" (обновить блок историй)</li>
+                    </ul>
+                </div>
             </div>
+
+            <NavigationButtons currentPath="2-1-2-4-refresh-button" />
         </article>
     );
 };
