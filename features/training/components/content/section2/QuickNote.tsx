@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ContentProps, Sandbox, NavigationLink } from '../shared';
+import { ContentProps, Sandbox, NavigationButtons } from '../shared';
 
 // =====================================================================
 // Быстрое создание заметки в сетке календаря
@@ -49,7 +49,7 @@ export const QuickNote: React.FC<ContentProps> = ({ title }) => {
 
             <div className="not-prose bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4 my-6">
                 <p className="text-sm text-blue-900">
-                    <strong>Главное:</strong> Двойной клик по пустому месту дня открывает окно быстрого создания заметки. Это экономит время по сравнению с использованием основной кнопки создания.
+                    <strong>💡 Главная идея:</strong> Двойной клик по пустому месту дня открывает окно быстрого создания заметки. Это экономит время по сравнению с использованием основной кнопки создания.
                 </p>
             </div>
 
@@ -65,9 +65,9 @@ export const QuickNote: React.FC<ContentProps> = ({ title }) => {
                 <li><strong>Нажмите "Сохранить"</strong> — заметка появится в выбранном дне.</li>
             </ol>
 
-            <div className="not-prose bg-yellow-50 border border-yellow-200 rounded-lg p-4 my-6">
-                <p className="text-sm text-yellow-800">
-                    <strong>Важно:</strong> Заметки не публикуются в соцсетях — они видны только вам и используются для планирования и напоминаний.
+            <div className="not-prose bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4 my-6">
+                <p className="text-sm text-blue-900">
+                    <strong>💡 Важно:</strong> Заметки не публикуются в соцсетях — они видны только вам и используются для планирования и напоминаний.
                 </p>
             </div>
 
@@ -123,7 +123,7 @@ export const QuickNote: React.FC<ContentProps> = ({ title }) => {
                                 aria-modal="true"
                                 aria-labelledby="modal-title"
                             >
-                                <h3 className="text-xl font-bold text-gray-900 mb-4">Создать заметку</h3>
+                                <h3 id="modal-title" className="text-xl font-bold text-gray-900 mb-4">Создать заметку</h3>
                                 
                                 <label className="block mb-4">
                                     <span className="text-gray-700 font-medium">Текст заметки:</span>
@@ -154,6 +154,7 @@ export const QuickNote: React.FC<ContentProps> = ({ title }) => {
                                                     noteColor === color.value ? 'border-gray-900' : 'border-gray-300'
                                                 } hover:border-gray-600 transition`}
                                                 aria-label={color.label}
+                                                aria-pressed={noteColor === color.value}
                                                 title={color.label}
                                             />
                                         ))}
@@ -273,23 +274,7 @@ export const QuickNote: React.FC<ContentProps> = ({ title }) => {
                 </ul>
             </div>
 
-            <hr className="!my-10" />
-
-            {/* Навигация к соседним разделам */}
-            <div className="not-prose grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
-                <NavigationLink
-                    to="2-1-3-3-drag-and-drop"
-                    title="Назад: 2.1.3.3 Перетаскивание в сетке календаря"
-                    description="Как перемещать элементы между днями"
-                    variant="prev"
-                />
-                <NavigationLink
-                    to="2-1-4-time-selection"
-                    title="Далее: 2.1.4 Выбор времени публикации"
-                    description="Настройка точного времени для постов"
-                    variant="next"
-                />
-            </div>
+            <NavigationButtons currentPath="2-1-3-4-quick-note" />
         </article>
     );
 };
