@@ -21,7 +21,7 @@ export const PostTypes: React.FC<ContentProps> = ({ title }) => {
   return (
     <article className="prose prose-indigo max-w-none">
       <h1 className="!text-3xl !font-bold !tracking-tight !text-gray-900 !border-b !pb-4 !mb-6">
-        Три типа постов: В чём разница?
+        {title}
       </h1>
 
       <p className="!text-base !leading-relaxed !text-gray-700">
@@ -67,7 +67,7 @@ export const PostTypes: React.FC<ContentProps> = ({ title }) => {
 
       <h3 className="!text-xl !font-semibold !text-gray-800 !mt-8">Что это такое?</h3>
       <p className="!text-base !leading-relaxed !text-gray-700">
-        Опубликованный пост — это публикация, которая уже размещена на стене сообщества ВКонтакте. Такие посты отображаются в календаре только для справки и не могут быть изменены через приложение.
+        Опубликованный пост — это публикация, которая уже размещена на стене сообщества ВКонтакте. Такие посты отображаются в календаре и могут быть отредактированы, удалены или скопированы через приложение с применением изменений к источнику в ВКонтакте.
       </p>
 
       <h3 className="!text-xl !font-semibold !text-gray-800 !mt-8">Как определяется?</h3>
@@ -78,7 +78,7 @@ export const PostTypes: React.FC<ContentProps> = ({ title }) => {
       <h3 className="!text-xl !font-semibold !text-gray-800 !mt-8">Визуальные характеристики</h3>
       <ul className="!text-base !leading-relaxed !text-gray-700">
         <li><strong>Рамка:</strong> сплошная серая линия</li>
-        <li><strong>Оверлей:</strong> полупрозрачный белый градиент сверху донизу (при наведении курсора исчезает)</li>
+        <li><strong>Оверлей:</strong> полупрозрачный белый градиент слева направо (при наведении курсора исчезает)</li>
         <li><strong>Иконка:</strong> зелёная галочка ✅ в левом верхнем углу</li>
         <li><strong>Перетаскивание:</strong> можно переносить на другие даты (создаёт копию как системный пост)</li>
       </ul>
@@ -205,7 +205,7 @@ export const PostTypes: React.FC<ContentProps> = ({ title }) => {
               <td className="border border-gray-300 px-4 py-2"><code className="text-sm">publishing</code></td>
               <td className="border border-gray-300 px-4 py-2 text-center text-2xl">⚙️</td>
               <td className="border border-gray-300 px-4 py-2">Публикуется. Сервер в процессе отправки поста в ВКонтакте. Карточка заблокирована.</td>
-              <td className="border border-gray-300 px-4 py-2 text-sm">Все действия временно недоступны</td>
+              <td className="border border-gray-300 px-4 py-2 text-sm">Можно отменить проверку, нажав на вращающуюся шестерёнку</td>
             </tr>
             <tr>
               <td className="border border-gray-300 px-4 py-2"><code className="text-sm">possible_error</code></td>
@@ -261,25 +261,25 @@ export const PostTypes: React.FC<ContentProps> = ({ title }) => {
             </tr>
             <tr>
               <td className="border border-gray-300 px-4 py-2"><code className="text-sm">contest_winner</code></td>
-              <td className="border border-gray-300 px-4 py-2"><span className="inline-block w-4 h-4 bg-fuchsia-400 border border-gray-300 rounded"></span> Фуксия</td>
+              <td className="border border-gray-300 px-4 py-2"><span className="inline-block w-4 h-4 bg-fuchsia-300 border border-gray-300 rounded"></span> Фуксия</td>
               <td className="border border-gray-300 px-4 py-2"><span className="inline-block px-2 py-1 bg-fuchsia-500 text-white text-xs font-semibold rounded">КОНКУРС</span></td>
               <td className="border border-gray-300 px-4 py-2">Пост для конкурса отзывов (автоматическое объявление победителей)</td>
             </tr>
             <tr>
               <td className="border border-gray-300 px-4 py-2"><code className="text-sm">ai_feed</code></td>
-              <td className="border border-gray-300 px-4 py-2"><span className="inline-block w-4 h-4 bg-indigo-400 border border-gray-300 rounded"></span> Индиго</td>
+              <td className="border border-gray-300 px-4 py-2"><span className="inline-block w-4 h-4 bg-indigo-300 border border-gray-300 rounded"></span> Индиго</td>
               <td className="border border-gray-300 px-4 py-2"><span className="inline-block px-2 py-1 bg-indigo-500 text-white text-xs font-semibold rounded">AI AUTO</span></td>
               <td className="border border-gray-300 px-4 py-2">Пост, сгенерированный AI-лентой (автоматический контент из внешних источников)</td>
             </tr>
             <tr>
               <td className="border border-gray-300 px-4 py-2"><code className="text-sm">general_contest_start</code></td>
-              <td className="border border-gray-300 px-4 py-2"><span className="inline-block w-4 h-4 bg-sky-400 border border-gray-300 rounded"></span> Голубой</td>
+              <td className="border border-gray-300 px-4 py-2"><span className="inline-block w-4 h-4 bg-sky-300 border border-gray-300 rounded"></span> Голубой</td>
               <td className="border border-gray-300 px-4 py-2"><span className="inline-block px-2 py-1 bg-sky-500 text-white text-xs font-semibold rounded">КОНКУРС</span></td>
               <td className="border border-gray-300 px-4 py-2">Пост, объявляющий начало универсального конкурса</td>
             </tr>
             <tr>
               <td className="border border-gray-300 px-4 py-2"><code className="text-sm">general_contest_result</code></td>
-              <td className="border border-gray-300 px-4 py-2"><span className="inline-block w-4 h-4 bg-orange-400 border border-gray-300 rounded"></span> Оранжевый</td>
+              <td className="border border-gray-300 px-4 py-2"><span className="inline-block w-4 h-4 bg-orange-300 border border-gray-300 rounded"></span> Оранжевый</td>
               <td className="border border-gray-300 px-4 py-2"><span className="inline-block px-2 py-1 bg-orange-500 text-white text-xs font-semibold rounded">ИТОГИ</span></td>
               <td className="border border-gray-300 px-4 py-2">Пост, объявляющий итоги универсального конкурса</td>
             </tr>
@@ -423,7 +423,7 @@ export const PostTypes: React.FC<ContentProps> = ({ title }) => {
           Можно ли копировать посты между проектами?
         </summary>
         <p className="mt-2 text-gray-700">
-          При копировании любого типа поста создаётся новый системный пост в рамках текущего проекта. Для переноса между проектами сначала скопируйте пост в текущем проекте, затем измените привязку проекта в настройках системного поста (если такая возможность реализована).
+          При копировании любого типа поста создаётся новый системный пост в рамках текущего проекта. Копирование постов напрямую между разными проектами пока не поддерживается — каждый скопированный пост привязывается к тому проекту, в котором вы его создали.
         </p>
       </details>
 
@@ -463,7 +463,7 @@ export const PostTypes: React.FC<ContentProps> = ({ title }) => {
           </li>
           <li className="flex items-start">
             <span className="text-indigo-600 mr-2">•</span>
-            Опубликованные и отложенные посты синхронизируются из ВКонтакте и доступны только для просмотра (отложенные — для редактирования через API VK).
+            Опубликованные и отложенные посты синхронизируются из ВКонтакте. Все три типа постов можно редактировать и удалять через приложение (изменения применяются через API VK).
           </li>
           <li className="flex items-start">
             <span className="text-indigo-600 mr-2">•</span>
