@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ContentProps, Sandbox, NavigationLink } from '../shared';
+import { ContentProps, Sandbox, NavigationButtons } from '../shared';
 
 // =====================================================================
 // Перетаскивание в сетке календаря
@@ -64,9 +64,9 @@ export const DragAndDrop: React.FC<ContentProps> = ({ title }) => {
                 Просто захватите элемент мышкой и перенесите его в нужную колонку.
             </p>
 
-            <div className="not-prose bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-6">
-                <p className="text-sm text-indigo-800">
-                    <strong>Главное:</strong> Перетаскивание работает для постов и заметок. Это позволяет быстро изменить дату публикации или напоминания.
+            <div className="not-prose bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4 my-6">
+                <p className="text-sm text-blue-900">
+                    <strong>💡 Главная идея:</strong> Перетаскивание работает для постов и заметок. Это позволяет быстро изменить дату публикации или напоминания.
                 </p>
             </div>
 
@@ -81,16 +81,16 @@ export const DragAndDrop: React.FC<ContentProps> = ({ title }) => {
                 <li><strong>Отпустите кнопку мыши</strong> — элемент переместится в выбранный день, а время останется прежним.</li>
             </ol>
 
-            <div className="not-prose bg-yellow-50 border border-yellow-200 rounded-lg p-4 my-6">
-                <p className="text-sm text-yellow-800">
-                    <strong>Важно:</strong> При перетаскивании изменяется только дата, время публикации сохраняется. Если нужно изменить время — откройте пост и отредактируйте его вручную.
+            <div className="not-prose bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4 my-6">
+                <p className="text-sm text-blue-900">
+                    <strong>💡 Важно:</strong> При перетаскивании изменяется только дата, время публикации сохраняется. Если нужно изменить время — откройте пост и отредактируйте его вручную.
                 </p>
             </div>
 
             {/* Интерактивная демонстрация */}
             <Sandbox
                 title="Попробуйте перетащить элемент"
-                description="Захватите карточку мышкой и перенесите её в другой день"
+                description="Захватите карточку мышкой и перенесите её в другой день. Демонстрация работает только с мышью."
                 instructions={[
                     'Наведите на карточку и зажмите левую кнопку мыши',
                     'Перетащите в другую колонку',
@@ -100,6 +100,8 @@ export const DragAndDrop: React.FC<ContentProps> = ({ title }) => {
                 <div className="grid grid-cols-3 gap-4">
                     {/* Понедельник */}
                     <div
+                        role="region"
+                        aria-label="Понедельник — зона перетаскивания"
                         onDragOver={(e) => handleDragOver(e, 'monday')}
                         onDragLeave={handleDragLeave}
                         onDrop={() => handleDrop('monday')}
@@ -117,9 +119,10 @@ export const DragAndDrop: React.FC<ContentProps> = ({ title }) => {
                                     draggable
                                     onDragStart={() => handleDragStart(item)}
                                     className="bg-blue-100 border border-blue-300 rounded p-2 cursor-move hover:bg-blue-200 transition"
-                                    role="button"
+                                    role="listitem"
                                     tabIndex={0}
                                     aria-label={`Перетащить ${item}`}
+                                    aria-roledescription="перетаскиваемый элемент"
                                 >
                                     {item}
                                 </div>
@@ -129,6 +132,8 @@ export const DragAndDrop: React.FC<ContentProps> = ({ title }) => {
 
                     {/* Вторник */}
                     <div
+                        role="region"
+                        aria-label="Вторник — зона перетаскивания"
                         onDragOver={(e) => handleDragOver(e, 'tuesday')}
                         onDragLeave={handleDragLeave}
                         onDrop={() => handleDrop('tuesday')}
@@ -146,9 +151,10 @@ export const DragAndDrop: React.FC<ContentProps> = ({ title }) => {
                                     draggable
                                     onDragStart={() => handleDragStart(item)}
                                     className="bg-blue-100 border border-blue-300 rounded p-2 cursor-move hover:bg-blue-200 transition"
-                                    role="button"
+                                    role="listitem"
                                     tabIndex={0}
                                     aria-label={`Перетащить ${item}`}
+                                    aria-roledescription="перетаскиваемый элемент"
                                 >
                                     {item}
                                 </div>
@@ -158,6 +164,8 @@ export const DragAndDrop: React.FC<ContentProps> = ({ title }) => {
 
                     {/* Среда */}
                     <div
+                        role="region"
+                        aria-label="Среда — зона перетаскивания"
                         onDragOver={(e) => handleDragOver(e, 'wednesday')}
                         onDragLeave={handleDragLeave}
                         onDrop={() => handleDrop('wednesday')}
@@ -178,9 +186,10 @@ export const DragAndDrop: React.FC<ContentProps> = ({ title }) => {
                                         draggable
                                         onDragStart={() => handleDragStart(item)}
                                         className="bg-blue-100 border border-blue-300 rounded p-2 cursor-move hover:bg-blue-200 transition"
-                                        role="button"
+                                        role="listitem"
                                         tabIndex={0}
                                         aria-label={`Перетащить ${item}`}
+                                        aria-roledescription="перетаскиваемый элемент"
                                     >
                                         {item}
                                     </div>
@@ -272,23 +281,7 @@ export const DragAndDrop: React.FC<ContentProps> = ({ title }) => {
                 </ul>
             </div>
 
-            <hr className="!my-10" />
-
-            {/* Навигация к соседним разделам */}
-            <div className="not-prose grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
-                <NavigationLink
-                    to="2-1-3-2-grid-interaction"
-                    title="Назад: 2.1.3.2 Взаимодействие с сеткой"
-                    description="Как работать с контентом в сетке"
-                    variant="prev"
-                />
-                <NavigationLink
-                    to="2-1-3-4-quick-note"
-                    title="Далее: 2.1.3.4 Быстрая заметка"
-                    description="Как создать заметку двойным кликом"
-                    variant="next"
-                />
-            </div>
+            <NavigationButtons currentPath="2-1-3-3-drag-and-drop" />
         </article>
     );
 };
