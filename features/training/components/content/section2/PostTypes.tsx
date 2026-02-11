@@ -13,7 +13,7 @@ import {
  * 
  * Детальное объяснение различий между опубликованными, отложенными VK и системными постами
  */
-export const PostTypes: React.FC<ContentProps> = ({ currentPath }) => {
+export const PostTypes: React.FC<ContentProps> = ({ title }) => {
   const [selectedType, setSelectedType] = useState<'published' | 'scheduled' | 'system'>('published');
   const [selectedStatus, setSelectedStatus] = useState<'pending_publication' | 'publishing' | 'possible_error' | 'error'>('pending_publication');
   const [selectedAutomation, setSelectedAutomation] = useState<'regular' | 'contest_winner' | 'ai_feed' | 'general_contest_start' | 'general_contest_result'>('regular');
@@ -54,7 +54,7 @@ export const PostTypes: React.FC<ContentProps> = ({ currentPath }) => {
         <Sandbox
           title="Интерактивное сравнение типов постов"
           description="Переключайте между типами и изучайте визуальные отличия"
-          instructions="Нажимайте на кнопки типов, чтобы увидеть, как выглядит каждый тип поста в календаре."
+          instructions={['Нажимайте на кнопки типов, чтобы увидеть, как выглядит каждый тип поста в календаре.']}
         >
           <PostTypeComparison selectedType={selectedType} onTypeChange={setSelectedType} />
         </Sandbox>
@@ -178,7 +178,7 @@ export const PostTypes: React.FC<ContentProps> = ({ currentPath }) => {
         <Sandbox
           title="Статусы системного поста"
           description="Переключайте статусы, чтобы увидеть визуальные различия"
-          instructions="Нажимайте на кнопки статусов и наблюдайте, как меняется иконка в карточке поста."
+          instructions={['Нажимайте на кнопки статусов и наблюдайте, как меняется иконка в карточке поста.']}
         >
           <SystemPostStatusDemo selectedStatus={selectedStatus} onStatusChange={setSelectedStatus} />
         </Sandbox>
@@ -236,7 +236,7 @@ export const PostTypes: React.FC<ContentProps> = ({ currentPath }) => {
         <Sandbox
           title="Подтипы системных постов"
           description="Посмотрите, как отображаются различные типы автоматизаций"
-          instructions="Переключайте между подтипами и обратите внимание на цвет рамки и текст бейджа."
+          instructions={['Переключайте между подтипами и обратите внимание на цвет рамки и текст бейджа.']}
         >
           <AutomationTypeDemo selectedAutomation={selectedAutomation} onAutomationChange={setSelectedAutomation} />
         </Sandbox>
@@ -484,7 +484,7 @@ export const PostTypes: React.FC<ContentProps> = ({ currentPath }) => {
         </ul>
       </div>
 
-      <NavigationButtons currentPath={currentPath} />
+      <NavigationButtons currentPath="2-1-4-1-post-types" />
     </article>
   );
 };
