@@ -44,6 +44,7 @@ import { RefreshButton } from './content/section2/RefreshButton';
 import { BulkActions } from './content/section2/BulkActions';
 import { CreateNoteButton } from './content/section2/CreateNoteButton';
 import { CalendarHeaderOverview } from './content/section2/CalendarHeaderOverview';
+import { PostsInCalendar } from './content/section2/PostsInCalendar';
 
 // Lazy-загрузка для больших компонентов раздела календаря
 const CalendarGrid = lazy(async () => {
@@ -120,6 +121,7 @@ const componentMap: Record<string, React.FC<{ title: string }>> = {
     '2-1-3-2-grid-interaction': GridInteraction,
     '2-1-3-3-drag-and-drop': DragAndDrop,
     '2-1-3-4-quick-note': QuickNote,
+    '2-1-4-posts-in-calendar': PostsInCalendar,
     '2-4-3-postcard-deep-dive': PostCardDeepDive,
     '2-1-sidebar-nav': SidebarNavDeepDive,
 };
