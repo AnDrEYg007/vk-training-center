@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { ContentProps } from '../shared';
+import { ContentProps, Sandbox, NavigationButtons } from '../shared';
 
 export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
     const [isButtonClicked, setIsButtonClicked] = useState(false);
-    const [selectedDate, setSelectedDate] = useState<string>('Сегодня');
 
     const handleCreateNote = () => {
         setIsButtonClicked(true);
@@ -21,9 +20,9 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
                 установкой текущей даты.
             </p>
 
-            <div className="not-prose bg-indigo-50 border border-indigo-200 rounded-lg p-4 my-6">
-                <p className="text-sm text-indigo-800">
-                    <strong>Главная идея:</strong> Помимо двойного клика по ячейке календаря, 
+            <div className="not-prose bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4 my-6">
+                <p className="text-sm text-blue-900">
+                    <strong>💡 Главная идея:</strong> Помимо двойного клика по ячейке календаря, 
                     у тебя есть явная кнопка с иконкой карандаша, которая всегда доступна 
                     и создаёт заметку на текущую дату.
                 </p>
@@ -63,9 +62,9 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
                 </li>
             </ol>
 
-            <div className="not-prose bg-amber-50 border border-amber-200 rounded-lg p-4 my-6">
-                <p className="text-sm text-amber-800">
-                    <strong>Совет:</strong> Если тебе нужно быстро создать заметку на сегодня, 
+            <div className="not-prose bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4 my-6">
+                <p className="text-sm text-blue-900">
+                    <strong>💡 Совет:</strong> Если тебе нужно быстро создать заметку на сегодня, 
                     используй эту кнопку. Для заметок на конкретную дату в будущем или прошлом — 
                     удобнее двойной клик по нужной ячейке календаря.
                 </p>
@@ -140,15 +139,15 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
             <hr className="!my-10" />
 
             {/* Интерактивный пример */}
-            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">
-                Интерактивный пример
-            </h2>
-
-            <p className="!text-base !leading-relaxed !text-gray-700">
-                Попробуй кликнуть на кнопку ниже, чтобы увидеть, как работает создание заметки:
-            </p>
-
-            <div className="not-prose my-6">
+            <Sandbox
+                title="Интерактивный пример"
+                description="Попробуй кликнуть на кнопку ниже, чтобы увидеть, как работает создание заметки."
+                instructions={[
+                    'Нажми на кнопку с иконкой карандаша в шапке календаря',
+                    'Откроется форма создания заметки с автоматической установкой сегодняшней даты',
+                    'Заполни поля и нажми Сохранить или Отмена'
+                ]}
+            >
                 <div className="bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-300 rounded-lg p-6">
                     <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-300">
                         <h3 className="text-lg font-semibold text-gray-800">Календарь на неделю</h3>
@@ -161,8 +160,9 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
                                         : 'bg-white border-gray-300 text-gray-600 hover:bg-gray-100'
                                 } border rounded-md transition-all shadow-sm`}
                                 title="Создать заметку"
+                                aria-label="Создать заметку"
                             >
-                                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.536L16.732 3.732z" /></svg>
+                                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.536L16.732 3.732z" /></svg>
                             </button>
                         </div>
                     </div>
@@ -196,7 +196,7 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
                             <div className="flex items-start gap-3">
                                 <div className="flex-shrink-0">
                                     <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                                        <svg className="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.536L16.732 3.732z" /></svg>
+                                        <svg className="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.536L16.732 3.732z" /></svg>
                                     </div>
                                 </div>
                                 <div className="flex-grow">
@@ -205,22 +205,24 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
                                     </h4>
                                     <div className="space-y-2">
                                         <div>
-                                            <label className="block text-xs text-gray-600 mb-1">Дата и время</label>
-                                            <div className="px-3 py-2 bg-gray-50 border border-gray-200 rounded text-sm text-gray-700">
+                                            <label htmlFor="note-date" className="block text-xs text-gray-600 mb-1">Дата и время</label>
+                                            <div id="note-date" className="px-3 py-2 bg-gray-50 border border-gray-200 rounded text-sm text-gray-700">
                                                 4 февраля 2026 (Ср) — Сегодня
                                             </div>
                                         </div>
                                         <div>
-                                            <label className="block text-xs text-gray-600 mb-1">Название (необязательно)</label>
+                                            <label htmlFor="note-title" className="block text-xs text-gray-600 mb-1">Название (необязательно)</label>
                                             <input 
+                                                id="note-title"
                                                 type="text" 
                                                 placeholder="Введите название..." 
                                                 className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-xs text-gray-600 mb-1">Текст заметки</label>
+                                            <label htmlFor="note-text" className="block text-xs text-gray-600 mb-1">Текст заметки</label>
                                             <textarea 
+                                                id="note-text"
                                                 rows={3}
                                                 placeholder="Введите текст..." 
                                                 className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -229,9 +231,11 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
                                         <div>
                                             <label className="block text-xs text-gray-600 mb-1">Цвет</label>
                                             <div className="flex gap-2">
-                                                {['#FEE2E2', '#FEF3C7', '#D1FAE5', '#DBEAFE', '#E0E7FF'].map(c => (
-                                                    <div key={c} className="w-6 h-6 rounded-full border-2 border-gray-300" style={{ backgroundColor: c }} />
-                                                ))}
+                                                <div className="w-6 h-6 rounded-full border-2 border-gray-300 bg-red-100" />
+                                                <div className="w-6 h-6 rounded-full border-2 border-gray-300 bg-yellow-100" />
+                                                <div className="w-6 h-6 rounded-full border-2 border-gray-300 bg-green-100" />
+                                                <div className="w-6 h-6 rounded-full border-2 border-gray-300 bg-blue-100" />
+                                                <div className="w-6 h-6 rounded-full border-2 border-gray-300 bg-indigo-100" />
                                             </div>
                                         </div>
                                     </div>
@@ -257,7 +261,7 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
                         </div>
                     )}
                 </div>
-            </div>
+            </Sandbox>
 
             <hr className="!my-10" />
 
@@ -428,35 +432,38 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
 
             <hr className="!my-10" />
 
-            {/* Заключение */}
-            <h2 className="!text-2xl !font-bold !tracking-tight !text-gray-900">Итоги</h2>
+            {/* Итоги */}
+            <div className="not-prose bg-gray-100 border border-gray-300 rounded-lg p-6 my-8">
+                <h3 className="font-bold text-gray-900 text-lg mb-3">Итоги: что нужно запомнить</h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Кнопка «Создать заметку» с иконкой карандаша находится в шапке календаря</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>При нажатии открывается форма создания с автоматической установкой сегодняшней даты</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Два способа создания: кнопка (для сегодня) и двойной клик (для конкретной даты)</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Кнопка доступна через клавиатуру (Tab + Enter)</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Заметки приватны и не публикуются в соцсетях</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="text-indigo-600 font-bold">•</span>
+                        <span>Можно выбрать цвет заметки для категоризации</span>
+                    </li>
+                </ul>
+            </div>
 
-            <p className="!text-base !leading-relaxed !text-gray-700">
-                Кнопка <strong>"Создать заметку"</strong> — это простой и интуитивный инструмент 
-                для быстрого добавления заметок в календарь. Она особенно полезна для:
-            </p>
-
-            <ul className="!text-base !leading-relaxed !text-gray-700 space-y-2">
-                <li>
-                    <strong>Быстрого создания заметок на текущую дату</strong> — не нужно искать 
-                    "сегодня" в календаре
-                </li>
-                <li>
-                    <strong>Интуитивного интерфейса</strong> — явная кнопка понятнее, чем скрытый 
-                    жест двойного клика
-                </li>
-                <li>
-                    <strong>Доступности с клавиатуры</strong> — можно использовать без мыши
-                </li>
-                <li>
-                    <strong>Новых пользователей</strong> — они сразу видят, как создать заметку
-                </li>
-            </ul>
-
-            <p className="!text-base !leading-relaxed !text-gray-700">
-                Используй её вместе с двойным кликом по ячейкам календаря для максимальной 
-                эффективности в работе с заметками!
-            </p>
+            <NavigationButtons currentPath="2-1-3-5-create-note-button" />
         </article>
     );
 };
