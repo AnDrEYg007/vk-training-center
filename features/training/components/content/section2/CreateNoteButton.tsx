@@ -50,7 +50,7 @@ export const CreateNoteButton: React.FC<ContentProps> = ({ title }) => {
 
             <ol className="!text-base !leading-relaxed !text-gray-700 space-y-3">
                 <li>
-                    <strong>Открывается модальное окно</strong> создания заметки (такое же, как при 
+                    <strong>Открывается всплывающее окно</strong> создания заметки (такое же, как при 
                     двойном клике по ячейке календаря)
                 </li>
                 <li>

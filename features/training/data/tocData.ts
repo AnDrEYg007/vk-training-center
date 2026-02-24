@@ -167,7 +167,7 @@ export const toc: TocItem[] = [
                             { title: 'Работа с медиа', path: '2-1-7-9-media-editing' },
                             { title: 'Галерея изображений VK', path: '2-1-7-10-image-gallery' },
                             { title: 'Создание альбомов', path: '2-1-7-11-create-album' },
-                            { title: 'Футер и кнопка сохранения', path: '2-1-7-12-modal-footer' },
+                            { title: 'Футер и кнопка сохранения', path: '2-1-7-12-footer-save-button' },
                         ]
                     },
                     {
@@ -283,13 +283,11 @@ export const toc: TocItem[] = [
                         children: [
                             { title: 'Обзор функционала', path: '2-4-2-1-overview' },
                             { title: 'Настройки конкурса', path: '2-4-2-2-settings' },
-                            { title: 'Участники', path: '2-4-2-3-participants' },
                             { title: 'Победители', path: '2-4-2-4-winners' },
                             { title: 'Промокоды', path: '2-4-2-5-promocodes' },
-                            { title: 'Список рассылки', path: '2-4-2-6-sending-list' },
-                            { title: 'Чёрный список', path: '2-4-2-7-blacklist' },
+                            { title: 'Лист отправок', path: '2-4-2-6-sending-list' },
+                            { title: 'Блэклист', path: '2-4-2-7-blacklist' },
                             { title: 'Посты конкурса', path: '2-4-2-8-posts' },
-                            { title: 'Логи', path: '2-4-2-9-logs' },
                         ]
                     },
                     {
@@ -313,7 +311,7 @@ export const toc: TocItem[] = [
                             { title: 'Участники', path: '2-4-4-7-participants' },
                             { title: 'Победители', path: '2-4-4-8-winners' },
                             { title: 'Промокоды', path: '2-4-4-9-promocodes' },
-                            { title: 'Список рассылки', path: '2-4-4-10-sending-list' },
+                            { title: 'Отправка', path: '2-4-4-10-sending-list' },
                             { title: 'Чёрный список', path: '2-4-4-11-blacklist' },
                             { title: 'Превью конкурса', path: '2-4-4-12-preview' },
                         ]

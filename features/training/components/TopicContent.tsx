@@ -47,6 +47,137 @@ import { CalendarHeaderOverview } from './content/section2/CalendarHeaderOvervie
 import { PostsInCalendar } from './content/section2/PostsInCalendar';
 import { PostTypes } from './content/section2/PostTypes';
 import { PublishedPost } from './content/section2/PublishedPost';
+import { DeferredPost } from './content/section2/DeferredPost';
+import { SystemPost } from './content/section2/SystemPost';
+import { SystemPostLifecycle } from './content/section2/SystemPostLifecycle';
+import { Notes } from './content/section2/Notes';
+import { CreateNote } from './content/section2/CreateNote';
+import { EditNote } from './content/section2/EditNote';
+import { ColorPalette } from './content/section2/ColorPalette';
+import { ViewActions } from './content/section2/ViewActions';
+import { Stories } from './content/section2/Stories';
+import { StoriesDisplay } from './content/section2/StoriesDisplay';
+import { StoriesViewer } from './content/section2/StoriesViewer';
+import { PostModal } from './content/section2/PostModal';
+import { GeneralMechanics } from './content/section2/GeneralMechanics';
+import { PublicationMethod } from './content/section2/PublicationMethod';
+import { BulkDates } from './content/section2/BulkDates';
+import { MultiProject } from './content/section2/MultiProject';
+import { TextEditing } from './content/section2/TextEditing';
+import { AIAssistant } from './content/section2/AIAssistant';
+import { Variables } from './content/section2/Variables';
+import { EmojiPicker } from './content/section2/EmojiPicker';
+import { MediaEditing } from './content/section2/MediaEditing';
+import { ImageGalleryPage } from './content/section2/ImageGalleryPage';
+import { CreateAlbumPage } from './content/section2/CreateAlbumPage';
+import { FooterSaveButtonPage } from './content/section2/FooterSaveButtonPage';
+// Раздел 2.1.8: Операции с постами
+import { PostOperationsPage } from './content/section2/PostOperationsPage';
+import { CreatePostPage } from './content/section2/CreatePostPage';
+import { EditPostPage } from './content/section2/EditPostPage';
+import { CopyPostPage } from './content/section2/CopyPostPage';
+import { DeletePostPage } from './content/section2/DeletePostPage';
+import { MovePostPage } from './content/section2/MovePostPage';
+import { BulkSelectionPage } from './content/section2/BulkSelectionPage';
+import { PublishNowPage } from './content/section2/PublishNowPage';
+// Раздел 2.2: Вкладка "Предложенные"
+import { SuggestedPostsOverview } from './content/section2/SuggestedPostsOverview';
+import { SuggestedPostsInterfaceOverview } from './content/section2/SuggestedPostsInterfaceOverview';
+import { ImageRibbonPage } from './content/section2/ImageRibbonPage';
+import { SuggestedPostCardPage } from './content/section2/SuggestedPostCardPage';
+import { AiEditorPage } from './content/section2/AiEditorPage';
+import { AcceptRejectPage } from './content/section2/AcceptRejectPage';
+import { ScheduleSuggestedPostPage } from './content/section2/ScheduleSuggestedPostPage';
+// Раздел 2.3: Вкладка "Товары"
+import { ProductsIntroPage } from './content/section2/ProductsIntroPage';
+import { ProductsOverviewPage } from './content/section2/ProductsOverviewPage';
+import { ProductsTableIntroPage } from './content/section2/ProductsTableIntroPage';
+import { 
+    ProductsTableColumnsPage,
+    ProductsColumnVisibilityPage,
+    ProductsSearchPage,
+    ProductsAlbumFiltersPage,
+    ProductsCategoryFiltersPage,
+    ProductsCreateIntroPage,
+    ProductsCreateSinglePage,
+    ProductsCreateMultiplePage,
+    ProductsPasteClipboardPage,
+    ProductsImportExportIntroPage,
+    ProductsImportFilePage,
+    ProductsColumnMappingPage,
+    ProductsUpdateFromFilePage,
+    ProductsExportCsvPage,
+    ProductsExportXlsxPage,
+    ProductsBulkEditIntroPage,
+    ProductsBulkPricePage,
+    ProductsBulkOldPricePage,
+    ProductsBulkTitlePage,
+    ProductsBulkDescriptionPage,
+    ProductsBulkAlbumPage,
+    ProductsBulkCategoryPage,
+    ProductsImportExportPage,
+    ProductsBulkEditPage,
+    ProductsAICategoriesPage,
+    ProductsDescriptionEditorPage,
+    ProductsDiffViewerPage,
+    ProductsSaveResultsPage
+} from './content/section2/ProductsSubpages';
+// Раздел 2.4: Автоматизации
+import { ProductsAutomationsPage } from './content/section2/ProductsAutomationsPage';
+import { ProductsStoriesAutomationPage } from './content/section2/ProductsStoriesAutomationPage';
+import { ProductsStoriesOverviewPage } from './content/section2/ProductsStoriesOverviewPage';
+import { ProductsStoriesSettingsPage } from './content/section2/ProductsStoriesSettingsPage';
+import { ProductsStoriesStatsPage } from './content/section2/ProductsStoriesStatsPage';
+import { ProductsStoriesDashboardPage } from './content/section2/ProductsStoriesDashboardPage';
+import { ProductsReviewsContestPage } from './content/section2/ProductsReviewsContestPage';
+import { ProductsReviewsContestOverviewPage } from './content/section2/ProductsReviewsContestOverviewPage';
+import { ProductsReviewsContestSettingsPage } from './content/section2/ProductsReviewsContestSettingsPage';
+import { ProductsReviewsContestParticipantsPage } from './content/section2/ProductsReviewsContestParticipantsPage';
+import { ProductsReviewsContestWinnersPage } from './content/section2/ProductsReviewsContestWinnersPage';
+import { ProductsReviewsContestPromocodesPage } from './content/section2/ProductsReviewsContestPromocodesPage';
+import { ProductsReviewsContestSendingListPage } from './content/section2/ProductsReviewsContestSendingListPage';
+import { ProductsReviewsContestBlacklistPage } from './content/section2/ProductsReviewsContestBlacklistPage';
+import { ProductsReviewsContestPostsPage } from './content/section2/ProductsReviewsContestPostsPage';
+import { ProductsReviewsContestLogsPage } from './content/section2/ProductsReviewsContestLogsPage';
+import { PromoDropPage } from './content/section2/PromoDropPage';
+import { PromoDropOverviewPage } from './content/section2/PromoDropOverviewPage';
+import { PromoDropSettingsPage } from './content/section2/PromoDropSettingsPage';
+// Раздел 2.4.4: Универсальные конкурсы
+import { GeneralContestsIndexPage } from './content/section2/GeneralContestsIndexPage';
+import { GeneralContestsOverview } from './content/section2/GeneralContestsOverview';
+import { GeneralContestsListPage } from './content/section2/GeneralContestsListPage';
+import { GeneralContestsCreate } from './content/section2/GeneralContestsCreate';
+import { GeneralContestsEditor } from './content/section2/GeneralContestsEditor';
+import { GeneralContestsConditions } from './content/section2/GeneralContestsConditions';
+import GeneralContestsSettingsPage from './content/section2/GeneralContestsSettingsPage';
+import GeneralContestsParticipantsPage from './content/section2/GeneralContestsParticipantsPage';
+import { GeneralContestsWinnersPage } from './content/section2/GeneralContestsWinnersPage';
+import { GeneralContestsPromocodesPage } from './content/section2/GeneralContestsPromocodesPage';
+import { GeneralContestsSendingListPage } from './content/section2/GeneralContestsSendingListPage';
+import { GeneralContestsBlacklistPage } from './content/section2/GeneralContestsBlacklistPage';
+import { GeneralContestsPreviewPage } from './content/section2/GeneralContestsPreviewPage';
+import { 
+  GeneralContestsWinners,
+  GeneralContestsPromocodes,
+  GeneralContestsSendingList,
+  GeneralContestsBlacklist,
+  GeneralContestsPreview
+} from './content/section2/GeneralContestsOtherTabs';
+// Обновлено: Добавлена главная страница раздела "Универсальные конкурсы"
+// Раздел 2.4.5: AI посты
+import { AiPostsIndexPage } from './content/section2/AiPostsIndexPage';
+import { AiPostsOverviewPage } from './content/section2/AiPostsOverviewPage';
+import { AiPostsListPage } from './content/section2/AiPostsListPage';
+import { AiPostsCreatePage } from './content/section2/AiPostsCreatePage';
+import { AiPostsEditorPage } from './content/section2/AiPostsEditorPage';
+// Раздел 2.4.6: Поздравления с ДР
+import { BirthdayIndexPage } from './content/section2/BirthdayIndexPage';
+import { BirthdayOverviewPage } from './content/section2/BirthdayOverviewPage';
+import { BirthdaySettingsPage } from './content/section2/BirthdaySettingsPage';
+// Раздел 2.4.7: Конкурс "Актив"
+import { ActivityContestIndexPage } from './content/section2/ActivityContestIndexPage';
+import { ActivityContestOverviewPage } from './content/section2/ActivityContestOverviewPage';
+import { ActivityContestSettingsPage } from './content/section2/ActivityContestSettingsPage';
 
 // Lazy-загрузка для больших компонентов раздела календаря
 const CalendarGrid = lazy(async () => {
@@ -126,8 +257,127 @@ const componentMap: Record<string, React.FC<{ title: string }>> = {
     '2-1-4-posts-in-calendar': PostsInCalendar,
     '2-1-4-1-post-types': PostTypes,
     '2-1-4-2-published-post': PublishedPost,
-    '2-4-3-postcard-deep-dive': PostCardDeepDive,
+    '2-1-4-3-deferred-post': DeferredPost,
+    '2-1-4-4-system-post': SystemPost,
+    '2-1-4-5-system-post-lifecycle': SystemPostLifecycle,
+    '2-1-4-6-postcard-deep-dive': PostCardDeepDive,
+    '2-4-3-postcard-deep-dive': PostCardDeepDive, // Старый путь (для обратной совместимости)
+    '2-1-5-notes': Notes,
+    '2-1-5-1-create-note': CreateNote,
+    '2-1-5-2-edit-note': EditNote,
+    '2-1-5-3-color-palette': ColorPalette,
+    '2-1-5-4-view-actions': ViewActions,
+    '2-1-6-stories': Stories,
+    '2-1-6-1-stories-display': StoriesDisplay,
+    '2-1-6-2-stories-viewer': StoriesViewer,
+    '2-1-7-post-modal': PostModal,
+    '2-1-7-1-general-mechanics': GeneralMechanics,
+    '2-1-7-2-publication-method': PublicationMethod,
+    '2-1-7-3-bulk-dates': BulkDates,
+    '2-1-7-4-multi-project': MultiProject,
+    '2-1-7-5-text-editing': TextEditing,
+    '2-1-7-6-ai-assistant': AIAssistant,
+    '2-1-7-7-variables': Variables,
+    '2-1-7-8-emoji-picker': EmojiPicker,
+    '2-1-7-9-media-editing': MediaEditing,
+    '2-1-7-10-image-gallery': ImageGalleryPage,
+    '2-1-7-11-create-album': CreateAlbumPage,
+    '2-1-7-12-footer-save-button': FooterSaveButtonPage,
+    '2-1-8-post-operations': PostOperationsPage,
+    '2-1-8-1-create': CreatePostPage,
+    '2-1-8-2-edit': EditPostPage,
+    '2-1-8-3-copy': CopyPostPage,
+    '2-1-8-4-delete': DeletePostPage,
+    '2-1-8-5-move': MovePostPage,
+    '2-1-8-6-bulk-selection': BulkSelectionPage,
+    '2-1-8-7-publish-now': PublishNowPage,
     '2-1-sidebar-nav': SidebarNavDeepDive,
+    // Раздел 2.2: Вкладка "Предложенные"
+    '2-2-suggested': SuggestedPostsOverview,
+    '2-2-1-overview': SuggestedPostsInterfaceOverview,
+    '2-2-2-image-ribbon': ImageRibbonPage,
+    '2-2-3-suggested-post-card': SuggestedPostCardPage,
+    '2-2-4-ai-editor': AiEditorPage,
+    '2-2-5-accept-reject': AcceptRejectPage,
+    '2-2-6-schedule-suggested': ScheduleSuggestedPostPage,
+    // Раздел 2.3: Вкладка "Товары"
+    '2-3-products': ProductsIntroPage,
+    '2-3-1-overview': ProductsOverviewPage,
+    '2-3-2-products-table': ProductsTableIntroPage,
+    '2-3-2-1-columns': ProductsTableColumnsPage,
+    '2-3-2-2-column-visibility': ProductsColumnVisibilityPage,
+    '2-3-2-3-sort-search': ProductsSearchPage,
+    '2-3-3-album-filters': ProductsAlbumFiltersPage,
+    '2-3-4-category-filters': ProductsCategoryFiltersPage,
+    '2-3-5-create-products': ProductsCreateIntroPage,
+    '2-3-5-1-create-single': ProductsCreateSinglePage,
+    '2-3-5-2-create-multiple': ProductsCreateMultiplePage,
+    '2-3-5-3-paste-clipboard': ProductsPasteClipboardPage,
+    '2-3-6-import-export': ProductsImportExportIntroPage,
+    '2-3-6-1-import-file': ProductsImportFilePage,
+    '2-3-6-2-column-mapping': ProductsColumnMappingPage,
+    '2-3-6-3-update-from-file': ProductsUpdateFromFilePage,
+    '2-3-6-4-export-csv': ProductsExportCsvPage,
+    '2-3-6-5-export-xlsx': ProductsExportXlsxPage,
+    '2-3-7-bulk-edit': ProductsBulkEditIntroPage,
+    '2-3-7-1-bulk-price': ProductsBulkPricePage,
+    '2-3-7-2-bulk-old-price': ProductsBulkOldPricePage,
+    '2-3-7-3-bulk-title': ProductsBulkTitlePage,
+    '2-3-7-4-bulk-description': ProductsBulkDescriptionPage,
+    '2-3-7-5-bulk-album': ProductsBulkAlbumPage,
+    '2-3-7-6-bulk-category': ProductsBulkCategoryPage,
+    '2-3-8-ai-category': ProductsAICategoriesPage,
+    '2-3-9-description-editor': ProductsDescriptionEditorPage,
+    '2-3-10-diff-viewer': ProductsDiffViewerPage,
+    '2-3-11-save-results': ProductsSaveResultsPage,
+    // Раздел 2.4: Автоматизации
+    '2-4-automations': ProductsAutomationsPage,
+    '2-4-1-stories-automation': ProductsStoriesAutomationPage,
+    '2-4-1-1-overview': ProductsStoriesOverviewPage,
+    '2-4-1-2-settings': ProductsStoriesSettingsPage,
+    '2-4-1-3-stats': ProductsStoriesStatsPage,
+    '2-4-1-4-dashboard': ProductsStoriesDashboardPage,
+    '2-4-2-reviews-contest': ProductsReviewsContestPage,
+    '2-4-2-1-overview': ProductsReviewsContestOverviewPage,
+    '2-4-2-2-settings': ProductsReviewsContestSettingsPage,
+    '2-4-2-3-participants': ProductsReviewsContestParticipantsPage,
+    '2-4-2-4-winners': ProductsReviewsContestWinnersPage,
+    '2-4-2-5-promocodes': ProductsReviewsContestPromocodesPage,
+    '2-4-2-6-sending-list': ProductsReviewsContestSendingListPage,
+    '2-4-2-7-blacklist': ProductsReviewsContestBlacklistPage,
+    '2-4-2-8-posts': ProductsReviewsContestPostsPage,
+    '2-4-2-9-logs': ProductsReviewsContestLogsPage,
+    '2-4-3-promo-drop': PromoDropPage,
+    '2-4-3-1-overview': PromoDropOverviewPage,
+    '2-4-3-2-settings': PromoDropSettingsPage,
+    // Раздел 2.4.4: Универсальные конкурсы
+    '2-4-4-general-contests': GeneralContestsIndexPage,
+    '2-4-4-1-overview': GeneralContestsOverview,
+    '2-4-4-2-contests-list': GeneralContestsListPage,
+    '2-4-4-3-create': GeneralContestsCreate,
+    '2-4-4-4-editor': GeneralContestsEditor,
+    '2-4-4-5-conditions': GeneralContestsConditions,
+    '2-4-4-6-settings': GeneralContestsSettingsPage,
+    '2-4-4-7-participants': GeneralContestsParticipantsPage,
+    '2-4-4-8-winners': GeneralContestsWinnersPage,
+    '2-4-4-9-promocodes': GeneralContestsPromocodesPage,
+    '2-4-4-10-sending-list': GeneralContestsSendingListPage,
+    '2-4-4-11-blacklist': GeneralContestsBlacklistPage,
+    '2-4-4-12-preview': GeneralContestsPreviewPage,
+    // Раздел 2.4.5: AI посты
+    '2-4-5-ai-posts': AiPostsIndexPage,
+    '2-4-5-1-overview': AiPostsOverviewPage,
+    '2-4-5-2-list': AiPostsListPage,
+    '2-4-5-3-create': AiPostsCreatePage,
+    '2-4-5-4-editor': AiPostsEditorPage,
+    // Раздел 2.4.6: Поздравления с ДР
+    '2-4-6-birthday': BirthdayIndexPage,
+    '2-4-6-1-overview': BirthdayOverviewPage,
+    '2-4-6-2-settings': BirthdaySettingsPage,
+    // Раздел 2.4.7: Конкурс "Актив"
+    '2-4-7-activity-contest': ActivityContestIndexPage,
+    '2-4-7-1-overview': ActivityContestOverviewPage,
+    '2-4-7-2-settings': ActivityContestSettingsPage,
 };
 
 

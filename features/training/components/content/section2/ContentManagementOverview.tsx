@@ -768,7 +768,7 @@ export const ContentManagementOverview: React.FC<ContentProps> = ({ title }) => 
                         <p>→ 2.1.4. Посты в календаре</p>
                         <p>→ 2.1.5. Заметки</p>
                         <p>→ 2.1.6. Истории (Stories)</p>
-                        <p>→ 2.1.7. Модальное окно поста</p>
+                        <p>→ 2.1.7. Всплывающее окно поста</p>
                         <p>→ 2.1.8. Операции с постами</p>
                     </div>
                 </div>
