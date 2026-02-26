@@ -284,7 +284,7 @@ def startup_event():
 
     # Шаг 4: Запускаем новый планировщик вместо старого трекера
     print("Starting APScheduler...")
-    scheduler_service.start()
+    # scheduler_service.start()
     
     # Старый запуск отключен:
     # post_tracker_service.start_post_tracker() 

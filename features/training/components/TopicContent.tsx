@@ -179,6 +179,29 @@ import { ActivityContestIndexPage } from './content/section2/ActivityContestInde
 import { ActivityContestOverviewPage } from './content/section2/ActivityContestOverviewPage';
 import { ActivityContestSettingsPage } from './content/section2/ActivityContestSettingsPage';
 
+// ═══════════════════════════════════════════════════════════════════════════════
+// РАЗДЕЛ 3: МОДУЛЬ "СПИСКИ"
+// ═══════════════════════════════════════════════════════════════════════════════
+import { ListsModuleOverview } from './content/section3/ListsModuleOverview';
+// Раздел 3.1: Общий обзор
+import { ListsGeneralOverview } from './content/section3/ListsGeneralOverview';
+import { ListsInterfaceOverview } from './content/section3/ListsInterfaceOverview';
+import { ListsNavigationGuide } from './content/section3/ListsNavigationGuide';
+import { ListsFiltersGuide } from './content/section3/ListsFiltersGuide';
+// Раздел 3.2: Системные списки
+import { SystemListsPage } from './content/section3/SystemListsPage';
+import { SystemListsTypesPage } from './content/section3/SystemListsTypesPage';
+import { ListCardAnatomyPage } from './content/section3/ListCardAnatomyPage';
+import { ListsMembersViewPage } from './content/section3/ListsMembersViewPage';
+import { ListsPostsViewPage } from './content/section3/ListsPostsViewPage';
+import { ListsInteractionsViewPage } from './content/section3/ListsInteractionsViewPage';
+import { ListsInteractionsSyncPage } from './content/section3/ListsInteractionsSyncPage';
+// Раздел 3.3: Статистика списков
+import { ListsStatisticsOverview } from './content/section3/ListsStatisticsOverview';
+import { UserStatsPage } from './content/section3/UserStatsPage';
+import { PostsStatsPage } from './content/section3/PostsStatsPage';
+import { ChartsPage } from './content/section3/ChartsPage';
+
 // Lazy-загрузка для больших компонентов раздела календаря
 const CalendarGrid = lazy(async () => {
   const module = await import('./content/section2/CalendarGrid');
@@ -378,6 +401,29 @@ const componentMap: Record<string, React.FC<{ title: string }>> = {
     '2-4-7-activity-contest': ActivityContestIndexPage,
     '2-4-7-1-overview': ActivityContestOverviewPage,
     '2-4-7-2-settings': ActivityContestSettingsPage,
+    
+    // ═══════════════════════════════════════════════════════════════════════════════
+    // РАЗДЕЛ 3: МОДУЛЬ "СПИСКИ"
+    // ═══════════════════════════════════════════════════════════════════════════════
+    '3-lists': ListsModuleOverview,
+    // Раздел 3.1: Общий обзор
+    '3-1-lists-overview': ListsGeneralOverview,
+    '3-1-1-interface': ListsInterfaceOverview,
+    '3-1-2-navigation': ListsNavigationGuide,
+    '3-1-3-filters': ListsFiltersGuide,
+    // Раздел 3.2: Системные списки
+    '3-2-system-lists': SystemListsPage,
+    '3-2-1-types': SystemListsTypesPage,
+    '3-2-2-list-card': ListCardAnatomyPage,
+    '3-2-3-members': ListsMembersViewPage,
+    '3-2-4-posts': ListsPostsViewPage,
+    '3-2-5-interactions': ListsInteractionsViewPage,
+    '3-2-6-sync': ListsInteractionsSyncPage,
+    // Раздел 3.3: Статистика списков
+    '3-3-statistics': ListsStatisticsOverview,
+    '3-3-1-user-stats': UserStatsPage,
+    '3-3-2-posts-stats': PostsStatsPage,
+    '3-3-3-charts': ChartsPage,
 };
 
 

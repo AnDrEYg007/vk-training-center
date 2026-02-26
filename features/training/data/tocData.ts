@@ -372,7 +372,7 @@ export const toc: TocItem[] = [
                     { title: '3.2.3. Просмотр участников', path: '3-2-3-members' },
                     { title: '3.2.4. Просмотр постов', path: '3-2-4-posts' },
                     { title: '3.2.5. Просмотр взаимодействий', path: '3-2-5-interactions' },
-                    { title: '3.2.6. Синхронизация взаимодействий', path: '3-2-6-sync-interactions' },
+                    { title: '3.2.6. Синхронизация взаимодействий', path: '3-2-6-sync' },
                 ]
             },
             {

@@ -6,8 +6,8 @@ class Settings(BaseSettings):
     # Используем синтаксис Pydantic V2+ для конфигурации.
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding='utf-8')
 
-    vk_user_token: str
-    gemini_api_key: str
+    vk_user_token: Optional[str] = None
+    gemini_api_key: Optional[str] = None
     admin_username: str = "admin"
     admin_password: str = "admin"
     
@@ -29,3 +29,9 @@ class Settings(BaseSettings):
     redis_password: Optional[str] = None
 
 settings = Settings()
+if not settings.vk_user_token or not settings.gemini_api_key:
+    import warnings
+    warnings.warn(
+        "vk_user_token or gemini_api_key not set — running with limited functionality",
+        RuntimeWarning,
+    )

@@ -9,8 +9,12 @@ export const Sandbox: React.FC<{
     description: string; 
     children: React.ReactNode;
     instructions?: string[];
-}> = ({ title, description, children, instructions }) => (
-    <div className="relative not-prose p-6 border-2 border-dashed border-indigo-300 rounded-xl bg-indigo-50/50 mt-8">
+    height?: string;
+}> = ({ title, description, children, instructions, height }) => (
+    <div 
+        className="relative not-prose p-6 border-2 border-dashed border-indigo-300 rounded-xl bg-indigo-50/50 mt-8"
+        style={height ? { height } : undefined}
+    >
         <h4 className="text-xl font-bold text-indigo-800 mb-2">{title}</h4>
         <p className="text-sm text-indigo-700 mb-4">{description}</p>
         {instructions && instructions.length > 0 && (
